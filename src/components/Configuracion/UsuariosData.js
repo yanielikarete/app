@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import classNames from 'classnames';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { ProductService } from '../../service/ProductService';
+import { UserService } from '../../service/UserService';
 import { Toast } from 'primereact/toast';
 import { Button } from 'primereact/button';
 import { FileUpload } from 'primereact/fileupload';
@@ -17,7 +17,7 @@ import './UsuariosData.css';
 
 const UsuariosData = (props) => {
 
-  let emptyProduct = {
+  let emptyUser = {
     id: null,
     name: '',
     image: null,
@@ -28,21 +28,21 @@ const UsuariosData = (props) => {
     rating: 0,
     inventoryStatus: 'INSTOCK'
   };
-
-  const [products, setProducts] = useState(null);
-  const [productDialog, setProductDialog] = useState(false);
-  const [deleteProductDialog, setDeleteProductDialog] = useState(false);
-  const [deleteProductsDialog, setDeleteProductsDialog] = useState(false);
-  const [product, setProduct] = useState(emptyProduct);
-  const [selectedProducts, setSelectedProducts] = useState(null);
+  console.log(props)
+  const [users, setUsers] = useState(null);
+  const [userDialog, setUserDialog] = useState(false);
+  const [deleteUserDialog, setDeleteUserDialog] = useState(false);
+  const [deleteUsersDialog, setDeleteUsersDialog] = useState(false);
+  const [user, setUser] = useState(emptyUser);
+  const [selectedUsers, setSelectedUsers] = useState(null);
   const [submitted, setSubmitted] = useState(false);
   const [globalFilter, setGlobalFilter] = useState(null);
   const toast = useRef(null);
   const dt = useRef(null);
-  const productService = new ProductService();
+  const userService = new UserService();
 
   useEffect(() => {
-    productService.getProducts().then(data => setProducts(data));
+    userService.getUsers().then(data => setUsers(data));
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const formatCurrency = (value) => {
@@ -50,71 +50,71 @@ const UsuariosData = (props) => {
   }
 
   const openNew = () => {
-    setProduct(emptyProduct);
+    setUser(emptyUser);
     setSubmitted(false);
-    setProductDialog(true);
+    setUserDialog(true);
   }
 
   const hideDialog = () => {
     setSubmitted(false);
-    setProductDialog(false);
+    setUserDialog(false);
   }
 
-  const hideDeleteProductDialog = () => {
-    setDeleteProductDialog(false);
+  const hideDeleteUserDialog = () => {
+    setDeleteUserDialog(false);
   }
 
-  const hideDeleteProductsDialog = () => {
-    setDeleteProductsDialog(false);
+  const hideDeleteUsersDialog = () => {
+    setDeleteUsersDialog(false);
   }
 
-  const saveProduct = () => {
+  const saveUser = () => {
     setSubmitted(true);
 
-    if (product.name.trim()) {
-      let _products = [...products];
-      let _product = { ...product };
-      if (product.id) {
-        const index = findIndexById(product.id);
+    if (user.name.trim()) {
+      let _users = [...users];
+      let _user = { ...user };
+      if (user.id) {
+        const index = findIndexById(user.id);
 
-        _products[index] = _product;
-        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Product Updated', life: 3000 });
+        _users[index] = _user;
+        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'User Updated', life: 3000 });
       }
       else {
-        _product.id = createId();
-        _product.image = 'product-placeholder.svg';
-        _products.push(_product);
-        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Product Created', life: 3000 });
+        _user.id = createId();
+        _user.image = 'user-placeholder.svg';
+        _users.push(_user);
+        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'User Created', life: 3000 });
       }
 
-      setProducts(_products);
-      setProductDialog(false);
-      setProduct(emptyProduct);
+      setUsers(_users);
+      setUserDialog(false);
+      setUser(emptyUser);
     }
   }
 
-  const editProduct = (product) => {
-    setProduct({ ...product });
-    setProductDialog(true);
+  const editUser = (user) => {
+    setUser({ ...user });
+    setUserDialog(true);
   }
 
-  const confirmDeleteProduct = (product) => {
-    setProduct(product);
-    setDeleteProductDialog(true);
+  const confirmDeleteUser = (user) => {
+    setUser(user);
+    setDeleteUserDialog(true);
   }
 
-  const deleteProduct = () => {
-    let _products = products.filter(val => val.id !== product.id);
-    setProduct(_products);
-    setDeleteProductDialog(false);
-    setProduct(emptyProduct);
-    toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Product Deleted', life: 3000 });
+  const deleteUser = () => {
+    let _users = users.filter(val => val.id !== user.id);
+    setUser(_users);
+    setDeleteUserDialog(false);
+    setUser(emptyUser);
+    toast.current.show({ severity: 'success', summary: 'Successful', detail: 'User Deleted', life: 3000 });
   }
 
   const findIndexById = (id) => {
     let index = -1;
-    for (let i = 0; i < products.length; i++) {
-      if (products[i].id === id) {
+    for (let i = 0; i < users.length; i++) {
+      if (users[i].id === id) {
         index = i;
         break;
       }
@@ -137,44 +137,44 @@ const UsuariosData = (props) => {
   }
 
   const confirmDeleteSelected = () => {
-    setDeleteProductsDialog(true);
+    setDeleteUsersDialog(true);
   }
 
-  const deleteSelectedProducts = () => {
-    let _products = products.filter(val => !selectedProducts.includes(val));
-    setProducts(_products);
-    setDeleteProductsDialog(false);
-    setSelectedProducts(null);
-    toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Products Deleted', life: 3000 });
+  const deleteSelectedUsers = () => {
+    let _users = users.filter(val => !selectedUsers.includes(val));
+    setUsers(_users);
+    setDeleteUsersDialog(false);
+    setSelectedUsers(null);
+    toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Users Deleted', life: 3000 });
   }
 
   const onCategoryChange = (e) => {
-    let _product = { ...product };
-    _product['category'] = e.value;
-    setProduct(_product);
+    let _user = { ...user };
+    _user['category'] = e.value;
+    setUser(_user);
   }
 
   const onInputChange = (e, name) => {
     const val = (e.target && e.target.value) || '';
-    let _product = { ...product };
-    _product[`${name}`] = val;
+    let _user = { ...user };
+    _user[`${name}`] = val;
 
-    setProduct(_product);
+    setUser(_user);
   }
 
   const onInputNumberChange = (e, name) => {
     const val = e.value || 0;
-    let _product = { ...product };
-    _product[`${name}`] = val;
+    let _user = { ...user };
+    _user[`${name}`] = val;
 
-    setProduct(_product);
+    setUser(_user);
   }
 
   const leftToolbarTemplate = () => {
     return (
       <React.Fragment>
         <Button label={"Nuevo " + props.sing} icon="pi pi-plus" className="p-button-success p-mr-2" onClick={openNew} />
-        <Button label={"Eliminar " + props.sing} icon="pi pi-trash" className="p-button-danger" onClick={confirmDeleteSelected} disabled={!selectedProducts || !selectedProducts.length} />
+        <Button label={"Eliminar " + props.sing} icon="pi pi-trash" className="p-button-danger" onClick={confirmDeleteSelected} disabled={!selectedUsers || !selectedUsers.length} />
       </React.Fragment>
     )
   }
@@ -189,7 +189,7 @@ const UsuariosData = (props) => {
   }
 
   const imageBodyTemplate = (rowData) => {
-    return <img src={`showcase/demo/images/product/${rowData.image}`} onError={(e) => e.target.src = 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} alt={rowData.image} className="product-image" />
+    return <img src={`showcase/demo/images/user/${rowData.image}`} onError={(e) => e.target.src = 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} alt={rowData.image} className="user-image" />
   }
 
   const priceBodyTemplate = (rowData) => {
@@ -201,14 +201,14 @@ const UsuariosData = (props) => {
   }
 
   const statusBodyTemplate = (rowData) => {
-    return <span className={`product-badge status-${rowData.inventoryStatus.toLowerCase()}`}>{rowData.inventoryStatus}</span>;
+    return <span className={`user-badge status-${rowData.inventoryStatus.toLowerCase()}`}>{rowData.inventoryStatus}</span>;
   }
 
   const actionBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
-        <Button icon="pi pi-pencil" className="p-button-rounded p-button-success p-mr-2" onClick={() => editProduct(rowData)} />
-        <Button icon="pi pi-trash" className="p-button-rounded p-button-warning" onClick={() => confirmDeleteProduct(rowData)} />
+        <Button icon="pi pi-pencil" className="p-button-rounded p-button-success p-mr-2" onClick={() => editUser(rowData)} />
+        <Button icon="pi pi-trash" className="p-button-rounded p-button-warning" onClick={() => confirmDeleteUser(rowData)} />
       </React.Fragment>
     );
   }
@@ -222,22 +222,22 @@ const UsuariosData = (props) => {
       </span>
     </div>
   );
-  const productDialogFooter = (
+  const userDialogFooter = (
     <React.Fragment>
       <Button label="Cancel" icon="pi pi-times" className="p-button-text" onClick={hideDialog} />
-      <Button label="Save" icon="pi pi-check" className="p-button-text" onClick={saveProduct} />
+      <Button label="Save" icon="pi pi-check" className="p-button-text" onClick={saveUser} />
     </React.Fragment>
   );
-  const deleteProductDialogFooter = (
+  const deleteUserDialogFooter = (
     <React.Fragment>
-      <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteProductDialog} />
-      <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={deleteProduct} />
+      <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteUserDialog} />
+      <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={deleteUser} />
     </React.Fragment>
   );
-  const deleteProductsDialogFooter = (
+  const deleteUsersDialogFooter = (
     <React.Fragment>
-      <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteProductsDialog} />
-      <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={deleteSelectedProducts} />
+      <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteUsersDialog} />
+      <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={deleteSelectedUsers} />
     </React.Fragment>
   );
 
@@ -250,10 +250,10 @@ const UsuariosData = (props) => {
       <div className="card">
         <Toolbar className="p-mb-4" left={leftToolbarTemplate} right={rightToolbarTemplate}></Toolbar>
 
-        <DataTable ref={dt} value={products} selection={selectedProducts} onSelectionChange={(e) => setSelectedProducts(e.value)}
+        <DataTable ref={dt} value={users} selection={selectedUsers} onSelectionChange={(e) => setSelectedUsers(e.value)}
           dataKey="id" paginator rows={10} rowsPerPageOptions={[5, 10, 25]}
           paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} users"
           globalFilter={globalFilter}
           header={header}>
 
@@ -262,42 +262,42 @@ const UsuariosData = (props) => {
           <Column field="name" header="Usuario" sortable></Column>
           {/* <Column header="Image" body={imageBodyTemplate}></Column>
           <Column field="price" header="Price" body={priceBodyTemplate} sortable></Column> */}
-          <Column field="category" header="Category" sortable></Column>
+          {/* <Column field="category" header="Category" sortable></Column> */}
           <Column field="rating" header="Estado" body={ratingBodyTemplate} sortable></Column>
           <Column field="inventoryStatus" header="Status" body={statusBodyTemplate} sortable></Column>
           <Column body={actionBodyTemplate}></Column>
         </DataTable>
       </div>
 
-      <Dialog visible={productDialog} style={{ width: '450px' }} header="Product Details" modal className="p-fluid" footer={productDialogFooter} onHide={hideDialog}>
-        {product.image && <img src={`showcase/demo/images/product/${product.image}`} onError={(e) => e.target.src = 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} alt={product.image} className="product-image" />}
+      <Dialog visible={userDialog} style={{ width: '450px' }} header="User Details" modal className="p-fluid" footer={userDialogFooter} onHide={hideDialog}>
+        {user.image && <img src={`showcase/demo/images/user/${user.image}`} onError={(e) => e.target.src = 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} alt={user.image} className="user-image" />}
         <div className="p-field">
           <label htmlFor="name">Name</label>
-          <InputText id="name" value={product.name} onChange={(e) => onInputChange(e, 'name')} required autoFocus className={classNames({ 'p-invalid': submitted && !product.name })} />
-          {submitted && !product.name && <small className="p-error">Name is required.</small>}
+          <InputText id="name" value={user.name} onChange={(e) => onInputChange(e, 'name')} required autoFocus className={classNames({ 'p-invalid': submitted && !user.name })} />
+          {submitted && !user.name && <small className="p-error">Name is required.</small>}
         </div>
         <div className="p-field">
           <label htmlFor="description">Description</label>
-          <InputTextarea id="description" value={product.description} onChange={(e) => onInputChange(e, 'description')} required rows={3} cols={20} />
+          <InputTextarea id="description" value={user.description} onChange={(e) => onInputChange(e, 'description')} required rows={3} cols={20} />
         </div>
 
         <div className="p-field">
           <label className="p-mb-3">Category</label>
           <div className="p-formgrid p-grid">
             <div className="p-field-radiobutton p-col-6">
-              <RadioButton inputId="category1" name="category" value="Accessories" onChange={onCategoryChange} checked={product.category === 'Accessories'} />
+              <RadioButton inputId="category1" name="category" value="Accessories" onChange={onCategoryChange} checked={user.category === 'Accessories'} />
               <label htmlFor="category1">Accessories</label>
             </div>
             <div className="p-field-radiobutton p-col-6">
-              <RadioButton inputId="category2" name="category" value="Clothing" onChange={onCategoryChange} checked={product.category === 'Clothing'} />
+              <RadioButton inputId="category2" name="category" value="Clothing" onChange={onCategoryChange} checked={user.category === 'Clothing'} />
               <label htmlFor="category2">Clothing</label>
             </div>
             <div className="p-field-radiobutton p-col-6">
-              <RadioButton inputId="category3" name="category" value="Electronics" onChange={onCategoryChange} checked={product.category === 'Electronics'} />
+              <RadioButton inputId="category3" name="category" value="Electronics" onChange={onCategoryChange} checked={user.category === 'Electronics'} />
               <label htmlFor="category3">Electronics</label>
             </div>
             <div className="p-field-radiobutton p-col-6">
-              <RadioButton inputId="category4" name="category" value="Fitness" onChange={onCategoryChange} checked={product.category === 'Fitness'} />
+              <RadioButton inputId="category4" name="category" value="Fitness" onChange={onCategoryChange} checked={user.category === 'Fitness'} />
               <label htmlFor="category4">Fitness</label>
             </div>
           </div>
@@ -306,26 +306,26 @@ const UsuariosData = (props) => {
         <div className="p-formgrid p-grid">
           <div className="p-field p-col">
             <label htmlFor="price">Price</label>
-            <InputNumber id="price" value={product.price} onValueChange={(e) => onInputNumberChange(e, 'price')} mode="currency" currency="USD" locale="en-US" />
+            <InputNumber id="price" value={user.price} onValueChange={(e) => onInputNumberChange(e, 'price')} mode="currency" currency="USD" locale="en-US" />
           </div>
           <div className="p-field p-col">
             <label htmlFor="quantity">Quantity</label>
-            <InputNumber id="quantity" value={product.quantity} onValueChange={(e) => onInputNumberChange(e, 'quantity')} integeronly />
+            <InputNumber id="quantity" value={user.quantity} onValueChange={(e) => onInputNumberChange(e, 'quantity')} integeronly />
           </div>
         </div>
       </Dialog>
 
-      <Dialog visible={deleteProductDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteProductDialogFooter} onHide={hideDeleteProductDialog}>
+      <Dialog visible={deleteUserDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteUserDialogFooter} onHide={hideDeleteUserDialog}>
         <div className="confirmation-content">
           <i className="pi pi-exclamation-triangle p-mr-3" style={{ fontSize: '2rem' }} />
-          {product && <span>Are you sure you want to delete <b>{product.name}</b>?</span>}
+          {user && <span>Are you sure you want to delete <b>{user.name}</b>?</span>}
         </div>
       </Dialog>
 
-      <Dialog visible={deleteProductsDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteProductsDialogFooter} onHide={hideDeleteProductsDialog}>
+      <Dialog visible={deleteUsersDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteUsersDialogFooter} onHide={hideDeleteUsersDialog}>
         <div className="confirmation-content">
           <i className="pi pi-exclamation-triangle p-mr-3" style={{ fontSize: '2rem' }} />
-          {product && <span>Are you sure you want to delete the selected products?</span>}
+          {user && <span>Are you sure you want to delete the selected users?</span>}
         </div>
       </Dialog>
     </div>
