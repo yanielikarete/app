@@ -1,0 +1,20 @@
+{
+    "data":
+        {
+            "id": "1000",
+            "ruc": "f230fh0g3",
+            "nombre": "Bamboo Watch",
+            "razon": "Razon Social",
+            "image": "bamboo-watch.jpg",
+            "direccion":"DIRECCION",
+            "contabilidad":"NO",
+            "esquema":"OFFLINE",
+            "ambiente":"PRODUCCION",
+            "emision":"NORMAL",
+            "contribuyente": "Accessories"
+            
+        }
+}
+       
+
+    
