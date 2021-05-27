@@ -5,7 +5,6 @@ import { EmpresaService } from '../../service/EmpresaService';
 import { Toast } from 'primereact/toast';
 import { Button } from 'primereact/button';
 import { FileUpload } from 'primereact/fileupload';
-import { Toolbar } from 'primereact/toolbar';
 import { InputText } from 'primereact/inputtext';
 import { Dropdown } from 'primereact/dropdown';
 
@@ -25,9 +24,9 @@ const Empresas = (props) => {
     ambiente:"PRODUCCION",
     emision:"NORMAL",
     contribuyente: "Accessories",
-   
+
   };
-  console.log(props)  
+  console.log(props)
   const [empresa, setEmpresa] = useState(emptyEmpresa);
   const [submitted, setSubmitted] = useState(false);
   const toast = useRef(null);
@@ -40,6 +39,7 @@ const Empresas = (props) => {
   const emisionOptions = ['NORMAL','POCA','MUCHA']
   useEffect(() => {
     empresaService.getEmpresa().then(data => {
+        console.log(data)
       setEmpresa(data);
     });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -82,14 +82,6 @@ const itemTemplate = (option) => {
     return id;
   }
 
-  const exportCSV = () => {
-    dt.current.exportCSV();
-  }
-
-  
-
-  
-
   const onInputChange = (e, name) => {
     const val = (e.target && e.target.value) || '';
     let _empresa = { ...empresa };
@@ -98,60 +90,55 @@ const itemTemplate = (option) => {
     setEmpresa(_empresa);
   }
 
- 
+  const onUpload = () => {
+    console.log("onUpload={ this.handleChange }")
+    toast.current.show({ severity: 'info', summary: 'Success', detail: 'File Uploaded', life: 3000 });
+}
+const onChangeImage = (e) =>{
+  console.log(e.originalEvent);
+  console.log(e.files.item(0));
+  let val = URL.createObjectURL(e.files.item(0))
+  let _empresa = { ...empresa };
+  _empresa[`image`] = val;
+
+  setEmpresa(_empresa);
+}
 
 
-
-  const rightToolbarTemplate = () => {
-    return (
-      <React.Fragment>
-        <FileUpload mode="basic" accept="image/*" maxFileSize={1000000} label="Import" chooseLabel="Importar" className="p-mr-2 p-d-inline-block" />
-        <Button label="Exportar" icon="pi pi-upload" className="p-button-help" onClick={exportCSV} />
-      </React.Fragment>
-    )
-  }
-
-
-
-
-
-
-
-  const leftToolbarTemplate = (
-    <React.Fragment>
-      <Button label="Save" icon="pi pi-check" className="p-button-text" onClick={saveEmpresa} />
-    </React.Fragment>
-  );
-
-  
  console.log("EMPRESA",empresa)
   return (
       <>
-      <h1>Configuracion general de la empresa</h1>     
+      <h1>Configuracion general de la empresa</h1>
 
     <div className="">
       <Toast ref={toast} />
       <div className="card">
-        <Toolbar className="p-mb-4" left={empresa.image && <img src={`showcase/demo/images/empresa/${empresa.image}`} onError={(e) => e.target.src = 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} alt={empresa.image} className="empresa-image" />} right={rightToolbarTemplate}></Toolbar>
         <div className="row">
-          
-        </div>
-        <div className="row">
-        <div className="p-field w-20">
-          <label htmlFor="ruc">RUC</label><br/>
-          <InputText id="ruc" value={empresa.ruc} onChange={(e) => onInputChange(e, 'ruc')} required autoFocus className={classNames({ 'p-invalid': submitted && !empresa.ruc })} />
-          {submitted && !empresa.ruc && <small className="p-error">RUC es requerido.</small>}
-        </div>
-        <div className="p-field w-40">
-          <label htmlFor="razon">Razon Social</label><br/>
-          <InputText id="razon" value={empresa.razon} onChange={(e) => onInputChange(e, 'razon')} required />
-        </div>
-        <div className="p-field w-40">
-          <label htmlFor="name">Nombre Comercial</label><br/>
-          <InputText id="nombre" value={empresa.nombre} onChange={(e) => onInputChange(e, 'nombre')} required  className={classNames({ 'p-invalid': submitted && !empresa.name })} />
-          {submitted && !empresa.name && <small className="p-error">Nombre es requerido.</small>}
+            <div className="p-field w-20">
+                 <img src={empresa.image} onError={(e) => e.target.src = 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} alt={empresa.image} className="empresa-image"  width="90px" height="90px"/> 
+            </div>
+            <div className="p-field w-60"></div>
+            <div className="p-field w-20">
+                  <FileUpload mode="basic" accept="image/*" maxFileSize={1000000} label="Logo" chooseLabel="Logo" className="p-mr-2 p-d-inline-block" onSelect={(e) => onChangeImage(e)}  />
+            </div>
         </div>
         
+        <div className="row">
+          <div className="p-field w-20">
+            <label htmlFor="ruc">RUC</label><br/>
+            <InputText id="ruc" value={empresa.ruc} onChange={(e) => onInputChange(e, 'ruc')} required autoFocus className={classNames({ 'p-invalid': submitted && !empresa.ruc })} />
+            {submitted && !empresa.ruc && <small className="p-error">RUC es requerido.</small>}
+          </div>
+          <div className="p-field w-40">
+            <label htmlFor="razon">Razon Social</label><br/>
+            <InputText id="razon" value={empresa.razon} onChange={(e) => onInputChange(e, 'razon')} required />
+          </div>
+          <div className="p-field w-40">
+            <label htmlFor="name">Nombre Comercial</label><br/>
+            <InputText id="nombre" value={empresa.nombre} onChange={(e) => onInputChange(e, 'nombre')} required  className={classNames({ 'p-invalid': submitted && !empresa.name })} />
+            {submitted && !empresa.name && <small className="p-error">Nombre es requerido.</small>}
+          </div>
+
         </div>
         <div className="row">
           <div className="p-field w-80">
@@ -183,24 +170,10 @@ const itemTemplate = (option) => {
           </div>
         </div>
 
-        {leftToolbarTemplate} 
+        <React.Fragment>
+          <Button label="Save" icon="pi pi-check" className="p-button" onClick={saveEmpresa} />
+        </React.Fragment>
       </div>
-
-    
-
-      {/* <Dialog visible={deleteEmpresaDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteEmpresaDialogFooter} onHide={hideDeleteEmpresaDialog}>
-        <div className="confirmation-content">
-          <i className="pi pi-exclamation-triangle p-mr-3" style={{ fontSize: '2rem' }} />
-          {empresa && <span>Are you sure you want to delete <b>{empresa.name}</b>?</span>}
-        </div>
-      </Dialog> */}
-
-      {/* <Dialog visible={deleteEmpresasDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteEmpresasDialogFooter} onHide={hideDeleteEmpresasDialog}>
-        <div className="confirmation-content">
-          <i className="pi pi-exclamation-triangle p-mr-3" style={{ fontSize: '2rem' }} />
-          {empresa && <span>Are you sure you want to delete the selected empresas?</span>}
-        </div>
-      </Dialog> */}
     </div>
     </>
   );

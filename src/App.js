@@ -56,6 +56,8 @@ import './layout/layout.scss';
 import './App.scss';
 import UsuariosData from './components/Configuracion/UsuariosData';
 import Empresas from './components/Configuracion/Empresas';
+import EstablecimientosData from './components/Configuracion/EstablecimientosData';
+import PuntosEmisionsData from './components/Configuracion/PuntosEmisionData';
 
 const App = () => {
 
@@ -357,7 +359,7 @@ const App = () => {
                 {
                   label:'Puntos de Emisión',
                   icon:'pi pi-fw pi-th-large',
-                  url: '/ptosEmision'
+                  to: '/ptosEmision'
                 },
                 {
                   label:'Firma Digital',
@@ -467,13 +469,18 @@ const App = () => {
                 <Route path="/crud" component={Crud} />
                 <Route path="/empty" component={EmptyPage} />
                 <Route path="/documentation" component={Documentation} />
+                <Route path="/ptosEmision">
+                    <PuntosEmisionsData header="Manejar Puntos de Emision" title="Puntos de Emision" sing="Puntos de Emision" />
+                </Route>
                 <Route path="/usuarios">
                     <UsuariosData header="Manejar Usuarios" title="Usuarios" sing="Usuario" />
                 </Route>
                 <Route path="/empresa" component={Empresas} />
                 <Route path="/establecimientos">
-                    <UsuariosData header="Manejar Establecimientos" title="Establecimientos" sing="Establecimiento" />
+                    <EstablecimientosData header="Manejar Establecimientos" title="Establecimientos" sing="Establecimiento" />
                 </Route>
+               
+                
                 {/* <Route path="/*" component={NotFound} /> */}
             </div>
 
