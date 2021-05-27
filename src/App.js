@@ -58,6 +58,8 @@ import UsuariosData from './components/Configuracion/UsuariosData';
 import Empresas from './components/Configuracion/Empresas';
 import EstablecimientosData from './components/Configuracion/EstablecimientosData';
 import PuntosEmisionsData from './components/Configuracion/PuntosEmisionData';
+import FirmaDigital from './components/Configuracion/FirmaDigital';
+import Secuencialess from './components/Configuracion/Secuenciales';
 
 const App = () => {
 
@@ -364,11 +366,12 @@ const App = () => {
                 {
                   label:'Firma Digital',
                   icon:'pi pi-fw pi-key',
-                  url: '/firma'
+                  to: '/firma'
                 },
                 {
                   label:'Secuenciales',
-                  icon:'pi pi-fw pi-sort-alpha-down'
+                  icon:'pi pi-fw pi-sort-alpha-down',
+                  to: '/secuenciales'
                 }
             ]
          }
@@ -469,6 +472,8 @@ const App = () => {
                 <Route path="/crud" component={Crud} />
                 <Route path="/empty" component={EmptyPage} />
                 <Route path="/documentation" component={Documentation} />
+
+
                 <Route path="/ptosEmision">
                     <PuntosEmisionsData header="Manejar Puntos de Emision" title="Puntos de Emision" sing="Puntos de Emision" />
                 </Route>
@@ -479,6 +484,9 @@ const App = () => {
                 <Route path="/establecimientos">
                     <EstablecimientosData header="Manejar Establecimientos" title="Establecimientos" sing="Establecimiento" />
                 </Route>
+                <Route path="/firma" component={FirmaDigital} />
+                <Route path="/secuenciales" component={Secuencialess} />
+
                
                 
                 {/* <Route path="/*" component={NotFound} /> */}

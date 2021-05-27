@@ -6,9 +6,7 @@ import { PuntosEmisionService } from '../../service/PuntosEmisionService';
 import { Toast } from 'primereact/toast';
 import { Button } from 'primereact/button';
 import { FileUpload } from 'primereact/fileupload';
-import { Rating } from 'primereact/rating';
 import { Toolbar } from 'primereact/toolbar';
-import { InputTextarea } from 'primereact/inputtextarea';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { Dropdown } from 'primereact/dropdown';
@@ -45,9 +43,7 @@ const PuntosEmisionsData = (props) => {
     puntosemisionService.getPuntosEmisions().then(data => setPuntosEmisions(data));
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const formatCurrency = (value) => {
-    return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
-  }
+
   const estadoOptions = ['Activo','Inactivo']
   const establecimientos = ['Cargar','Establecimientos','Desde','Service']
 
@@ -151,22 +147,9 @@ const PuntosEmisionsData = (props) => {
     toast.current.show({ severity: 'success', summary: 'Successful', detail: 'PuntosEmisions Deleted', life: 3000 });
   }
 
-  const onCategoryChange = (e) => {
-    let _puntosemision = { ...puntosemision };
-    _puntosemision['category'] = e.value;
-    setPuntosEmision(_puntosemision);
-  }
 
   const onInputChange = (e, name) => {
     const val = (e.target && e.target.value) || '';
-    let _puntosemision = { ...puntosemision };
-    _puntosemision[`${name}`] = val;
-
-    setPuntosEmision(_puntosemision);
-  }
-
-  const onInputNumberChange = (e, name) => {
-    const val = e.value || 0;
     let _puntosemision = { ...puntosemision };
     _puntosemision[`${name}`] = val;
 
