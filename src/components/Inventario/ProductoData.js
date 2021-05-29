@@ -20,14 +20,14 @@ import './common.css';
 const ProductosData = (props) => {
 
   let emptyProducto =  {
-    id: "1000",
-    nombre: "f230fh0g3",
-    codigo: "Proveedor de Bamboo Watch",
-    codigo_aux: "Proveedor Direction",
-    codigo_aux: "bamboo-watch@gmail.com",
-    porcentaje_iva: "RUC",
-    tipo_producto: "OTROS",
-    valor_unitario: 5
+    id: null,
+    nombre: "",
+    codigo: "",
+    codigo_aux: "",
+    codigo_aux: "",
+    porcentaje_iva: "",
+    tipo_producto: "",
+    valor_unitario: 0
   };
   console.log(props)
   const [productos, setProductos] = useState(null);
@@ -41,8 +41,8 @@ const ProductosData = (props) => {
   const toast = useRef(null);
   const dt = useRef(null);
   const productoService = new ProductoService();
-  const tipoIdOptions = ['RUC','IDENTIFICACION'];
-  const contribuyenteOptions = ['OTROS','RESPONSABLE']
+  const tipoProductoOptions = ['BIEN','MAL','REGULAR'];
+  const porcentajeIvaOptions = ['OTROS','10-20','20-40']
 
   useEffect(() => {
     productoService.getProductos().then(data => setProductos(data));
@@ -277,29 +277,29 @@ const ProductosData = (props) => {
           <InputText id="nombre" value={producto.nombre} onChange={(e) => onInputChange(e, 'nombre')} required className={classNames({ 'p-invalid': submitted && !producto.nombre })} />
           {submitted && !producto.nombre && <small className="p-error">Nombre del producto requerido</small>}
         </div>
-        <div className="p-field w-100">
+        <div className="p-field w-50">
           <label htmlFor="codigo">Código</label>
           <InputText id="codigo" value={producto.codigo} onChange={(e) => onInputChange(e, 'codigo')} required className={classNames({ 'p-invalid': submitted && !producto.codigo })} />
           {submitted && !producto.codigo && <small className="p-error">Código es requerido</small>}
         </div>
-        <div className="p-field w-100">
+        <div className="p-field w-50">
           <label htmlFor="codigo_aux">Código Auxiliar</label>
           <InputText id="codigo_aux" value={producto.codigo_aux} onChange={(e) => onInputChange(e, 'codigo_aux')} />
         </div>
        
 
-        <div className="p-field w-50">
+        <div className="p-field w-100">
           <label htmlFor="valor_unitario w-50">Valor Unitario</label><br/>
           <InputText id="valor_unitario" value={producto.valor_unitario}   onChange={(e) => onInputChange(e,'valor_unitario')} />
         </div>
         <div className="p-field w-50">
-          <label htmlFor="valor_unitario w-50">TIPO DE IDENTIFICACIÓN</label><br/>
-          <Dropdown id="valor_unitario" value={producto.valor_unitario}   itemTemplate={itemTemplate}  onChange={(e) => onInputChange(e,'valor_unitario')} options={tipoIdOptions}/>
+          <label htmlFor="tipo_producto w-50">Tipo de Producto</label><br/>
+          <Dropdown id="tipo_producto" value={producto.tipo_producto}   itemTemplate={itemTemplate}  onChange={(e) => onInputChange(e,'tipo_producto')} options={tipoProductoOptions}/>
         </div>
         
         <div className="p-field w-50">
-          <label htmlFor="clase_contribuyente">CLASE CONTRIBUYENTE</label><br/>
-          <Dropdown id="clase_contribuyente" value={producto.clase_contribuyente}   itemTemplate={itemTemplate}  onChange={(e) => onInputChange(e,'clase_contribuyente')} options={contribuyenteOptions}/>
+          <label htmlFor="porcentaje_iva">Porcentaje IVA</label><br/>
+          <Dropdown id="porcentaje_iva" value={producto.porcentaje_iva}   itemTemplate={itemTemplate}  onChange={(e) => onInputChange(e,'porcentaje_iva')} options={porcentajeIvaOptions}/>
         </div>
         
         

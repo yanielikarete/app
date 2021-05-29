@@ -63,6 +63,7 @@ import Secuencialess from './components/Configuracion/Secuenciales';
 import ClientesData from './components/Cartera/ClientesData';
 import ProveedorsData from './components/Cartera/ProveedoresData';
 import TransportistasData from './components/Cartera/Transportistas';
+import ProductosData from './components/Inventario/ProductoData';
 
 const App = () => {
 
@@ -316,7 +317,8 @@ const App = () => {
             items:[
                {
                   label:'Producto',
-                  icon:'pi pi-fw pi-globe'
+                  icon:'pi pi-fw pi-globe',
+                  to:'/productos'
                },
                {
                   label:'Reporte de productos',
@@ -478,6 +480,10 @@ const App = () => {
                 <Route path="/crud" component={Crud} />
                 <Route path="/empty" component={EmptyPage} />
                 <Route path="/documentation" component={Documentation} />
+                {/* INVENTARIO */}
+                <Route path="/productos">
+                    <ProductosData header="Manejar Productos" title="Productos" sing="productos" />
+                </Route>
 
                 {/* CARTERA */}
                 <Route path="/clientes">
