@@ -60,6 +60,9 @@ import EstablecimientosData from './components/Configuracion/EstablecimientosDat
 import PuntosEmisionsData from './components/Configuracion/PuntosEmisionData';
 import FirmaDigital from './components/Configuracion/FirmaDigital';
 import Secuencialess from './components/Configuracion/Secuenciales';
+import ClientesData from './components/Cartera/ClientesData';
+import ProveedorsData from './components/Cartera/ProveedoresData';
+import TransportistasData from './components/Cartera/Transportistas';
 
 const App = () => {
 
@@ -327,15 +330,18 @@ const App = () => {
             items:[
                 {
                    label:'Clientes',
-                   icon:'pi pi-fw pi-users'
+                   icon:'pi pi-fw pi-users',
+                   to:'/clientes'
                 },
                 {
                    label:'Proveedores',
-                   icon:'pi pi-fw pi-users'
+                   icon:'pi pi-fw pi-users',
+                   to:'/proveedores'
                 },
                 {
                     label:'Transportistas',
-                    icon:'pi pi-fw pi-directions'
+                    icon:'pi pi-fw pi-directions',
+                    to:'/transportistas'
                 }
             ]
          },
@@ -473,7 +479,17 @@ const App = () => {
                 <Route path="/empty" component={EmptyPage} />
                 <Route path="/documentation" component={Documentation} />
 
-
+                {/* CARTERA */}
+                <Route path="/clientes">
+                    <ClientesData header="Manejar Clientes" title="Clientes" sing="clientes" />
+                </Route>
+                <Route path="/proveedores">
+                    <ProveedorsData header="Manejar Provvedores" title="Proveedores" sing="proveedores" />
+                </Route>
+                <Route path="/transportistas">
+                    <TransportistasData header="Manejar Transportistas" title="Transportistas" sing="transportistas" />
+                </Route>
+                {/* CONFIGURACION */}
                 <Route path="/ptosEmision">
                     <PuntosEmisionsData header="Manejar Puntos de Emision" title="Puntos de Emision" sing="Puntos de Emision" />
                 </Route>
