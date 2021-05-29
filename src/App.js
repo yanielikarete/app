@@ -64,6 +64,7 @@ import ClientesData from './components/Cartera/ClientesData';
 import ProveedorsData from './components/Cartera/ProveedoresData';
 import TransportistasData from './components/Cartera/Transportistas';
 import ProductosData from './components/Inventario/ProductoData';
+import PrestamoData from './components/Prestamos/PrestamosData';
 
 const App = () => {
 
@@ -299,7 +300,8 @@ const App = () => {
            items:[
                {
                   label:'Ingresar Préstamo',
-                  icon:'pi pi-fw pi-plus'
+                  icon:'pi pi-fw pi-plus',
+                  to:'/nuevoPrestamo'
                },
                {
                   label:'Abonos de préstamos',
@@ -480,6 +482,10 @@ const App = () => {
                 <Route path="/crud" component={Crud} />
                 <Route path="/empty" component={EmptyPage} />
                 <Route path="/documentation" component={Documentation} />
+                {/* PRESTAMOS */}
+                <Route path="/nuevoPrestamo">
+                    <PrestamoData title="Prestamos" sing="prestamos" />
+                </Route>
                 {/* INVENTARIO */}
                 <Route path="/productos">
                     <ProductosData header="Manejar Productos" title="Productos" sing="productos" />
