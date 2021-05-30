@@ -1,0 +1,15 @@
+{
+    "data": [
+        {"id": "1000","comprobante": "1000","ruc_cedula": "f230fh0g3","cliente": "Bamboo Watch","plazo": "10 días","pagado":0,"total":7000,"fecha_limite":"2021-09-20","informacion_adicional":"lorem ipsum 1"},
+        {"id": "1001","comprobante": "1001","ruc_cedula": "nvklal433","cliente": "Black Watch","plazo": "10 días","pagado":0,"total":7000,"fecha_limite":"2021-09-20","informacion_adicional":"lorem ipsum 2"},
+        {"id": "1002","comprobante": "1002","ruc_cedula": "zz21cz3c1","cliente": "Blue Band","plazo": "10 días","pagado":0,"total":7000,"fecha_limite":"2021-09-20","informacion_adicional":"lorem ipsum 3"},
+        {"id": "1003","comprobante": "1003","ruc_cedula": "244wgerg2","cliente": "Blue T-Shirt","plazo": "-14 días","pagado":0,"total":7000,"fecha_limite":"2021-09-20","informacion_adicional":"lorem ipsum "},
+        {"id": "1004","comprobante": "1004","ruc_cedula": "h456wer53","cliente": "Bracelet","plazo": "-14 días","pagado":0,"total":7000,"fecha_limite":"2021-09-20","informacion_adicional":"lorem ipsum "},
+        {"id": "1005","comprobante": "1005","ruc_cedula": "av2231fwg","cliente": "Brown Purse","plazo": "-14 días","pagado":0,"total":7000,"fecha_limite":"2021-09-20","informacion_adicional":"lorem ipsum "},
+        {"id": "1006","comprobante": "1006","ruc_cedula": "bib36pfvm","cliente": "Chakra Bracelet","plazo": "35 días","pagado":0,"total":7000,"fecha_limite":"2021-09-20","informacion_adicional":"lorem ipsum "},
+        {"id": "1007","comprobante": "1007","ruc_cedula": "mbvjkgip5","cliente": "Galaxy Earrings","plazo": "35 días","pagado":0,"total":7000,"fecha_limite":"2021-09-20","informacion_adicional":"lorem ipsum "},
+        {"id": "1008","comprobante": "1008","ruc_cedula": "vbb124btr","cliente": "Game Controller","plazo": "35 días","pagado":0,"total":7000,"fecha_limite":"2021-09-20","informacion_adicional":"lorem ipsum "},
+        {"id": "1009","comprobante": "1009","ruc_cedula": "cm230f032","cliente": "Gaming Set","plazo": "35 días","pagado":0,"total":7000,"fecha_limite":"2021-09-20","informacion_adicional":"lorem ipsum "}
+    ]
+}
+    

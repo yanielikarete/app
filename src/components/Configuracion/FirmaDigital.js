@@ -86,7 +86,7 @@ const onChangeCert = (e) =>{
             </div>
         </div>
         <React.Fragment>
-          <Button label="Save" icon="pi pi-check" className="p-button" onClick={saveFirmaDigital} />
+          <Button label="Guardar" icon="pi pi-check" className="p-button" onClick={saveFirmaDigital} />
         </React.Fragment>
       </div>
     </div>

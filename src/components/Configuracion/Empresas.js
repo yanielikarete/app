@@ -167,7 +167,7 @@ const onChangeImage = (e) =>{
         </div>
 
         <React.Fragment>
-          <Button label="Save" icon="pi pi-check" className="p-button" onClick={saveEmpresa} />
+          <Button label="Guardar" icon="pi pi-check" className="p-button" onClick={saveEmpresa} />
         </React.Fragment>
       </div>
     </div>

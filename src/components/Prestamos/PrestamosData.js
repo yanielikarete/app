@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import classNames from 'classnames';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { BeneficiarioService } from '../../service/BeneficiarioService';
+import { PrestamoService } from '../../service/PrestamoService';
 import { Toast } from 'primereact/toast';
 import { Button } from 'primereact/button';
 import { FileUpload } from 'primereact/fileupload';
@@ -46,18 +46,19 @@ const PrestamoData = (props) => {
   const [globalFilter, setGlobalFilter] = useState(null);
   const toast = useRef(null);
   const dt = useRef(null);
-  const clienteService = new BeneficiarioService();
+  const prestamoService = new PrestamoService();
   const tipoIdOptions = ['RUC','IDENTIFICACION'];
   const contribuyenteOptions = ['OTROS','RESPONSABLE'];
 
   useEffect(() => {
-    clienteService.getBeneficiarios().then(data => setBeneficiarios(data));
+    prestamoService.getBeneficiarios().then(data => setBeneficiarios(data));
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 
 
   const savePrestamo = () => {
       setSubmitted(true);
+      prestamoService.savePrestamo(datosPrestamo)
       toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Prestamo Creado', life: 3000 });
   }
 
@@ -113,7 +114,7 @@ const PrestamoData = (props) => {
     <div className="table-header ">
       <span className="p-input-icon-left w-100">
         <i className="pi pi-search" />
-        <InputText type="search" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Buscar beneficiario..." className="w-100" />
+        <InputText type="Buscar" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Buscar beneficiario..." className="w-100" />
       </span>
     </div>
   );
@@ -160,7 +161,7 @@ const PrestamoData = (props) => {
           <InputTextarea id="informacion_adicional" value={cliente.informacion_adicional} onChange={(e) => onInputChange(e, 'informacion_adicional')} required rows={3} cols={20} />
         </div>
         <React.Fragment>
-          <Button label="Save" icon="pi pi-check" className="p-button" onClick={savePrestamo} disabled={disableSave} />
+          <Button label="Guardar" icon="pi pi-check" className="p-button" onClick={savePrestamo} disabled={disableSave} />
         </React.Fragment>
         </Panel>
 

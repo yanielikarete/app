@@ -196,26 +196,26 @@ const PuntosEmisionsData = (props) => {
       <h5 className="p-m-0">{props.header}</h5>
       <span className="p-input-icon-left">
         <i className="pi pi-search" />
-        <InputText type="search" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Buscar..." />
+        <InputText type="Buscar" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Buscar..." />
       </span>
     </div>
   );
   const puntosemisionDialogFooter = (
     <React.Fragment>
-      <Button label="Cancel" icon="pi pi-times" className="p-button-text" onClick={hideDialog} />
-      <Button label="Save" icon="pi pi-check" className="p-button-text" onClick={savePuntosEmision} />
+      <Button label="Cancelar" icon="pi pi-times" className="p-button-text" onClick={hideDialog} />
+      <Button label="Guardar" icon="pi pi-check" className="p-button-text" onClick={savePuntosEmision} />
     </React.Fragment>
   );
   const deletePuntosEmisionDialogFooter = (
     <React.Fragment>
       <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeletePuntosEmisionDialog} />
-      <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={deletePuntosEmision} />
+      <Button label="Si" icon="pi pi-check" className="p-button-text" onClick={deletePuntosEmision} />
     </React.Fragment>
   );
   const deletePuntosEmisionsDialogFooter = (
     <React.Fragment>
       <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeletePuntosEmisionsDialog} />
-      <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={deleteSelectedPuntosEmisions} />
+      <Button label="Si" icon="pi pi-check" className="p-button-text" onClick={deleteSelectedPuntosEmisions} />
     </React.Fragment>
   );
 

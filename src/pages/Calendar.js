@@ -57,7 +57,7 @@ export const Calendar = () => {
 
     const footer = (
         <>
-            <Button type="button" label="Save" icon="pi pi-check" className="p-button-text" onClick={save} />
+            <Button type="button" label="Guardar" icon="pi pi-check" className="p-button-text" onClick={save} />
             <Button type="button" label="Reset" icon="pi pi-refresh" className="p-button-text" onClick={reset} />
         </>
     );

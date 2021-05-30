@@ -106,7 +106,7 @@ const Secuencialess = (props) => {
       
 
         <React.Fragment>
-          <Button label="Save" icon="pi pi-check" className="p-button" onClick={saveSecuenciales} />
+          <Button label="Guardar" icon="pi pi-check" className="p-button" onClick={saveSecuenciales} />
         </React.Fragment>
       </div>
     </div>

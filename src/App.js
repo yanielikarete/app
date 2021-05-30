@@ -65,6 +65,7 @@ import ProveedorsData from './components/Cartera/ProveedoresData';
 import TransportistasData from './components/Cartera/Transportistas';
 import ProductosData from './components/Inventario/ProductoData';
 import PrestamoData from './components/Prestamos/PrestamosData';
+import AbonosData from './components/Prestamos/AbonosData';
 
 const App = () => {
 
@@ -305,7 +306,8 @@ const App = () => {
                },
                {
                   label:'Abonos de préstamos',
-                  icon:'pi pi-fw pi-money-bill'
+                  icon:'pi pi-fw pi-money-bill',
+                  to:'/abonos'
                },
                {
                    label:'Reporte de Préstamos por Cobrar',
@@ -485,6 +487,9 @@ const App = () => {
                 {/* PRESTAMOS */}
                 <Route path="/nuevoPrestamo">
                     <PrestamoData title="Prestamos" sing="prestamos" />
+                </Route>
+                <Route path="/abonos">
+                    <AbonosData title="Abonos Prestamos" sing="prestamos" />
                 </Route>
                 {/* INVENTARIO */}
                 <Route path="/productos">

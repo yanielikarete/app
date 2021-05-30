@@ -462,7 +462,7 @@ export const MenuDemo = () => {
         return (
             <span className="p-input-icon-left">
                 <i className="pi pi-search" />
-                <InputText type="text" placeholder="Search" />
+                <InputText type="text" placeholder="Buscar" />
             </span>
         );
     };

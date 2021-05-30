@@ -185,26 +185,26 @@ const EstablecimientosData = (props) => {
       <h5 className="p-m-0">{props.header}</h5>
       <span className="p-input-icon-left">
         <i className="pi pi-search" />
-        <InputText type="search" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Buscar..." />
+        <InputText type="Buscar" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Buscar..." />
       </span>
     </div>
   );
   const establecimientoDialogFooter = (
     <React.Fragment>
-      <Button label="Cancel" icon="pi pi-times" className="p-button-text" onClick={hideDialog} />
-      <Button label="Save" icon="pi pi-check" className="p-button-text" onClick={saveEstablecimiento} />
+      <Button label="Cancelar" icon="pi pi-times" className="p-button-text" onClick={hideDialog} />
+      <Button label="Guardar" icon="pi pi-check" className="p-button-text" onClick={saveEstablecimiento} />
     </React.Fragment>
   );
   const deleteEstablecimientoDialogFooter = (
     <React.Fragment>
       <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteEstablecimientoDialog} />
-      <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={deleteEstablecimiento} />
+      <Button label="Si" icon="pi pi-check" className="p-button-text" onClick={deleteEstablecimiento} />
     </React.Fragment>
   );
   const deleteEstablecimientosDialogFooter = (
     <React.Fragment>
       <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteEstablecimientosDialog} />
-      <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={deleteSelectedEstablecimientos} />
+      <Button label="Si" icon="pi pi-check" className="p-button-text" onClick={deleteSelectedEstablecimientos} />
     </React.Fragment>
   );
 
