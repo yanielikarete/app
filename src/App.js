@@ -58,7 +58,22 @@ import UsuariosData from './components/Configuracion/UsuariosData';
 import Empresas from './components/Configuracion/Empresas';
 import EstablecimientosData from './components/Configuracion/EstablecimientosData';
 import PuntosEmisionsData from './components/Configuracion/PuntosEmisionData';
+
 import Login from './components/Login'
+
+import FirmaDigital from './components/Configuracion/FirmaDigital';
+import Secuencialess from './components/Configuracion/Secuenciales';
+import ClientesData from './components/Cartera/ClientesData';
+import ProveedorsData from './components/Cartera/ProveedoresData';
+import TransportistasData from './components/Cartera/Transportistas';
+import ProductosData from './components/Inventario/ProductoData';
+import PrestamoData from './components/Prestamos/PrestamosData';
+import AbonosData from './components/Prestamos/AbonosData';
+import CuentasData from './components/Banca/CuentasData';
+import DiarioContablesData from './components/Banca/DiarioContableData';
+import HistorialFacturasData from './components/Documentos/HistorialFacturaData';
+import OperacionesData from './components/Banca/OperacionesData';
+
 
 const App = () => {
 
@@ -202,7 +217,8 @@ const App = () => {
                items:[
                   {
                      label:'Factura',
-                     icon:'pi pi-fw pi-clock'
+                     icon:'pi pi-fw pi-clock',
+                     to:'/historialFacturas'
                   },
                   {
                    label:'Guia de Remisión',
@@ -279,13 +295,20 @@ const App = () => {
            icon:'pi pi-fw pi-wallet',
            items:[
               {
-                 label:'New',
-                 icon:'pi pi-fw pi-wallet'
+                 label:'Cuentas',
+                 icon:'pi pi-fw pi-wallet',
+                 to:'/cuentas'
               },
               {
                  label:'Operaciones Bancarias',
-                 icon:'pi pi-fw pi-sort-numeric-up-alt'
+                 icon:'pi pi-fw pi-sort-numeric-up-alt',
+                to:'/operaciones'
               },
+              {
+                label:'Diario Contable',
+                icon:'pi pi-fw pi-clock',
+                to:'/diarioContable'
+             },
               {
                   label:'Reporte de Operaciones',
                   icon:'pi pi-fw pi-file-excel'
@@ -298,11 +321,13 @@ const App = () => {
            items:[
                {
                   label:'Ingresar Préstamo',
-                  icon:'pi pi-fw pi-plus'
+                  icon:'pi pi-fw pi-plus',
+                  to:'/nuevoPrestamo'
                },
                {
                   label:'Abonos de préstamos',
-                  icon:'pi pi-fw pi-money-bill'
+                  icon:'pi pi-fw pi-money-bill',
+                  to:'/abonos'
                },
                {
                    label:'Reporte de Préstamos por Cobrar',
@@ -316,7 +341,8 @@ const App = () => {
             items:[
                {
                   label:'Producto',
-                  icon:'pi pi-fw pi-globe'
+                  icon:'pi pi-fw pi-globe',
+                  to:'/productos'
                },
                {
                   label:'Reporte de productos',
@@ -330,15 +356,18 @@ const App = () => {
             items:[
                 {
                    label:'Clientes',
-                   icon:'pi pi-fw pi-users'
+                   icon:'pi pi-fw pi-users',
+                   to:'/clientes'
                 },
                 {
                    label:'Proveedores',
-                   icon:'pi pi-fw pi-users'
+                   icon:'pi pi-fw pi-users',
+                   to:'/proveedores'
                 },
                 {
                     label:'Transportistas',
-                    icon:'pi pi-fw pi-directions'
+                    icon:'pi pi-fw pi-directions',
+                    to:'/transportistas'
                 }
             ]
          },
@@ -369,11 +398,12 @@ const App = () => {
                 {
                   label:'Firma Digital',
                   icon:'pi pi-fw pi-key',
-                  url: '/firma'
+                  to: '/firma'
                 },
                 {
                   label:'Secuenciales',
-                  icon:'pi pi-fw pi-sort-alpha-down'
+                  icon:'pi pi-fw pi-sort-alpha-down',
+                  to: '/secuenciales'
                 }
             ]
          }
@@ -478,6 +508,43 @@ const App = () => {
                 <Route path="/crud" component={Crud} />
                 <Route path="/empty" component={EmptyPage} />
                 <Route path="/documentation" component={Documentation} />
+                {/* DOCUMENTOS */}
+                <Route path="/historialFacturas">
+                    <HistorialFacturasData title="Historial de Factura" sing="facturas" />
+                </Route>
+                {/* BANCA */}
+                <Route path="/cuentas">
+                    <CuentasData title="CREAR CUENTA" sing="cuentas" />
+                </Route>
+                <Route path="/cuentas">
+                    <OperacionesData title="Operaciones" sing="cuentas" />
+                </Route>
+                <Route path="/diarioContable">
+                    <DiarioContablesData title="DIARIO CONTABLE" sing="cuentas" />
+                </Route>
+                {/* PRESTAMOS */}
+                <Route path="/nuevoPrestamo">
+                    <PrestamoData title="Prestamos" sing="prestamos" />
+                </Route>
+                <Route path="/abonos">
+                    <AbonosData title="Abonos Prestamos" sing="prestamos" />
+                </Route>
+                {/* INVENTARIO */}
+                <Route path="/productos">
+                    <ProductosData header="Manejar Productos" title="Productos" sing="productos" />
+                </Route>
+
+                {/* CARTERA */}
+                <Route path="/clientes">
+                    <ClientesData header="Manejar Clientes" title="Clientes" sing="clientes" />
+                </Route>
+                <Route path="/proveedores">
+                    <ProveedorsData header="Manejar Provvedores" title="Proveedores" sing="proveedores" />
+                </Route>
+                <Route path="/transportistas">
+                    <TransportistasData header="Manejar Transportistas" title="Transportistas" sing="transportistas" />
+                </Route>
+                {/* CONFIGURACION */}
                 <Route path="/ptosEmision">
                     <PuntosEmisionsData header="Manejar Puntos de Emision" title="Puntos de Emision" sing="Puntos de Emision" />
                 </Route>
@@ -488,6 +555,9 @@ const App = () => {
                 <Route path="/establecimientos">
                     <EstablecimientosData header="Manejar Establecimientos" title="Establecimientos" sing="Establecimiento" />
                 </Route>
+                <Route path="/firma" component={FirmaDigital} />
+                <Route path="/secuenciales" component={Secuencialess} />
+
                
                 
                 {/* <Route path="/*" component={NotFound} /> */}

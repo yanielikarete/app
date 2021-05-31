@@ -13,6 +13,15 @@
             "emision":"NORMAL",
             "contribuyente": "Accessories"
             
+        },
+        "secuenciales":
+        {
+            "factura":"afc182",
+            "notacredito":"afc182",
+            "notadebito":"afc182",
+            "guia":"afc182",
+            "comprobante":"afc182"
+            
         }
 }
        

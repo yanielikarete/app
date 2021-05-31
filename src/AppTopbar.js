@@ -9,7 +9,7 @@ export const AppTopbar = (props) => {
             </button>
             <div className="layout-topbar-icons">
                 <span className="layout-topbar-search">
-                    <InputText type="text" placeholder="Search" />
+                    <InputText type="text" placeholder="Buscar" />
                     <span className="layout-topbar-search-icon pi pi-search" />
                 </span>
                 <button type="button" className="p-link">

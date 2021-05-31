@@ -67,3 +67,6 @@
     background:linear-gradient(to right, #0388E5 0%, #07BDF4 100%) ;
     color:white
 }
+.p-panel{
+    margin-bottom: 20px;
+}

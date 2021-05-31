@@ -45,9 +45,9 @@ const UsuariosData = (props) => {
     userService.getUsers().then(data => setUsers(data));
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const formatCurrency = (value) => {
-    return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
-  }
+  // const formatCurrency = (value) => {
+  //   return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+  // }
 
   const openNew = () => {
     setUser(emptyUser);
@@ -188,13 +188,7 @@ const UsuariosData = (props) => {
     )
   }
 
-  const imageBodyTemplate = (rowData) => {
-    return <img src={`showcase/demo/images/user/${rowData.image}`} onError={(e) => e.target.src = 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} alt={rowData.image} className="user-image" />
-  }
 
-  const priceBodyTemplate = (rowData) => {
-    return formatCurrency(rowData.price);
-  }
 
   const ratingBodyTemplate = (rowData) => {
     return <Rating value={rowData.rating} readOnly cancel={false} />;
@@ -218,26 +212,26 @@ const UsuariosData = (props) => {
       <h5 className="p-m-0">{props.header}</h5>
       <span className="p-input-icon-left">
         <i className="pi pi-search" />
-        <InputText type="search" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Search..." />
+        <InputText type="Buscar" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Search..." />
       </span>
     </div>
   );
   const userDialogFooter = (
     <React.Fragment>
-      <Button label="Cancel" icon="pi pi-times" className="p-button-text" onClick={hideDialog} />
-      <Button label="Save" icon="pi pi-check" className="p-button-text" onClick={saveUser} />
+      <Button label="Cancelar" icon="pi pi-times" className="p-button-text" onClick={hideDialog} />
+      <Button label="Guardar" icon="pi pi-check" className="p-button-text" onClick={saveUser} />
     </React.Fragment>
   );
   const deleteUserDialogFooter = (
     <React.Fragment>
       <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteUserDialog} />
-      <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={deleteUser} />
+      <Button label="Si" icon="pi pi-check" className="p-button-text" onClick={deleteUser} />
     </React.Fragment>
   );
   const deleteUsersDialogFooter = (
     <React.Fragment>
       <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteUsersDialog} />
-      <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={deleteSelectedUsers} />
+      <Button label="Si" icon="pi pi-check" className="p-button-text" onClick={deleteSelectedUsers} />
     </React.Fragment>
   );
 
@@ -260,9 +254,7 @@ const UsuariosData = (props) => {
           <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
           <Column field="code" header="Nombre" sortable></Column>
           <Column field="name" header="Usuario" sortable></Column>
-          {/* <Column header="Image" body={imageBodyTemplate}></Column>
-          <Column field="price" header="Price" body={priceBodyTemplate} sortable></Column> */}
-          {/* <Column field="category" header="Category" sortable></Column> */}
+        
           <Column field="rating" header="Estado" body={ratingBodyTemplate} sortable></Column>
           <Column field="inventoryStatus" header="Status" body={statusBodyTemplate} sortable></Column>
           <Column body={actionBodyTemplate}></Column>

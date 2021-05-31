@@ -162,14 +162,14 @@ export const InputDemo = () => {
                         </div>
                         <div className="p-col-12 p-mb-2 p-lg-4 p-mb-lg-0">
                             <span className="p-input-icon-right">
-                                <InputText type="text" placeholder="Search" />
+                                <InputText type="text" placeholder="Buscar" />
                                 <i className="pi pi-search" />
                             </span>
                         </div>
                         <div className="p-col-12 p-mb-2 p-lg-4 p-mb-lg-0">
                             <span className="p-input-icon-left p-input-icon-right">
                                 <i className="pi pi-user" />
-                                <InputText type="text" placeholder="Search" />
+                                <InputText type="text" placeholder="Buscar" />
                                 <i className="pi pi-search" />
                             </span>
                         </div>
@@ -185,7 +185,7 @@ export const InputDemo = () => {
                     <InputTextarea placeholder="Your Message" autoResize rows="3" cols="30" />
 
                     <h5>AutoComplete</h5>
-                    <AutoComplete placeholder="Search" id="dd" dropdown multiple value={selectedAutoValue} onChange={(e) => setSelectedAutoValue(e.value)} suggestions={autoFilteredValue} completeMethod={searchCountry} field="name" />
+                    <AutoComplete placeholder="Buscar" id="dd" dropdown multiple value={selectedAutoValue} onChange={(e) => setSelectedAutoValue(e.value)} suggestions={autoFilteredValue} completeMethod={searchCountry} field="name" />
 
                     <h5>Calendar</h5>
                     <Calendar showIcon showButtonBar value={calendarValue} onChange={(e) => setCalendarValue(e.value)}></Calendar>
@@ -284,7 +284,7 @@ export const InputDemo = () => {
 
                 <div className="card">
                     <h5>ToggleButton</h5>
-                    <ToggleButton checked={toggleValue} onChange={(e) => setToggleValue(e.value)} onLabel="Yes" offLabel="No" />
+                    <ToggleButton checked={toggleValue} onChange={(e) => setToggleValue(e.value)} onLabel="Si" offLabel="No" />
 
                     <h5>SelectButton</h5>
                     <SelectButton value={selectButtonValue1} onChange={(e) => setSelectButtonValue1(e.value)} options={selectButtonValues1} optionLabel="name" />
@@ -319,7 +319,7 @@ export const InputDemo = () => {
 
                         <div className="p-col-12 p-md-6">
                             <div className="p-inputgroup">
-                                <Button label="Search" />
+                                <Button label="Buscar" />
                                 <InputText placeholder="Keyword" />
                             </div>
                         </div>

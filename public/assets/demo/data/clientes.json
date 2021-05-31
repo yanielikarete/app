@@ -1,0 +1,15 @@
+{
+    "data": [
+        {"id": "1000","ruc_cedula": "f230fh0g3","razon_social": "Bamboo Watch","direccion": "Product Description","email": "bamboo-watch@gmail.com","tipo_id": "RUC","clase_contribuyente": "OTROS","quantity": 24,"inventoryStatus": "INSTOCK","rating": 5},
+        {"id": "1001","ruc_cedula": "nvklal433","razon_social": "Black Watch","direccion": "Product Description","email": "black-watch@gmail.com","tipo_id": "CEDULA","clase_contribuyente": "OTROS","quantity": 61,"inventoryStatus": "INSTOCK","rating": 4},
+        {"id": "1002","ruc_cedula": "zz21cz3c1","razon_social": "Blue Band","direccion": "Product Description","email": "blue-band@gmail.com","tipo_id": "RUC","clase_contribuyente": "Fitness","quantity": 2,"inventoryStatus": "LOWSTOCK","rating": 3},
+        {"id": "1003","ruc_cedula": "244wgerg2","razon_social": "Blue T-Shirt","direccion": "Product Description","email": "blue-t-shirt@gmail.com","tipo_id": "RUC","clase_contribuyente": "Clothing","quantity": 25,"inventoryStatus": "INSTOCK","rating": 5},
+        {"id": "1004","ruc_cedula": "h456wer53","razon_social": "Bracelet","direccion": "Product Description","email": "bracelet@gmail.com","tipo_id": "CEDULA","clase_contribuyente": "OTROS","quantity": 73,"inventoryStatus": "INSTOCK","rating": 4},
+        {"id": "1005","ruc_cedula": "av2231fwg","razon_social": "Brown Purse","direccion": "Product Description","email": "brown-purse@gmail.com","tipo_id": "RUC","clase_contribuyente": "OTROS","quantity": 0,"inventoryStatus": "OUTOFSTOCK","rating": 4},
+        {"id": "1006","ruc_cedula": "bib36pfvm","razon_social": "Chakra Bracelet","direccion": "Product Description","email": "chakra-bracelet@gmail.com","tipo_id": "RUC","clase_contribuyente": "OTROS","quantity": 5,"inventoryStatus": "LOWSTOCK","rating": 3},
+        {"id": "1007","ruc_cedula": "mbvjkgip5","razon_social": "Galaxy Earrings","direccion": "Product Description","email": "galaxy-earrings@gmail.com","tipo_id": "CEDULA","clase_contribuyente": "OTROS","quantity": 23,"inventoryStatus": "INSTOCK","rating": 5},
+        {"id": "1008","ruc_cedula": "vbb124btr","razon_social": "Game Controller","direccion": "Product Description","email": "game-controller@gmail.com","tipo_id": "RUC","clase_contribuyente": "Electronics","quantity": 2,"inventoryStatus": "LOWSTOCK","rating": 4},
+        {"id": "1009","ruc_cedula": "cm230f032","razon_social": "Gaming Set","direccion": "Product Description","email": "gaming-set@gmail.com","tipo_id": "RUC","clase_contribuyente": "Electronics","quantity": 63,"inventoryStatus": "INSTOCK","rating": 3}
+    ]
+}
+    

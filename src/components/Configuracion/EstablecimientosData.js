@@ -6,7 +6,6 @@ import { EstablecimientoService } from '../../service/EstablecimientoService';
 import { Toast } from 'primereact/toast';
 import { Button } from 'primereact/button';
 import { FileUpload } from 'primereact/fileupload';
-import { Rating } from 'primereact/rating';
 import { Toolbar } from 'primereact/toolbar';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { Dialog } from 'primereact/dialog';
@@ -43,9 +42,7 @@ const EstablecimientosData = (props) => {
     establecimientoService.getEstablecimientos().then(data => setEstablecimientos(data));
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const formatCurrency = (value) => {
-    return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
-  }
+
 
   const openNew = () => {
     setEstablecimiento(emptyEstablecimiento);
@@ -146,12 +143,6 @@ const EstablecimientosData = (props) => {
     toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Establecimientos Deleted', life: 3000 });
   }
 
-  const onCategoryChange = (e) => {
-    let _establecimiento = { ...establecimiento };
-    _establecimiento['category'] = e.value;
-    setEstablecimiento(_establecimiento);
-  }
-
   const onInputChange = (e, name) => {
     const val = (e.target && e.target.value) || '';
     let _establecimiento = { ...establecimiento };
@@ -160,13 +151,7 @@ const EstablecimientosData = (props) => {
     setEstablecimiento(_establecimiento);
   }
 
-  const onInputNumberChange = (e, name) => {
-    const val = e.value || 0;
-    let _establecimiento = { ...establecimiento };
-    _establecimiento[`${name}`] = val;
 
-    setEstablecimiento(_establecimiento);
-  }
 
   const leftToolbarTemplate = () => {
     return (
@@ -186,22 +171,6 @@ const EstablecimientosData = (props) => {
     )
   }
 
-  const imageBodyTemplate = (rowData) => {
-    return <img src={`showcase/demo/images/establecimiento/${rowData.image}`} onError={(e) => e.target.src = 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} alt={rowData.image} className="establecimiento-image" />
-  }
-
-  const priceBodyTemplate = (rowData) => {
-    return formatCurrency(rowData.price);
-  }
-
-  const ratingBodyTemplate = (rowData) => {
-    return <Rating value={rowData.rating} readOnly cancel={false} />;
-  }
-
-  const statusBodyTemplate = (rowData) => {
-    return <span className={`establecimiento-badge status-${rowData.inventoryStatus.toLowerCase()}`}>{rowData.inventoryStatus}</span>;
-  }
-
   const actionBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
@@ -216,26 +185,26 @@ const EstablecimientosData = (props) => {
       <h5 className="p-m-0">{props.header}</h5>
       <span className="p-input-icon-left">
         <i className="pi pi-search" />
-        <InputText type="search" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Buscar..." />
+        <InputText type="Buscar" onInput={(e) => setGlobalFilter(e.target.value)} placeholder="Buscar..." />
       </span>
     </div>
   );
   const establecimientoDialogFooter = (
     <React.Fragment>
-      <Button label="Cancel" icon="pi pi-times" className="p-button-text" onClick={hideDialog} />
-      <Button label="Save" icon="pi pi-check" className="p-button-text" onClick={saveEstablecimiento} />
+      <Button label="Cancelar" icon="pi pi-times" className="p-button-text" onClick={hideDialog} />
+      <Button label="Guardar" icon="pi pi-check" className="p-button-text" onClick={saveEstablecimiento} />
     </React.Fragment>
   );
   const deleteEstablecimientoDialogFooter = (
     <React.Fragment>
       <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteEstablecimientoDialog} />
-      <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={deleteEstablecimiento} />
+      <Button label="Si" icon="pi pi-check" className="p-button-text" onClick={deleteEstablecimiento} />
     </React.Fragment>
   );
   const deleteEstablecimientosDialogFooter = (
     <React.Fragment>
       <Button label="No" icon="pi pi-times" className="p-button-text" onClick={hideDeleteEstablecimientosDialog} />
-      <Button label="Yes" icon="pi pi-check" className="p-button-text" onClick={deleteSelectedEstablecimientos} />
+      <Button label="Si" icon="pi pi-check" className="p-button-text" onClick={deleteSelectedEstablecimientos} />
     </React.Fragment>
   );
 

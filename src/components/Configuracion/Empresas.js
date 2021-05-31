@@ -30,7 +30,6 @@ const Empresas = (props) => {
   const [empresa, setEmpresa] = useState(emptyEmpresa);
   const [submitted, setSubmitted] = useState(false);
   const toast = useRef(null);
-  const dt = useRef(null);
   const empresaService = new EmpresaService();
 
   const esquemasOptions = ["esquema 1","esquema 2","esquema 3"];
@@ -90,10 +89,7 @@ const itemTemplate = (option) => {
     setEmpresa(_empresa);
   }
 
-  const onUpload = () => {
-    console.log("onUpload={ this.handleChange }")
-    toast.current.show({ severity: 'info', summary: 'Success', detail: 'File Uploaded', life: 3000 });
-}
+
 const onChangeImage = (e) =>{
   console.log(e.originalEvent);
   console.log(e.files.item(0));
@@ -171,7 +167,7 @@ const onChangeImage = (e) =>{
         </div>
 
         <React.Fragment>
-          <Button label="Save" icon="pi pi-check" className="p-button" onClick={saveEmpresa} />
+          <Button label="Guardar" icon="pi pi-check" className="p-button" onClick={saveEmpresa} />
         </React.Fragment>
       </div>
     </div>

@@ -1,0 +1,11 @@
+{
+    "data": [
+        {"id": "1000","fecha":"2021-03-01 09:45:20","codigo": "f230fh0g3","cuenta": "Bamboo Watch","asiento": "Operación de Prueba","debe": 0,"haber":0,"descripcion":"descripcion"},
+        {"id": "1001","fecha":"2021-03-01 09:45:20","codigo": "nvklal433","cuenta": "Black Watch","asiento": "Operación de Prueba","debe": 0,"haber":0,"descripcion":"descripcion"},
+        {"id": "1002","fecha":"2021-03-01 09:45:20","codigo": "zz21cz3c1","cuenta": "Blue Band","asiento": "Operación de Prueba","debe": 0,"haber":0,"descripcion":"descripcion"},
+        {"id": "1003","fecha":"2021-03-01 09:45:20","codigo": "244wgerg2","cuenta": "Blue T-Shirt","asiento": "Operación de Prueba","debe": 0,"haber":0,"descripcion":"descripcion"},
+        {"id": "1004","fecha":"2021-03-01 09:45:20","codigo": "h456wer53","cuenta": "Bracelet","asiento": "Operación de Prueba","debe": 0,"haber":0,"descripcion":"descripcion"},
+       {"id": "1009","fecha":"2021-03-01 09:45:20","codigo": "cm230f032","cuenta": "Gaming Set","asiento": "Operación de Prueba","debe": 0,"haber":0,"descripcion":"descripcion"}
+    ]
+}
+    
