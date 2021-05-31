@@ -294,7 +294,7 @@ const App = () => {
               {
                  label:'Operaciones Bancarias',
                  icon:'pi pi-fw pi-sort-numeric-up-alt',
-                to:'/operaciones'
+                 to:'/operaciones'
               },
               {
                 label:'Diario Contable',
@@ -504,7 +504,7 @@ const App = () => {
                 <Route path="/cuentas">
                     <CuentasData title="CREAR CUENTA" sing="cuentas" />
                 </Route>
-                <Route path="/cuentas">
+                <Route path="/operaciones">
                     <OperacionesData title="Operaciones" sing="cuentas" />
                 </Route>
                 <Route path="/diarioContable">

@@ -16,18 +16,22 @@ import { InputText } from 'primereact/inputtext';
 import { Dropdown } from 'primereact/dropdown';
 
 import './common.css';
+import { Panel } from 'primereact/panel';
 
 const OperacionesData = (props) => {
 
+  let emptyCruzamiento = {
+    registra:"",
+    cuenta:""
+  };
   let emptyOperacion =  {
     id: null,
-    nombre: "",
-    codigo: "",
-    codigo_aux: "",
-    codigo_aux: "",
-    porcentaje_iva: "",
-    tipo_operacion: "",
-    valor_unitario: 0
+    registra:"",
+    monto_asiento:0,
+    cuenta:"",
+    titulo:"",
+    comentarios:"",
+    cruzamientos:[]
   };
   console.log(props)
   const [operaciones, setOperaciones] = useState(null);
@@ -42,8 +46,9 @@ const OperacionesData = (props) => {
   const dt = useRef(null);
   const bancaService = new BancaService();
   const tipoOperacionOptions = ['BIEN','MAL','REGULAR'];
-  const porcentajeIvaOptions = ['OTROS','10-20','20-40']
-
+  const porcentajeIvaOptions = ['OTROS','10-20','20-40'];
+  const dropdownRegistra = ["DEBE","HABER"];
+  const dropdownCuentas = ["--CUENTA-PRINCIPAL--","ACTIVOS","PASIVOS"]
   useEffect(() => {
     bancaService.getOperaciones().then(data => setOperaciones(data));
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -58,6 +63,17 @@ const OperacionesData = (props) => {
         </div>
     );
   };
+  const removeCruzamiento = () =>{
+    let _operacion = { ...operacion };
+    _operacion.cruzamientos.pop();
+    setOperacion(_operacion);
+  }
+  const addCruzamiento = () =>{
+    let _operacion = { ...operacion };
+    _operacion.cruzamientos.push(emptyCruzamiento);
+    setOperacion(_operacion);
+
+  }
   const openNew = () => {
     setOperacion(emptyOperacion);
     setSubmitted(false);
@@ -80,7 +96,7 @@ const OperacionesData = (props) => {
   const saveOperacion = () => {
     setSubmitted(true);
 
-    if (operacion.codigo.trim()) {
+    if (operacion.registra.trim()) {
       let _operaciones = [...operaciones];
       let _operacion = { ...operacion };
       if (operacion.id) {
@@ -170,6 +186,12 @@ const OperacionesData = (props) => {
 
     setOperacion(_operacion);
   }
+  const onInputCruzamientoChange = (e, name,i) => {
+    const val = (e.target && e.target.value) || '';
+    let _operacion = { ...operacion };
+    _operacion['cruzamientos'][i][`${name}`] = val;
+    setOperacion(_operacion);
+  }
 
   const onInputNumberChange = (e, name) => {
     const val = e.value || 0;
@@ -182,8 +204,8 @@ const OperacionesData = (props) => {
   const leftToolbarTemplate = () => {
     return (
       <React.Fragment>
-        <Button label={"Nuevo " + props.sing} icon="pi pi-plus" className="p-button-success p-mr-2" onClick={openNew} />
-        <Button label={"Eliminar " + props.sing} icon="pi pi-trash" className="p-button-danger" onClick={confirmDeleteSelected} disabled={!selectedOperaciones || !selectedOperaciones.length} />
+        <Button label="Agregar" icon="pi pi-plus" className="p-button-success p-mr-2" onClick={addCruzamiento} />
+        <Button label="Eliminar" icon="pi pi-trash" className="p-button-danger" onClick={removeCruzamiento} disabled={!operacion.cruzamientos.length} />
       </React.Fragment>
     )
   }
@@ -191,8 +213,8 @@ const OperacionesData = (props) => {
   const rightToolbarTemplate = () => {
     return (
       <React.Fragment>
-        <FileUpload mode="basic" accept="image/*" maxFileSize={1000000} label="Import" chooseLabel="Importar" className="p-mr-2 p-d-inline-block" />
-        <Button label="Exportar" icon="pi pi-upload" className="p-button-help" onClick={exportCSV} />
+                        <Button label="Guardar" icon="pi pi-check" className="p-button" onClick={saveOperacion} />
+
       </React.Fragment>
     )
   }
@@ -244,6 +266,10 @@ const OperacionesData = (props) => {
     </React.Fragment>
   );
 
+
+
+
+
   return (
       <>
       <h1>{props.title}</h1>     
@@ -251,104 +277,71 @@ const OperacionesData = (props) => {
       <div className="datatable-crud-demo"> 
         <Toast ref={toast} />
 
+      <div className="card">
         <div className="row">
           <div className="p-field w-20">
-            <label htmlFor="ruc">RUC</label><br/>
-            <InputText id="ruc" value={operacion.ruc} onChange={(e) => onInputChange(e, 'ruc')} required autoFocus className={classNames({ 'p-invalid': submitted && !operacion.ruc })} />
-            {submitted && !operacion.ruc && <small className="p-error">RUC es requerido.</small>}
+            <label htmlFor="registra">Registrar por el </label><br/>
+            <Dropdown value={operacion.registra} onChange={(e) => onInputChange(e,'registra')} options={dropdownRegistra}  placeholder="Seleccione que registra"   itemTemplate={itemTemplate}/>
+            {/* <InputText id="ruc" value={operacion.ruc} onChange={(e) => onInputChange(e, 'ruc')} required autoFocus className={classNames({ 'p-invalid': submitted && !operacion.ruc })} />
+            {submitted && !operacion.ruc && <small className="p-error">RUC es requerido.</small>} */}
           </div>
-          <div className="p-field w-40">
-            <label htmlFor="razon">Razon Social</label><br/>
-            <InputText id="razon" value={operacion.razon} onChange={(e) => onInputChange(e, 'razon')} required />
+          <div className="p-field w-30">
+            <label htmlFor="monto_asiento">Monto Asiento</label><br/>
+            <InputText id="monto_asiento" value={operacion.monto_asiento} onChange={(e) => onInputChange(e, 'monto_asiento')} required />
           </div>
-          <div className="p-field w-40">
-            <label htmlFor="name">Nombre Comercial</label><br/>
-            <InputText id="nombre" value={operacion.nombre} onChange={(e) => onInputChange(e, 'nombre')} required  className={classNames({ 'p-invalid': submitted && !operacion.name })} />
+          <div className="p-field w-20">
+            <label htmlFor="cuenta">Selecciona una Cuenta </label><br/>
+            <Dropdown value={operacion.cuenta} onChange={(e) => onInputChange(e,'cuenta')} options={dropdownCuentas}  placeholder="Seleccione una cuenta"   itemTemplate={itemTemplate}/>
+            {/* <InputText id="ruc" value={operacion.ruc} onChange={(e) => onInputChange(e, 'ruc')} required autoFocus className={classNames({ 'p-invalid': submitted && !operacion.ruc })} />
+            {submitted && !operacion.ruc && <small className="p-error">RUC es requerido.</small>} */}
+          </div>
+          <div className="p-field w-30">
+            <label htmlFor="titulo">Titulo de Asiento</label><br/>
+            <InputText id="titulo" value={operacion.titulo} onChange={(e) => onInputChange(e, 'titulo')} required  className={classNames({ 'p-invalid': submitted && !operacion.titulo })} />
             {submitted && !operacion.name && <small className="p-error">Nombre es requerido.</small>}
           </div>
 
         </div>
+        
+          
         <div className="row">
-          <div className="p-field w-80">
-            <label htmlFor="direccion">Direccion Matriz</label><br/>
-            <InputText id="direccion" value={operacion.direccion} onChange={(e) => onInputChange(e, 'direccion')} required />
+          <div className="p-field w-100">
+            <label htmlFor="comentarios">Comentarios</label><br/>
+            <InputTextarea value={operacion.comentarios} onChange={(e) => onInputChange(e,'comentarios')}   placeholder="Comentarios"   itemTemplate={itemTemplate}/>
+
           </div>
          
         </div>
-
-        <div className="row">
-          <div className="p-field w-30">
-            <label htmlFor="contribuyente">Contribuyente Especial</label><br/>
-            <InputText id="contribuyente" value={operacion.contribuyente} onChange={(e) => onInputChange(e, 'contribuyente')} required />
-          </div>
-          <div className="p-field w-30">
-            <label htmlFor="contabilidad">Obligado a Contabilidad</label><br/>
-            <InputText id="contabilidad" value={operacion.contabilidad}   itemTemplate={itemTemplate}  onChange={(e) => onInputChange(e,'contabilidad')}/>
-          </div>
-          <div className="p-field w-20">
-            <label htmlFor="ambiente">Ambiente</label><br/>
-            <InputText id="ambiente" value={operacion.ambiente}   itemTemplate={itemTemplate}  onChange={(e) => onInputChange(e,'ambiente')} />
-          </div>
-          <div className="p-field w-20">
-            <label htmlFor="emision">Emision</label><br/>
-            <InputText id="emision" value={operacion.emision}   itemTemplate={itemTemplate}  onChange={(e) => onInputChange(e,'emision')} />
-          </div>
+        
+        {operacion.cruzamientos.map(function(cruce,i){
+              return (
+                <Panel header={"Cruzamiento "+(i+1)} >
+                <h3></h3>
+                <div className="row">
+                   <div className="p-field w-20">
+                      <label htmlFor="registra">Registrar por el </label><br/>
+                      <Dropdown value={cruce.registra} onChange={(e) => onInputCruzamientoChange(e,'registra',i)} options={dropdownRegistra}  placeholder="Seleccione que registra"   itemTemplate={itemTemplate}/>
+                      {/* <InputText id="ruc" value={operacion.ruc} onChange={(e) => onInputChange(e, 'ruc')} required autoFocus className={classNames({ 'p-invalid': submitted && !operacion.ruc })} />
+                      {submitted && !operacion.ruc && <small className="p-error">RUC es requerido.</small>} */}
+                    </div>
+                    <div className="p-field w-30">
+                    <label htmlFor="cuenta">Selecciona una Cuenta </label><br/>
+            <Dropdown value={cruce.cuenta} onChange={(e) => onInputCruzamientoChange(e,'registra',i)} options={dropdownCuentas}  placeholder="Seleccione una cuenta"   itemTemplate={itemTemplate}/>
+           
+                    </div>
+                </div>
+                </Panel>
+              )
+          })}
+        
+        <Toolbar className="p-mb-4" left={leftToolbarTemplate} right={rightToolbarTemplate}></Toolbar>
         </div>
 
-        <React.Fragment>
-          <Button label="Guardar" icon="pi pi-check" className="p-button" onClick={saveOperacion} />
-        </React.Fragment>
+      
       </div>
     
 
-      <Dialog visible={operacionDialog} style={{ width: '450px' }} header="Detalles del Operacion" modal className="p-fluid" footer={operacionDialogFooter} onHide={hideDialog}>
-        {operacion.image && <img src={`showcase/demo/images/operacion/${operacion.image}`} onError={(e) => e.target.src = 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} alt={operacion.image} className="operacion-image" />}
-        <div className="p-field w-100">
-          <label htmlFor="nombre">Nombre del operacion</label>
-          <InputText id="nombre" value={operacion.nombre} onChange={(e) => onInputChange(e, 'nombre')} required className={classNames({ 'p-invalid': submitted && !operacion.nombre })} />
-          {submitted && !operacion.nombre && <small className="p-error">Nombre del operacion requerido</small>}
-        </div>
-        <div className="p-field w-50">
-          <label htmlFor="codigo">Código</label>
-          <InputText id="codigo" value={operacion.codigo} onChange={(e) => onInputChange(e, 'codigo')} required className={classNames({ 'p-invalid': submitted && !operacion.codigo })} />
-          {submitted && !operacion.codigo && <small className="p-error">Código es requerido</small>}
-        </div>
-        <div className="p-field w-50">
-          <label htmlFor="codigo_aux">Código Auxiliar</label>
-          <InputText id="codigo_aux" value={operacion.codigo_aux} onChange={(e) => onInputChange(e, 'codigo_aux')} />
-        </div>
-       
-
-        <div className="p-field w-100">
-          <label htmlFor="valor_unitario w-50">Valor Unitario</label><br/>
-          <InputText id="valor_unitario" value={operacion.valor_unitario}   onChange={(e) => onInputChange(e,'valor_unitario')} />
-        </div>
-        <div className="p-field w-50">
-          <label htmlFor="tipo_operacion w-50">Tipo de Operacion</label><br/>
-          <Dropdown id="tipo_operacion" value={operacion.tipo_operacion}   itemTemplate={itemTemplate}  onChange={(e) => onInputChange(e,'tipo_operacion')} options={tipoOperacionOptions}/>
-        </div>
-        
-        <div className="p-field w-50">
-          <label htmlFor="porcentaje_iva">Porcentaje IVA</label><br/>
-          <Dropdown id="porcentaje_iva" value={operacion.porcentaje_iva}   itemTemplate={itemTemplate}  onChange={(e) => onInputChange(e,'porcentaje_iva')} options={porcentajeIvaOptions}/>
-        </div>
-        
-        
-      </Dialog>
-
-      <Dialog visible={deleteOperacionDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteOperacionDialogFooter} onHide={hideDeleteOperacionDialog}>
-        <div className="confirmation-content">
-          <i className="pi pi-exclamation-triangle p-mr-3" style={{ fontSize: '2rem' }} />
-          {operacion && <span>Esta seguro que desea eliminar <b>{operacion.name}</b>?</span>}
-        </div>
-      </Dialog>
-
-      <Dialog visible={deleteOperacionesDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteOperacionesDialogFooter} onHide={hideDeleteOperacionesDialog}>
-        <div className="confirmation-content">
-          <i className="pi pi-exclamation-triangle p-mr-3" style={{ fontSize: '2rem' }} />
-          {operacion && <span>Esta seguro que desea eliminar este operacion?</span>}
-        </div>
-      </Dialog>
+ 
     </div>
     </>
   );
