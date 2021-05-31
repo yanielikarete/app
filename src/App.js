@@ -58,6 +58,7 @@ import UsuariosData from './components/Configuracion/UsuariosData';
 import Empresas from './components/Configuracion/Empresas';
 import EstablecimientosData from './components/Configuracion/EstablecimientosData';
 import PuntosEmisionsData from './components/Configuracion/PuntosEmisionData';
+import Login from './components/Login'
 
 const App = () => {
 
@@ -69,6 +70,10 @@ const App = () => {
     const [inputStyle, setInputStyle] = useState('outlined');
     const [ripple, setRipple] = useState(false);
     const sidebar = useRef();
+
+    const [token, setToken] = useState();
+
+    
 
     const history = useHistory();
 
@@ -421,6 +426,10 @@ const App = () => {
         'layout-sidebar-dark': layoutColorMode === 'dark',
         'layout-sidebar-light': layoutColorMode === 'light'
     });
+
+    if(!token) {
+        return <Login setToken={setToken} />
+    }
 
     return (
         <div className={wrapperClass} onClick={onWrapperClick}>
