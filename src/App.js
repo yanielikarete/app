@@ -73,6 +73,7 @@ import CuentasData from './components/Banca/CuentasData';
 import DiarioContablesData from './components/Banca/DiarioContableData';
 import HistorialFacturasData from './components/Documentos/HistorialFacturaData';
 import OperacionesData from './components/Banca/OperacionesData';
+import FacturasData from './components/Abonos/FacturasData';
 
 
 const App = () => {
@@ -266,7 +267,8 @@ const App = () => {
            items:[
               {
                  label:'Factura',
-                 icon:'pi pi-fw pi-file'
+                 icon:'pi pi-fw pi-file',
+                 to:'facturas'
               },
               {
                  label:'Nota de Crédito',
@@ -511,6 +513,10 @@ const App = () => {
                 {/* DOCUMENTOS */}
                 <Route path="/historialFacturas">
                     <HistorialFacturasData title="Historial de Factura" sing="facturas" />
+                </Route>
+                {/* ABONO */}
+                <Route path="/facturas">
+                    <FacturasData title="Facturas" sing="factura" />
                 </Route>
                 {/* BANCA */}
                 <Route path="/cuentas">

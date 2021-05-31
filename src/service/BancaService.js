@@ -11,4 +11,8 @@ export class BancaService {
         return axios.get('assets/demo/data/diario_contable.json').then(res => res.data.data);
 
     }
+    getFacturas(){
+        return axios.get('assets/demo/data/diario_contable.json').then(res => res.data.data);
+
+    }
 }
