@@ -58,6 +58,9 @@ import UsuariosData from './components/Configuracion/UsuariosData';
 import Empresas from './components/Configuracion/Empresas';
 import EstablecimientosData from './components/Configuracion/EstablecimientosData';
 import PuntosEmisionsData from './components/Configuracion/PuntosEmisionData';
+
+import Login from './components/Login'
+
 import FirmaDigital from './components/Configuracion/FirmaDigital';
 import Secuencialess from './components/Configuracion/Secuenciales';
 import ClientesData from './components/Cartera/ClientesData';
@@ -71,6 +74,7 @@ import DiarioContablesData from './components/Banca/DiarioContableData';
 import HistorialFacturasData from './components/Documentos/HistorialFacturaData';
 import OperacionesData from './components/Banca/OperacionesData';
 
+
 const App = () => {
 
     const [layoutMode, setLayoutMode] = useState('static');
@@ -81,6 +85,10 @@ const App = () => {
     const [inputStyle, setInputStyle] = useState('outlined');
     const [ripple, setRipple] = useState(false);
     const sidebar = useRef();
+
+    const [token, setToken] = useState();
+
+    
 
     const history = useHistory();
 
@@ -448,6 +456,10 @@ const App = () => {
         'layout-sidebar-dark': layoutColorMode === 'dark',
         'layout-sidebar-light': layoutColorMode === 'light'
     });
+
+    if(!token) {
+        return <Login setToken={setToken} />
+    }
 
     return (
         <div className={wrapperClass} onClick={onWrapperClick}>
