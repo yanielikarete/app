@@ -66,6 +66,10 @@ import TransportistasData from './components/Cartera/Transportistas';
 import ProductosData from './components/Inventario/ProductoData';
 import PrestamoData from './components/Prestamos/PrestamosData';
 import AbonosData from './components/Prestamos/AbonosData';
+import CuentasData from './components/Banca/CuentasData';
+import DiarioContablesData from './components/Banca/DiarioContableData';
+import HistorialFacturasData from './components/Documentos/HistorialFacturaData';
+import OperacionesData from './components/Banca/OperacionesData';
 
 const App = () => {
 
@@ -205,7 +209,8 @@ const App = () => {
                items:[
                   {
                      label:'Factura',
-                     icon:'pi pi-fw pi-clock'
+                     icon:'pi pi-fw pi-clock',
+                     to:'/historialFacturas'
                   },
                   {
                    label:'Guia de Remisión',
@@ -282,13 +287,20 @@ const App = () => {
            icon:'pi pi-fw pi-wallet',
            items:[
               {
-                 label:'New',
-                 icon:'pi pi-fw pi-wallet'
+                 label:'Cuentas',
+                 icon:'pi pi-fw pi-wallet',
+                 to:'/cuentas'
               },
               {
                  label:'Operaciones Bancarias',
-                 icon:'pi pi-fw pi-sort-numeric-up-alt'
+                 icon:'pi pi-fw pi-sort-numeric-up-alt',
+                to:'/operaciones'
               },
+              {
+                label:'Diario Contable',
+                icon:'pi pi-fw pi-clock',
+                to:'/diarioContable'
+             },
               {
                   label:'Reporte de Operaciones',
                   icon:'pi pi-fw pi-file-excel'
@@ -484,6 +496,20 @@ const App = () => {
                 <Route path="/crud" component={Crud} />
                 <Route path="/empty" component={EmptyPage} />
                 <Route path="/documentation" component={Documentation} />
+                {/* DOCUMENTOS */}
+                <Route path="/historialFacturas">
+                    <HistorialFacturasData title="Historial de Factura" sing="facturas" />
+                </Route>
+                {/* BANCA */}
+                <Route path="/cuentas">
+                    <CuentasData title="CREAR CUENTA" sing="cuentas" />
+                </Route>
+                <Route path="/cuentas">
+                    <OperacionesData title="Operaciones" sing="cuentas" />
+                </Route>
+                <Route path="/diarioContable">
+                    <DiarioContablesData title="DIARIO CONTABLE" sing="cuentas" />
+                </Route>
                 {/* PRESTAMOS */}
                 <Route path="/nuevoPrestamo">
                     <PrestamoData title="Prestamos" sing="prestamos" />
