@@ -564,18 +564,9 @@ const App = () => {
                 <Route path="/establecimientos">
                     <EstablecimientosData header="Manejar Establecimientos" title="Establecimientos" sing="Establecimiento" />
                 </Route>
-<<<<<<< Updated upstream
-                <Route path="/firma" component={FirmaDigital} />
-                <Route path="/secuenciales" component={Secuencialess} />
-
-               
-                
-                {/* <Route path="/*" component={NotFound} /> */}
-=======
                 <Route path="/facturas">
                     <Dashboard title="Facturas"></Dashboard>
                 </Route>
->>>>>>> Stashed changes
             </div>
 
             <AppFooter />
