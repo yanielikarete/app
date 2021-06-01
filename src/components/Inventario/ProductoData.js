@@ -24,7 +24,6 @@ const ProductosData = (props) => {
     nombre: "",
     codigo: "",
     codigo_aux: "",
-    codigo_aux: "",
     porcentaje_iva: "",
     tipo_producto: "",
     valor_unitario: 0
