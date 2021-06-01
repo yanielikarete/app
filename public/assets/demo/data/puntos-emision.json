@@ -1,0 +1,15 @@
+{
+    "data": [
+        {"id": "1000","codigo": "f230fh0g3","nombre": "Bamboo Watch","establecimiento": "Establecimiento 1","estado": "bamboo-watch.jpg"},
+        {"id": "1001","codigo": "nvklal433","nombre": "Black Watch","establecimiento": "Establecimiento 2","estado": "black-watch.jpg"},
+        {"id": "1002","codigo": "zz21cz3c1","nombre": "Blue Band","establecimiento": "Establecimiento 3","estado": "blue-band.jpg"},
+        {"id": "1003","codigo": "244wgerg2","nombre": "Blue T-Shirt","establecimiento": "Establecimiento 4","estado": "blue-t-shirt.jpg"},
+        {"id": "1004","codigo": "h456wer53","nombre": "Bracelet","establecimiento": "Establecimiento 5","estado": "bracelet.jpg"},
+        {"id": "1005","codigo": "av2231fwg","nombre": "Brown Purse","establecimiento": "Establecimiento 6","estado": "brown-purse.jpg"},
+        {"id": "1006","codigo": "bib36pfvm","nombre": "Chakra Bracelet","establecimiento": "Establecimiento 7","estado": "chakra-bracelet.jpg"},
+        {"id": "1007","codigo": "mbvjkgip5","nombre": "Galaxy Earrings","establecimiento": "Establecimiento 8","estado": "galaxy-earrings.jpg"},
+        {"id": "1008","codigo": "vbb124btr","nombre": "Game Controller","establecimiento": "Establecimiento 9","estado": "game-controller.jpg"},
+        {"id": "1009","codigo": "cm230f032","nombre": "Gaming Set","establecimiento": "Establecimiento 10","estado": "gaming-set.jpg"}
+    ]
+}
+    

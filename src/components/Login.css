@@ -1,0 +1,32 @@
+
+.container_login{
+    max-width: 800px;
+    margin: auto;
+    margin-top: auto;
+}
+login_fields{
+
+}
+.login_bacgroud{
+    
+        background-image: url("sostenibilidad.jpg");
+        height: 100%; 
+        min-height: 430px;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+     
+}
+.p-field{
+    width: 100%;
+    margin-bottom: 0rem;
+}
+
+.button-login{
+
+    width: 94%;
+left: 3%;
+margin-top: 1.5rem;
+max-width: 352px;
+
+}

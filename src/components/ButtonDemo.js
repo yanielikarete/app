@@ -65,19 +65,19 @@ export const ButtonDemo = () => {
                 <div className="card">
                     <h5>Button Group</h5>
                     <span className="p-buttonset">
-                        <Button label="Save" icon="pi pi-check" />
+                        <Button label="Guardar" icon="pi pi-check" />
                         <Button label="Delete" icon="pi pi-trash" />
-                        <Button label="Cancel" icon="pi pi-times" />
+                        <Button label="Cancelar" icon="pi pi-times" />
                     </span>
                 </div>
 
                 <div className="card">
                     <h5>SplitButton</h5>
-                    <SplitButton label="Save" icon="pi pi-check" model={items} className="p-button-secondary p-mr-2 p-mb-2"></SplitButton>
-                    <SplitButton label="Save" icon="pi pi-check" model={items} className="p-button-success p-mr-2 p-mb-2"></SplitButton>
-                    <SplitButton label="Save" icon="pi pi-check" model={items} className="p-button-info p-mr-2 p-mb-2"></SplitButton>
-                    <SplitButton label="Save" icon="pi pi-check" model={items} className="p-button-warning p-mr-2 p-mb-2"></SplitButton>
-                    <SplitButton label="Save" icon="pi pi-check" model={items} className="p-button-danger p-mr-2 p-mb-2"></SplitButton>
+                    <SplitButton label="Guardar" icon="pi pi-check" model={items} className="p-button-secondary p-mr-2 p-mb-2"></SplitButton>
+                    <SplitButton label="Guardar" icon="pi pi-check" model={items} className="p-button-success p-mr-2 p-mb-2"></SplitButton>
+                    <SplitButton label="Guardar" icon="pi pi-check" model={items} className="p-button-info p-mr-2 p-mb-2"></SplitButton>
+                    <SplitButton label="Guardar" icon="pi pi-check" model={items} className="p-button-warning p-mr-2 p-mb-2"></SplitButton>
+                    <SplitButton label="Guardar" icon="pi pi-check" model={items} className="p-button-danger p-mr-2 p-mb-2"></SplitButton>
                 </div>
             </div>
 

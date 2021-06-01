@@ -1,0 +1,15 @@
+{
+    "data": [
+        {"id": "1000","codigo": "f230fh0g3","nombre": "Bamboo Watch","direccion": "Product Description","image": "bamboo-watch.jpg"},
+        {"id": "1001","codigo": "nvklal433","nombre": "Black Watch","direccion": "Product Description","image": "black-watch.jpg"},
+        {"id": "1002","codigo": "zz21cz3c1","nombre": "Blue Band","direccion": "Product Description","image": "blue-band.jpg"},
+        {"id": "1003","codigo": "244wgerg2","nombre": "Blue T-Shirt","direccion": "Product Description","image": "blue-t-shirt.jpg"},
+        {"id": "1004","codigo": "h456wer53","nombre": "Bracelet","direccion": "Product Description","image": "bracelet.jpg"},
+        {"id": "1005","codigo": "av2231fwg","nombre": "Brown Purse","direccion": "Product Description","image": "brown-purse.jpg"},
+        {"id": "1006","codigo": "bib36pfvm","nombre": "Chakra Bracelet","direccion": "Product Description","image": "chakra-bracelet.jpg"},
+        {"id": "1007","codigo": "mbvjkgip5","nombre": "Galaxy Earrings","direccion": "Product Description","image": "galaxy-earrings.jpg"},
+        {"id": "1008","codigo": "vbb124btr","nombre": "Game Controller","direccion": "Product Description","image": "game-controller.jpg"},
+        {"id": "1009","codigo": "cm230f032","nombre": "Gaming Set","direccion": "Product Description","image": "gaming-set.jpg"}
+    ]
+}
+    

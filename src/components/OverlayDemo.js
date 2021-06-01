@@ -71,7 +71,7 @@ export const OverlayDemo = () => {
     const confirmationDialogFooter = (
         <>
             <Button type="button" label="No" icon="pi pi-times" onClick={() => setDisplayConfirmation(false)} className="p-button-text" />
-            <Button type="button" label="Yes" icon="pi pi-check" onClick={() => setDisplayConfirmation(false)} className="p-button-text" autoFocus />
+            <Button type="button" label="Si" icon="pi pi-check" onClick={() => setDisplayConfirmation(false)} className="p-button-text" autoFocus />
         </>
     );
 
@@ -135,32 +135,32 @@ export const OverlayDemo = () => {
                         <h5>Sidebar</h5>
                         <Sidebar visible={visibleLeft} onHide={() => setVisibleLeft(false)} baseZIndex={1000}>
                             <h1 style={{ fontWeight: 'normal' }}>Left Sidebar</h1>
-                            <Button type="button" onClick={() => setVisibleLeft(false)} label="Save" className="p-button-success" style={{ marginRight: '.25em' }} />
-                            <Button type="button" onClick={() => setVisibleLeft(false)} label="Cancel" className="p-button-secondary" />
+                            <Button type="button" onClick={() => setVisibleLeft(false)} label="Guardar" className="p-button-success" style={{ marginRight: '.25em' }} />
+                            <Button type="button" onClick={() => setVisibleLeft(false)} label="Cancelar" className="p-button-secondary" />
                         </Sidebar>
 
                         <Sidebar visible={visibleRight} onHide={() => setVisibleRight(false)} baseZIndex={1000} position="right">
                             <h1 style={{ fontWeight: 'normal' }}>Right Sidebar</h1>
-                            <Button type="button" onClick={() => setVisibleRight(false)} label="Save" className="p-button-success" style={{ marginRight: '.25em' }} />
-                            <Button type="button" onClick={() => setVisibleRight(false)} label="Cancel" className="p-button-secondary" />
+                            <Button type="button" onClick={() => setVisibleRight(false)} label="Guardar" className="p-button-success" style={{ marginRight: '.25em' }} />
+                            <Button type="button" onClick={() => setVisibleRight(false)} label="Cancelar" className="p-button-secondary" />
                         </Sidebar>
 
                         <Sidebar visible={visibleTop} onHide={() => setVisibleTop(false)} baseZIndex={1000} position="top">
                             <h1 style={{ fontWeight: 'normal' }}>Top Sidebar</h1>
-                            <Button type="button" onClick={() => setVisibleTop(false)} label="Save" className="p-button-success" style={{ marginRight: '.25em' }} />
-                            <Button type="button" onClick={() => setVisibleTop(false)} label="Cancel" className="p-button-secondary" />
+                            <Button type="button" onClick={() => setVisibleTop(false)} label="Guardar" className="p-button-success" style={{ marginRight: '.25em' }} />
+                            <Button type="button" onClick={() => setVisibleTop(false)} label="Cancelar" className="p-button-secondary" />
                         </Sidebar>
 
                         <Sidebar visible={visibleBottom} onHide={() => setVisibleBottom(false)} baseZIndex={1000} position="bottom">
                             <h1 style={{ fontWeight: 'normal' }}>Bottom Sidebar</h1>
-                            <Button type="button" onClick={() => setVisibleBottom(false)} label="Save" className="p-button-success" style={{ marginRight: '.25em' }} />
-                            <Button type="button" onClick={() => setVisibleBottom(false)} label="Cancel" className="p-button-secondary" />
+                            <Button type="button" onClick={() => setVisibleBottom(false)} label="Guardar" className="p-button-success" style={{ marginRight: '.25em' }} />
+                            <Button type="button" onClick={() => setVisibleBottom(false)} label="Cancelar" className="p-button-secondary" />
                         </Sidebar>
 
                         <Sidebar visible={visibleFullScreen} onHide={() => setVisibleFullScreen(false)} baseZIndex={1000} fullScreen>
                             <h1 style={{ fontWeight: 'normal' }}>Full Screen</h1>
-                            <Button type="button" onClick={() => setVisibleFullScreen(false)} label="Save" className="p-button-success" style={{ marginRight: '.25em' }} />
-                            <Button type="button" onClick={() => setVisibleFullScreen(false)} label="Cancel" className="p-button-secondary" />
+                            <Button type="button" onClick={() => setVisibleFullScreen(false)} label="Guardar" className="p-button-success" style={{ marginRight: '.25em' }} />
+                            <Button type="button" onClick={() => setVisibleFullScreen(false)} label="Cancelar" className="p-button-secondary" />
                         </Sidebar>
 
                         <Button type="button" icon="pi pi-arrow-right" className="p-button-warning" onClick={() => setVisibleLeft(true)} style={{ marginRight: '.25em' }} />
@@ -179,7 +179,7 @@ export const OverlayDemo = () => {
                                 <InputText type="text" placeholder="Username" tooltip="Your username" />
                             </div>
 
-                            <Button className="p-mt-2" type="button" label="Save" icon="pi pi-check" tooltip="Click to proceed" />
+                            <Button className="p-mt-2" type="button" label="Guardar" icon="pi pi-check" tooltip="Click to proceed" />
                         </div>
                     </div>
                 </div>

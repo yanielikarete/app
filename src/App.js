@@ -56,6 +56,26 @@ import './layout/layout.scss';
 import './App.scss';
 import UsuariosData from './components/Configuracion/UsuariosData';
 import Empresas from './components/Configuracion/Empresas';
+import EstablecimientosData from './components/Configuracion/EstablecimientosData';
+import PuntosEmisionsData from './components/Configuracion/PuntosEmisionData';
+
+import Login from './components/Login'
+
+import FirmaDigital from './components/Configuracion/FirmaDigital';
+import Secuencialess from './components/Configuracion/Secuenciales';
+import ClientesData from './components/Cartera/ClientesData';
+import ProveedorsData from './components/Cartera/ProveedoresData';
+import TransportistasData from './components/Cartera/Transportistas';
+import ProductosData from './components/Inventario/ProductoData';
+import PrestamoData from './components/Prestamos/PrestamosData';
+import AbonosData from './components/Prestamos/AbonosData';
+import CuentasData from './components/Banca/CuentasData';
+import DiarioContablesData from './components/Banca/DiarioContableData';
+import HistorialFacturasData from './components/Documentos/HistorialFacturaData';
+import OperacionesData from './components/Banca/OperacionesData';
+import FacturasData from './components/Abonos/FacturasData';
+
+
 
 const App = () => {
 
@@ -67,6 +87,10 @@ const App = () => {
     const [inputStyle, setInputStyle] = useState('outlined');
     const [ripple, setRipple] = useState(false);
     const sidebar = useRef();
+
+    const [token, setToken] = useState();
+
+    
 
     const history = useHistory();
 
@@ -195,7 +219,8 @@ const App = () => {
                items:[
                   {
                      label:'Factura',
-                     icon:'pi pi-fw pi-clock'
+                     icon:'pi pi-fw pi-clock',
+                     to:'/historialFacturas'
                   },
                   {
                    label:'Guia de Remisión',
@@ -243,7 +268,8 @@ const App = () => {
            items:[
               {
                  label:'Factura',
-                 icon:'pi pi-fw pi-file'
+                 icon:'pi pi-fw pi-file',
+                 to:'facturas'
               },
               {
                  label:'Nota de Crédito',
@@ -272,13 +298,20 @@ const App = () => {
            icon:'pi pi-fw pi-wallet',
            items:[
               {
-                 label:'New',
-                 icon:'pi pi-fw pi-wallet'
+                 label:'Cuentas',
+                 icon:'pi pi-fw pi-wallet',
+                 to:'/cuentas'
               },
               {
                  label:'Operaciones Bancarias',
-                 icon:'pi pi-fw pi-sort-numeric-up-alt'
+                 icon:'pi pi-fw pi-sort-numeric-up-alt',
+                 to:'/operaciones'
               },
+              {
+                label:'Diario Contable',
+                icon:'pi pi-fw pi-clock',
+                to:'/diarioContable'
+             },
               {
                   label:'Reporte de Operaciones',
                   icon:'pi pi-fw pi-file-excel'
@@ -291,11 +324,13 @@ const App = () => {
            items:[
                {
                   label:'Ingresar Préstamo',
-                  icon:'pi pi-fw pi-plus'
+                  icon:'pi pi-fw pi-plus',
+                  to:'/nuevoPrestamo'
                },
                {
                   label:'Abonos de préstamos',
-                  icon:'pi pi-fw pi-money-bill'
+                  icon:'pi pi-fw pi-money-bill',
+                  to:'/abonos'
                },
                {
                    label:'Reporte de Préstamos por Cobrar',
@@ -309,7 +344,8 @@ const App = () => {
             items:[
                {
                   label:'Producto',
-                  icon:'pi pi-fw pi-globe'
+                  icon:'pi pi-fw pi-globe',
+                  to:'/productos'
                },
                {
                   label:'Reporte de productos',
@@ -323,15 +359,18 @@ const App = () => {
             items:[
                 {
                    label:'Clientes',
-                   icon:'pi pi-fw pi-users'
+                   icon:'pi pi-fw pi-users',
+                   to:'/clientes'
                 },
                 {
                    label:'Proveedores',
-                   icon:'pi pi-fw pi-users'
+                   icon:'pi pi-fw pi-users',
+                   to:'/proveedores'
                 },
                 {
                     label:'Transportistas',
-                    icon:'pi pi-fw pi-directions'
+                    icon:'pi pi-fw pi-directions',
+                    to:'/transportistas'
                 }
             ]
          },
@@ -357,16 +396,17 @@ const App = () => {
                 {
                   label:'Puntos de Emisión',
                   icon:'pi pi-fw pi-th-large',
-                  url: '/ptosEmision'
+                  to: '/ptosEmision'
                 },
                 {
                   label:'Firma Digital',
                   icon:'pi pi-fw pi-key',
-                  url: '/firma'
+                  to: '/firma'
                 },
                 {
                   label:'Secuenciales',
-                  icon:'pi pi-fw pi-sort-alpha-down'
+                  icon:'pi pi-fw pi-sort-alpha-down',
+                  to: '/secuenciales'
                 }
             ]
          }
@@ -420,6 +460,10 @@ const App = () => {
         'layout-sidebar-light': layoutColorMode === 'light'
     });
 
+    if(!token) {
+        return <Login setToken={setToken} />
+    }
+
     return (
         <div className={wrapperClass} onClick={onWrapperClick}>
             <AppTopbar onToggleMenu={onToggleMenu} />
@@ -438,7 +482,9 @@ const App = () => {
                 layoutMode={layoutMode} onLayoutModeChange={onLayoutModeChange} layoutColorMode={layoutColorMode} onColorModeChange={onColorModeChange} />
 
             <div className="layout-main">
-                <Route path="/" exact component={Dashboard} />
+                <Route path="/" exact>
+                    <Dashboard title="Inicio"></Dashboard>
+                </Route>
                 <Route path="/formlayout" component={FormLayoutDemo} />
                 <Route path="/input" component={InputDemo} />
                 <Route path="/floatlabel" component={FloatLabelDemo} />
@@ -467,14 +513,60 @@ const App = () => {
                 <Route path="/crud" component={Crud} />
                 <Route path="/empty" component={EmptyPage} />
                 <Route path="/documentation" component={Documentation} />
+                {/* DOCUMENTOS */}
+                <Route path="/historialFacturas">
+                    <HistorialFacturasData title="Historial de Factura" sing="facturas" />
+                </Route>
+                {/* ABONO */}
+                <Route path="/facturas">
+                    <FacturasData title="Facturas" sing="factura" />
+                </Route>
+                {/* BANCA */}
+                <Route path="/cuentas">
+                    <CuentasData title="CREAR CUENTA" sing="cuentas" />
+                </Route>
+                <Route path="/operaciones">
+                    <OperacionesData title="Operaciones" sing="cuentas" />
+                </Route>
+                <Route path="/diarioContable">
+                    <DiarioContablesData title="DIARIO CONTABLE" sing="cuentas" />
+                </Route>
+                {/* PRESTAMOS */}
+                <Route path="/nuevoPrestamo">
+                    <PrestamoData title="Prestamos" sing="prestamos" />
+                </Route>
+                <Route path="/abonos">
+                    <AbonosData title="Abonos Prestamos" sing="prestamos" />
+                </Route>
+                {/* INVENTARIO */}
+                <Route path="/productos">
+                    <ProductosData header="Manejar Productos" title="Productos" sing="productos" />
+                </Route>
+
+                {/* CARTERA */}
+                <Route path="/clientes">
+                    <ClientesData header="Manejar Clientes" title="Clientes" sing="clientes" />
+                </Route>
+                <Route path="/proveedores">
+                    <ProveedorsData header="Manejar Provvedores" title="Proveedores" sing="proveedores" />
+                </Route>
+                <Route path="/transportistas">
+                    <TransportistasData header="Manejar Transportistas" title="Transportistas" sing="transportistas" />
+                </Route>
+                {/* CONFIGURACION */}
+                <Route path="/ptosEmision">
+                    <PuntosEmisionsData header="Manejar Puntos de Emision" title="Puntos de Emision" sing="Puntos de Emision" />
+                </Route>
                 <Route path="/usuarios">
                     <UsuariosData header="Manejar Usuarios" title="Usuarios" sing="Usuario" />
                 </Route>
                 <Route path="/empresa" component={Empresas} />
                 <Route path="/establecimientos">
-                    <UsuariosData header="Manejar Establecimientos" title="Establecimientos" sing="Establecimiento" />
+                    <EstablecimientosData header="Manejar Establecimientos" title="Establecimientos" sing="Establecimiento" />
                 </Route>
-                {/* <Route path="/*" component={NotFound} /> */}
+                <Route path="/facturas">
+                    <Dashboard title="Facturas"></Dashboard>
+                </Route>
             </div>
 
             <AppFooter />

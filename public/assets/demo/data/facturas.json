@@ -1,0 +1,15 @@
+{
+    "data": [
+        {"id": "1000","ruc": "f230fh0g3","razon_social": "Bamboo Watch","numero_factura": "1002","fecha_emision":"2021-02-20","estado": "bamboo-watch.jpg"},
+        {"id": "1001","ruc": "nvklal433","razon_social": "Black Watch","numero_factura": "1002","fecha_emision":"2021-02-20","estado": "black-watch.jpg"},
+        {"id": "1002","ruc": "zz21cz3c1","razon_social": "Blue Band","numero_factura": "1002","fecha_emision":"2021-02-20","estado": "blue-band.jpg"},
+        {"id": "1003","ruc": "244wgerg2","razon_social": "Blue T-Shirt","numero_factura": "1002","fecha_emision":"2021-02-20","estado": "blue-t-shirt.jpg"},
+        {"id": "1004","ruc": "h456wer53","razon_social": "Bracelet","numero_factura": "1002","fecha_emision":"2021-02-20","estado": "bracelet.jpg"},
+        {"id": "1005","ruc": "av2231fwg","razon_social": "Brown Purse","numero_factura": "1002","fecha_emision":"2021-02-20","estado": "brown-purse.jpg"},
+        {"id": "1006","ruc": "bib36pfvm","razon_social": "Chakra Bracelet","numero_factura": "1002","fecha_emision":"2021-02-20","estado": "chakra-bracelet.jpg"},
+        {"id": "1007","ruc": "mbvjkgip5","razon_social": "Galaxy Earrings","numero_factura": "1002","fecha_emision":"2021-02-20","estado": "galaxy-earrings.jpg"},
+        {"id": "1008","ruc": "vbb124btr","razon_social": "Game Controller","numero_factura": "1002","fecha_emision":"2021-02-20","estado": "game-controller.jpg"},
+        {"id": "1009","ruc": "cm230f032","razon_social": "Gaming Set","numero_factura": "1002","fecha_emision":"2021-02-20","estado": "gaming-set.jpg"}
+    ]
+}
+    
