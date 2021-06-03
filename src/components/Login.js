@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
+import { ServiceApp } from '../service/ServiceApp';
+
 import PropTypes from 'prop-types';
 import './Login.css';
+
 
 
 async function loginUser(credentials) {
@@ -17,18 +20,22 @@ function Login({ setToken }) {
 
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const serviceApp = new ServiceApp();
 
   // handle button click of login form
   const submitLogin = () => {
-    const token = loginUser({
+    serviceApp.userLogin({
       username,
       password
+    }).then(t=>{
+      this.token = t
     });
     setToken(token);
-
-
-
   }
+
+
+
+  
 
   return (
 <div class="container_login">
