@@ -1,21 +1,66 @@
 
 .container_login{
-    max-width: 800px;
+    
     margin: auto;
     margin-top: auto;
+    height: 100vh;
+    background-color: white;
+    display: flex;
 }
 login_fields{
 
 }
-.login_bacgroud{
+.login_backgroud{
     
-        background-image: url("sostenibilidad.jpg");
-        height: 100%; 
-        min-height: 430px;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
+       
+       background-image: url("separador.png");
+       background-color: #28a745;
+       background-position: right;
+       background-repeat: no-repeat;
+       background-size: contain;
+       padding: 0rem;
+}
+.login-form{
+    padding: 0rem;
+}
+
+
+.content-separador{
+    padding: 0rem;
+    width: 80px;
+}
+
+.logo-login{
+    color: white;
+font-weight: bold;
+margin-left: 60px;
+margin-top: 20px;
+font-size: 11px;
+}
+
+.titulo-slogan{
+ color: white;
+}
+.subtitulo-slogan{
+    color: white;
+    font-size: 20px;
+}
+
+.slogan-login{
+    text-align: center;
+
+}
      
+.img-login{
+    background-image: url("maceta.png");
+    height: 200px; 
+    
+    width: 120px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin-left: 100px;
+margin-top: 100px;
 }
 .p-field{
     width: 100%;
@@ -29,4 +74,7 @@ left: 3%;
 margin-top: 1.5rem;
 max-width: 352px;
 
+}
+.p-grid{
+    height: 100% !important;
 }
