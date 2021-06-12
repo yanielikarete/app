@@ -69,12 +69,25 @@ margin-top: 100px;
 
 .button-login{
 
-    width: 94%;
+    
 left: 3%;
-margin-top: 1.5rem;
-max-width: 352px;
+
 
 }
 .p-grid{
     height: 100% !important;
+}
+.group-btn-auth{
+    width: 100%;
+    display: flex;
+}
+.button-login, .button-register{
+    max-width: 45%;
+    background-color: #28a745;
+    border: #28a745 solid 1px;
+   
+
+}
+.button-register{
+    margin-left: 7%;
 }

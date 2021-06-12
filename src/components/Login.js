@@ -20,16 +20,16 @@ function Login({ setToken }) {
 
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const serviceApp = new ServiceApp();
+  let serviceApp = ServiceApp.getInstance();
 
   // handle button click of login form
   const submitLogin = () => {
-    // serviceApp.userLogin({
-    //   username,
-    //   password
-    // }).then(t=>{
-    //   setToken(t);
-    // });
+    serviceApp.userLogin(
+      username,
+      password
+    ).then(t=>{
+      setToken(t);
+    });
   }
 
 
@@ -90,9 +90,15 @@ function Login({ setToken }) {
                 </div>
 
                 {error && <><small style={{ color: 'red' }}>{error}</small><br /></>}<br />
+                <div class="group-btn-auth">
                 <button class="p-button p-component button-login" value={loading ? 'Loading...' : 'Login'} onClick={submitLogin} disabled={loading}>
                   <span class="p-button-label p-c">Login</span>
                 </button>
+
+                <button class="p-button p-component button-register">
+                  <span class="p-button-label p-c">Register</span>
+                </button>
+                </div>
               </div>
 
 
