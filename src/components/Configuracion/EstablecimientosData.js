@@ -10,6 +10,7 @@ import { Toolbar } from 'primereact/toolbar';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
+import { ServiceApp } from '../../service/ServiceApp';
 import './common.css';
 
 const EstablecimientosData = (props) => {
@@ -38,8 +39,11 @@ const EstablecimientosData = (props) => {
   const dt = useRef(null);
   const establecimientoService = new EstablecimientoService();
 
+  let serviceApp = ServiceApp.getInstance();
   useEffect(() => {
-    establecimientoService.getEstablecimientos().then(data => setEstablecimientos(data));
+    // establecimientoService.getEstablecimientos().then(data => setEstablecimientos(data));
+    serviceApp.getAllEstablecimientos().then(data => setEstablecimientos(data));
+    // console.log("establecimientos", serviceApp.getAllEstablecimientos());
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 
@@ -79,6 +83,7 @@ const EstablecimientosData = (props) => {
         _establecimiento.id = createId();
         _establecimiento.image = 'establecimiento-placeholder.svg';
         _establecimientos.push(_establecimiento);
+        serviceApp.saveEstablecimiento(_establecimiento);
         toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Establecimiento Created', life: 3000 });
       }
 
