@@ -139,9 +139,9 @@ export class ServiceApp
       );
     }
 
-    updatePuntoEmision(puntoEmision){
-      
-      return API.put(PUNTOS_EMISION, puntoEmision)
+    updatePuntoEmision(puntoEmision,id){
+      console.log("updating punto emision", puntoEmision)
+      return API.put(PUNTOS_EMISION+"/"+id, puntoEmision)
       .then(res=>{
         if (res.status === 200) {
           
@@ -169,5 +169,19 @@ export class ServiceApp
         }
       );
     } 
+
+    deletePuntoEmision(id){
+      return API.delete(PUNTOS_EMISION+"/id").then(
+        res=>{
+          if (res.statusText === "OK"){
+            console.log("respuesta de la api susseful bponstos de esmision",res)
+            return res.data;
+          }else{
+
+            console.log("respuesta de la api failed",res.status);
+          }
+        }
+      );
+    }
    
 }
