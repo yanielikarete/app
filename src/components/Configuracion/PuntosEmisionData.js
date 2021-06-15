@@ -85,7 +85,7 @@ const PuntosEmisionsData = (props) => {
       let _puntosemision = { ...puntosemision };
       if (puntosemision.id) {
         const index = findIndexById(puntosemision.id);
-
+        serviceApp.updatePuntoEmision(_puntosemision,puntosemision.id)
         _puntosemisions[index] = _puntosemision;
         toast.current.show({ severity: 'success', summary: 'Successful', detail: 'PuntosEmision Updated', life: 3000 });
       }
@@ -116,6 +116,7 @@ const PuntosEmisionsData = (props) => {
   }
 
   const deletePuntosEmision = () => {
+    serviceApp.deletePuntoEmision(puntosemision.id);
     let _puntosemisions = puntosemisions.filter(val => val.id !== puntosemision.id);
     setPuntosEmision(_puntosemisions);
     setDeletePuntosEmisionDialog(false);
@@ -173,8 +174,8 @@ const PuntosEmisionsData = (props) => {
     const val = (e.target && e.target.value) || '';
     console.log(val);
     let _puntosemision = { ...puntosemision };
-    _puntosemision[`${name}`] = val.id;
-
+    _puntosemision[`${name}`] = val;
+    _puntosemision[`id_${name}`] = val.id;
     setPuntosEmision(_puntosemision);
   }
 
@@ -267,7 +268,7 @@ const PuntosEmisionsData = (props) => {
           <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
           <Column field="nombre" header="Nombre" sortable></Column>
           <Column field="codigo" header="Codigo" sortable></Column>
-          <Column field="establecimiento" header="Establecimiento" sortable></Column>
+          <Column field="establecimiento.nombre" header="Establecimiento" sortable></Column>
           <Column field="estado" header="Estado" sortable></Column>
           {/* <Column header="Image" body={imageBodyTemplate}></Column>
           <Column field="price" header="Price" body={priceBodyTemplate} sortable></Column> */}
@@ -296,7 +297,7 @@ const PuntosEmisionsData = (props) => {
         <div className="p-field w-100 mb-40">
           <label htmlFor="establecimiento">Establecimiento</label>
           {/* <Dropdown id="establecimiento" value={establecimientos} onChange={(e) => setEstablecimientos(e.value)} options={establecimientos} required rows={3} cols={20}/> */}
-          <Dropdown id="establecimiento" value={puntosemision.establecimiento} itemTemplate={itemTemplateEstablecimientos} onChange={(e) => onDropdonwChange(e,'establecimiento')} required rows={3} cols={20} options={establecimientos} />
+          <Dropdown id="id_establecimiento" value={puntosemision.establecimiento}  onChange={(e) => onDropdonwChange(e,'establecimiento')} required rows={3} cols={20} options={establecimientos} optionLabel="nombre" />
         </div>
        
       
