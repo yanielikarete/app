@@ -32,6 +32,10 @@ const CURRENT_USER = "api/current_user";
 
 const PRODUCTOS = "api/v1/productos";
 
+const FIRMA_DIGITAL = "api/v1/firmasdigital";
+
+const UPLOAD_FILE = "api/uploadfile";
+
 
 
 /*-------------------Endpoints-------------------*/
@@ -276,4 +280,62 @@ export class ServiceApp
         }
       );
     }
+
+     /* *********************Productos****************************** */
+
+     saveEmpresa(empresa){
+      
+      return API.post(EMPRESA, empresa)
+      .then(res=>{
+
+        if (res.status === 200) {
+          
+          return res.success;
+
+        }else{
+          console.log(res);
+          return res.success;
+        }
+      }
+      );
+    }
+
+    /* *********************Firma Digital****************************** */
+
+    saveFirma(firma){
+      
+      return API.post(FIRMA_DIGITAL, firma)
+      .then(res=>{
+
+        if (res.status === 200) {
+          
+          return res.success;
+
+        }else{
+          console.log(res);
+          return res.success;
+        }
+      }
+      );
+    }
+
+     /* *********************Upload File****************************** */
+
+     uploadFile(file){
+      
+      return API.post(UPLOAD_FILE, file)
+      .then(res=>{
+
+        if (res.status === 200) {
+          
+          return res.success;
+
+        }else{
+          console.log(res);
+          return res.success;
+        }
+      }
+      );
+    }
+}
 }
