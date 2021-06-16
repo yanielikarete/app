@@ -23,30 +23,16 @@ const AUTH_ENDPOINTS = {
     REGISTER:"register"
 }
 const PUNTOS_EMISION = "api/v1/puntosemision";
- /*{
-  GET_ALL:"api/v1/puntosemision",
-  ADD:"/api/v1/puntosemision",
-  DELETE:"/api/v1/establecimientos/",
-  UPDATE:"/api/v1/puntosemision/",
-  GET_BY_ID:"/api/v1/puntosemision/"
-
-}*/
+ 
 const ESTABLECIMIENTOS = "api/v1/establecimientos";
-/*{
-  GET_ALL:"/api/v1/establecimientos",
-  ADD:"/api/v1/establecimientos",
-  DELETE:"/api/v1/establecimientos/",
-  UPDATE:"/api/v1/establecimientos/",
-  GET_BY_ID:"/api/v1/establecimientos/"
-}*/
+
 const EMPRESA = "api/v1/empresas";
-/*{
-  GET_ALL:"/api/v1/empresas",
-  ADD : "/api/v1/empresas",
-  DELETE:"",
-  UPDATE:"",
-  GET_BY_ID:"/api/v1/empresas/"
-}*/
+
+const CURRENT_USER = "api/current_user";
+
+const PRODUCTOS = "api/v1/productos";
+
+
 
 /*-------------------Endpoints-------------------*/
 
@@ -92,6 +78,20 @@ export class ServiceApp
         }
         );
       }
+
+     getCurrentUser(){
+      return API.get(CURRENT_USER).then(
+        res=>{
+          if (res.statusText === "OK"){
+            console.log("respuesta de la api susseful CURRENT USER",res.data)
+            return res.data;
+          }else{
+
+            console.log("respuesta de la api failed",res.status);
+          }
+        }
+      );
+     }
     /* *********************Establecimientos****************************** */
     getAllEstablecimientos(){
       return API.get(ESTABLECIMIENTOS).then(
@@ -110,6 +110,22 @@ export class ServiceApp
     saveEstablecimiento(establecimiento){
       
       return API.post(ESTABLECIMIENTOS, establecimiento)
+      .then(res=>{
+        if (res.status === 200) {
+          
+          return res.success;
+
+        }else{
+          console.log(res);
+          return res.success;
+        }
+      }
+      );
+    }
+
+    updateEstablecimiento(establecimiento,id){
+      console.log("updating establecimiento", establecimiento)
+      return API.put(ESTABLECIMIENTOS+"/"+id, establecimiento)
       .then(res=>{
         if (res.status === 200) {
           
@@ -171,7 +187,7 @@ export class ServiceApp
     } 
 
     deletePuntoEmision(id){
-      return API.delete(PUNTOS_EMISION+"/id").then(
+      return API.delete(PUNTOS_EMISION+"/"+id).then(
         res=>{
           if (res.statusText === "OK"){
             console.log("respuesta de la api susseful bponstos de esmision",res)
@@ -184,4 +200,80 @@ export class ServiceApp
       );
     }
    
+    /* *********************Productos****************************** */
+
+    saveProducto(producto){
+      
+      return API.post(PRODUCTOS, producto)
+      .then(res=>{
+        if (res.status === 200) {
+          
+          return res.success;
+
+        }else{
+          console.log(res);
+          return res.success;
+        }
+      }
+      );
+    }
+
+    updateProducto(producto,id){
+      console.log("updating punto emision", producto)
+      return API.put(PRODUCTOS+"/"+id, producto)
+      .then(res=>{
+        if (res.status === 200) {
+          
+          return res.success;
+
+        }else{
+          console.log(res);
+          return res.success;
+        }
+      }
+      );
+    }
+
+    
+    getAllProductos(){
+      return API.get(PRODUCTOS).then(
+        res=>{
+          if (res.statusText === "OK"){
+            console.log("respuesta de la api susseful bponstos de esmision",res)
+            return res.data;
+          }else{
+
+            console.log("respuesta de la api failed",res.status);
+          }
+        }
+      );
+    } 
+
+    getProductoById(id){
+      return API.delete(PRODUCTOS+"/"+id).then(
+        res=>{
+          if (res.statusText === "OK"){
+            console.log("respuesta de la api susseful bponstos de esmision",res)
+            return res.data;
+          }else{
+
+            console.log("respuesta de la api failed",res.status);
+          }
+        }
+      );
+    }
+
+    getProductoByName(name){
+      return API.delete(PRODUCTOS+"/"+name).then(
+        res=>{
+          if (res.statusText === "OK"){
+            console.log("respuesta de la api susseful bponstos de esmision",res)
+            return res.data;
+          }else{
+
+            console.log("respuesta de la api failed",res.status);
+          }
+        }
+      );
+    }
 }

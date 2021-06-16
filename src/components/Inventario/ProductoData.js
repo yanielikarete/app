@@ -14,7 +14,7 @@ import { InputNumber } from 'primereact/inputnumber';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { Dropdown } from 'primereact/dropdown';
-
+import { ServiceApp } from '../../service/ServiceApp';
 import './common.css';
 
 const ProductosData = (props) => {
@@ -23,10 +23,10 @@ const ProductosData = (props) => {
     id: null,
     nombre: "",
     codigo: "",
-    codigo_aux: "",
-    porcentaje_iva: "",
-    tipo_producto: "",
-    valor_unitario: 0
+    codigoAux: "",
+    tarifaIvaId: "",
+    tipoProductoId: "",
+    valorUnitario: 0
   };
   console.log(props)
   const [productos, setProductos] = useState(null);
@@ -42,9 +42,10 @@ const ProductosData = (props) => {
   const productoService = new ProductoService();
   const tipoProductoOptions = ['BIEN','MAL','REGULAR'];
   const porcentajeIvaOptions = ['OTROS','10-20','20-40']
-
+  let serviceApp = ServiceApp.getInstance();
   useEffect(() => {
-    productoService.getProductos().then(data => setProductos(data));
+    serviceApp.getAllProductos().then(data=> setProductos(data))
+    // productoService.getProductos().then(data => setProductos(data));
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // const formatCurrency = (value) => {
@@ -85,13 +86,18 @@ const ProductosData = (props) => {
       if (producto.id) {
         const index = findIndexById(producto.id);
 
+
         _productos[index] = _producto;
+
+        serviceApp.updateProducto(_producto, producto.id);
         toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Producto Updated', life: 3000 });
       }
       else {
         _producto.id = createId();
-        _producto.image = 'producto-placeholder.svg';
+        // _producto.image = 'producto-placeholder.svg';
+        serviceApp.saveProducto(_producto)
         _productos.push(_producto);
+        
         toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Producto Created', life: 3000 });
       }
 
@@ -262,15 +268,15 @@ const ProductosData = (props) => {
           <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
           <Column field="nombre" header="NOMBRE" sortable ></Column>
           <Column field="codigo" header="CODIGO"  sortable ></Column>
-          <Column field="codigo_aux" header="CODIGO AUXILIAR" sortable ></Column>
-          <Column field="valor_unitario" header="VALOR UNITARIO" sortable  ></Column>
+          <Column field="codigoAux" header="CODIGO AUXILIAR" sortable ></Column>
+          <Column field="valorUnitario" header="VALOR UNITARIO" sortable  ></Column>
         
           <Column body={actionBodyTemplate}></Column>
         </DataTable>
       </div>
 
       <Dialog visible={productoDialog} style={{ width: '450px' }} header="Detalles del Producto" modal className="p-fluid" footer={productoDialogFooter} onHide={hideDialog}>
-        {producto.image && <img src={`showcase/demo/images/producto/${producto.image}`} onError={(e) => e.target.src = 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} alt={producto.image} className="producto-image" />}
+        {/* {producto.image && <img src={`showcase/demo/images/producto/${producto.image}`} onError={(e) => e.target.src = 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} alt={producto.image} className="producto-image" />} */}
         <div className="p-field w-100">
           <label htmlFor="nombre">Nombre del producto</label>
           <InputText id="nombre" value={producto.nombre} onChange={(e) => onInputChange(e, 'nombre')} required className={classNames({ 'p-invalid': submitted && !producto.nombre })} />
@@ -282,23 +288,23 @@ const ProductosData = (props) => {
           {submitted && !producto.codigo && <small className="p-error">Código es requerido</small>}
         </div>
         <div className="p-field w-50">
-          <label htmlFor="codigo_aux">Código Auxiliar</label>
-          <InputText id="codigo_aux" value={producto.codigo_aux} onChange={(e) => onInputChange(e, 'codigo_aux')} />
+          <label htmlFor="codigoAux">Código Auxiliar</label>
+          <InputText id="codigoAux" value={producto.codigoAux} onChange={(e) => onInputChange(e, 'codigoAux')} />
         </div>
        
 
         <div className="p-field w-100">
-          <label htmlFor="valor_unitario w-50">Valor Unitario</label><br/>
-          <InputText id="valor_unitario" value={producto.valor_unitario}   onChange={(e) => onInputChange(e,'valor_unitario')} />
+          <label htmlFor="valorUnitario w-50">Valor Unitario</label><br/>
+          <InputText id="valorUnitario" value={producto.valorUnitario}   onChange={(e) => onInputChange(e,'valorUnitario')} />
         </div>
         <div className="p-field w-50">
-          <label htmlFor="tipo_producto w-50">Tipo de Producto</label><br/>
-          <Dropdown id="tipo_producto" value={producto.tipo_producto}   itemTemplate={itemTemplate}  onChange={(e) => onInputChange(e,'tipo_producto')} options={tipoProductoOptions}/>
+          <label htmlFor="tipoProductoId w-50">Tipo de Producto</label><br/>
+          <Dropdown id="tipoProductoId" value={producto.tipoProductoId}   itemTemplate={itemTemplate}  onChange={(e) => onInputChange(e,'tipoProductoId')} options={tipoProductoOptions}/>
         </div>
         
         <div className="p-field w-50">
-          <label htmlFor="porcentaje_iva">Porcentaje IVA</label><br/>
-          <Dropdown id="porcentaje_iva" value={producto.porcentaje_iva}   itemTemplate={itemTemplate}  onChange={(e) => onInputChange(e,'porcentaje_iva')} options={porcentajeIvaOptions}/>
+          <label htmlFor="tarifaIvaId">Porcentaje IVA</label><br/>
+          <Dropdown id="tarifaIvaId" value={producto.tarifaIvaId}   itemTemplate={itemTemplate}  onChange={(e) => onInputChange(e,'tarifaIvaId')} options={porcentajeIvaOptions}/>
         </div>
         
         

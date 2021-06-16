@@ -90,12 +90,12 @@ const PuntosEmisionsData = (props) => {
         toast.current.show({ severity: 'success', summary: 'Successful', detail: 'PuntosEmision Updated', life: 3000 });
       }
       else {
-        _puntosemision.id = createId();
+        // _puntosemision.id = createId();
         _puntosemision.image = 'puntosemision-placeholder.svg';
         _puntosemisions.push(_puntosemision);
         // const puntoemision 
         console.log("punto de emision",_puntosemision);
-        serviceApp.savePuntoEmision(_puntosemision)
+        serviceApp.savePuntoEmision(_puntosemision);
         toast.current.show({ severity: 'success', summary: 'Successful', detail: 'PuntosEmision Created', life: 3000 });
       }
 

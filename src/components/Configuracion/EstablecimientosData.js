@@ -77,6 +77,7 @@ const EstablecimientosData = (props) => {
         const index = findIndexById(establecimiento.id);
 
         _establecimientos[index] = _establecimiento;
+        serviceApp.updateEstablecimiento(_establecimiento, establecimiento.id);
         toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Establecimiento Updated', life: 3000 });
       }
       else {

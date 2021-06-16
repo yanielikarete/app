@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import classNames from 'classnames';
 
-import { EmpresaService } from '../../service/EmpresaService';
+import { ServiceApp } from '../../service/ServiceApp';
 import { Toast } from 'primereact/toast';
 import { Button } from 'primereact/button';
 import { FileUpload } from 'primereact/fileupload';
@@ -30,16 +30,16 @@ const Empresas = (props) => {
   const [empresa, setEmpresa] = useState(emptyEmpresa);
   const [submitted, setSubmitted] = useState(false);
   const toast = useRef(null);
-  const empresaService = new EmpresaService();
+  const appService = new ServiceApp();
 
   const esquemasOptions = ["esquema 1","esquema 2","esquema 3"];
   const contabilidadOptions = ['SI','NO','OPCIONAL']
   const ambienteOptions = ['PRODUCCION','DESARROLLO','PRUEBAS']
   const emisionOptions = ['NORMAL','POCA','MUCHA']
   useEffect(() => {
-    empresaService.getEmpresa().then(data => {
+    appService.getCurrentUser().then(data => {
         console.log(data)
-      setEmpresa(data);
+      // setEmpresa(data);
     });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
