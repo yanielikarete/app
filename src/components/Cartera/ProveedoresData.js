@@ -14,22 +14,33 @@ import { InputNumber } from 'primereact/inputnumber';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { Dropdown } from 'primereact/dropdown';
+import { ServiceApp } from '../../service/ServiceApp';
 
 import './common.css';
 
 const ProveedorsData = (props) => {
 
   let emptyProveedor = {
+    // id: null,
+    // ruc_cedula: '',
+    // razon_social: '',
+    // direccion: '',
+    // email: '',
+    // tipo_id: "RUC",
+    // clase_contribuyente: 0,
+    // quantity:0,
+    // rating: 0,
+    // inventoryStatus: 'INSTOCK'
+
     id: null,
-    ruc_cedula: '',
-    razon_social: '',
+    ruc: '',
+    nombre: '',
     direccion: '',
-    email: '',
-    tipo_id: "RUC",
-    clase_contribuyente: 0,
-    quantity:0,
-    rating: 0,
-    inventoryStatus: 'INSTOCK'
+    correo: '',
+    identificacionId: "RUC",
+    constribuyenteId: 0,
+    observaciones:"",
+    telefono:""
   };
   console.log(props)
   const [proveedors, setProveedors] = useState(null);
@@ -42,17 +53,15 @@ const ProveedorsData = (props) => {
   const [globalFilter, setGlobalFilter] = useState(null);
   const toast = useRef(null);
   const dt = useRef(null);
-  const proveedorService = new ProveedorService();
-  const tipoIdOptions = ['RUC','IDENTIFICACION'];
-  const contribuyenteOptions = ['OTROS','RESPONSABLE']
+  let serviceApp = ServiceApp.getInstance();
+  const tipoIdOptions = [{id:1,label:'RUC'},{id:4,label:'IDENTIFICACION'}];
+  const contribuyenteOptions = [{id:1,label:'Clase 1'},{id:2,label:'RESPONSABLE'}]
 
   useEffect(() => {
-    proveedorService.getProveedors().then(data => setProveedors(data));
+    serviceApp.getAllClientes().then(data => setProveedors(data));
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // const formatCurrency = (value) => {
-  //   return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
-  // }
+
   const itemTemplate = (option) => {
     return (
         <div className="country-item">
@@ -82,7 +91,7 @@ const ProveedorsData = (props) => {
   const saveProveedor = () => {
     setSubmitted(true);
 
-    if (proveedor.razon_social.trim()) {
+    if (proveedor.nombre.trim()) {
       let _proveedors = [...proveedors];
       let _proveedor = { ...proveedor };
       if (proveedor.id) {
@@ -95,6 +104,7 @@ const ProveedorsData = (props) => {
         _proveedor.id = createId();
         _proveedor.image = 'proveedor-placeholder.svg';
         _proveedors.push(_proveedor);
+        serviceApp.addCliente(_proveedor);
         toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Proveedor Created', life: 3000 });
       }
 
@@ -263,10 +273,10 @@ const ProveedorsData = (props) => {
           header={header}>
 
           <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
-          <Column field="ruc_cedula" header="RUC/CEDULA" sortable filter></Column>
-          <Column field="razon_social" header="RAZÓN SOCIAL" filter sortable ></Column>
-          <Column field="email" header="EMAIL" sortable filter></Column>
-          <Column field="tipo_id" header="TIPO DE IDENTIFICACIÓN" sortable filter ></Column>
+          <Column field="ruc" header="RUC/CEDULA" sortable filter></Column>
+          <Column field="nombre" header="RAZÓN SOCIAL" filter sortable ></Column>
+          <Column field="correo" header="EMAIL" sortable filter></Column>
+          <Column field="identificacionId" header="TIPO DE IDENTIFICACIÓN" sortable filter ></Column>
           <Column field="direccion" header="DIRECCIÓN" sortable filter></Column>
         
           <Column body={actionBodyTemplate}></Column>
@@ -277,33 +287,42 @@ const ProveedorsData = (props) => {
         {proveedor.image && <img src={`showcase/demo/images/proveedor/${proveedor.image}`} onError={(e) => e.target.src = 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} alt={proveedor.image} className="proveedor-image" />}
         
         <div className="p-field w-100">
-          <label htmlFor="razon_social">NOMBRE / RAZON SOCIAL</label>
-          <InputText id="razon_social" value={proveedor.razon_social} onChange={(e) => onInputChange(e, 'razon_social')} required className={classNames({ 'p-invalid': submitted && !proveedor.razon_social })} />
-          {submitted && !proveedor.razon_social && <small className="p-error">Razon social es requerida</small>}
+          <label htmlFor="nombre">NOMBRE / RAZON SOCIAL</label>
+          <InputText id="nombre" value={proveedor.nombre} onChange={(e) => onInputChange(e, 'nombre')} required className={classNames({ 'p-invalid': submitted && !proveedor.nombre })} />
+          {submitted && !proveedor.nombre && <small className="p-error">Razon social es requerida</small>}
         </div>
         <div className="p-field w-100">
-          <label htmlFor="email">EMAIL</label>
-          <InputText id="email" value={proveedor.email} onChange={(e) => onInputChange(e, 'email')} />
+          <label htmlFor="correo">EMAIL</label>
+          <InputText id="correo" value={proveedor.correo} onChange={(e) => onInputChange(e, 'correo')} />
         </div>
         
 
         <div className="p-field w-50">
-          <label htmlFor="tipo_id w-50">TIPO DE IDENTIFICACIÓN</label><br/>
-          <Dropdown id="tipo_id" value={proveedor.tipo_id}   itemTemplate={itemTemplate}  onChange={(e) => onInputChange(e,'tipo_id')} options={tipoIdOptions}/>
+          <label htmlFor="identificacionId w-50">TIPO DE IDENTIFICACIÓN</label><br/>
+          <Dropdown id="identificacionId" value={proveedor.identificacionId}     onChange={(e) => onInputChange(e,'identificacionId')} options={tipoIdOptions} optionLabel="label" optionValue="id"/>
         </div>
         
         <div className="p-field w-50">
-          <label htmlFor="clase_contribuyente">CLASE CONTRIBUYENTE</label><br/>
-          <Dropdown id="clase_contribuyente" value={proveedor.clase_contribuyente}   itemTemplate={itemTemplate}  onChange={(e) => onInputChange(e,'clase_contribuyente')} options={contribuyenteOptions}/>
+          <label htmlFor="constribuyenteId">CLASE CONTRIBUYENTE</label><br/>
+          <Dropdown id="constribuyenteId" value={proveedor.constribuyenteId} onChange={(e) => onInputChange(e,'constribuyenteId')} options={contribuyenteOptions} optionValue="id" optionLabel="label"/>
         </div>
         <div className="p-field w-100">
-          <label htmlFor="ruc_cedula">RUC/CEDULA</label>
-          <InputText id="ruc_cedula" value={proveedor.ruc_cedula} onChange={(e) => onInputChange(e, 'ruc_cedula')} required autoFocus className={classNames({ 'p-invalid': submitted && !proveedor.ruc_cedula })} />
-          {submitted && !proveedor.ruc_cedula && <small className="p-error">RUC o cedula es requerido</small>}
+          <label htmlFor="ruc">RUC/CEDULA</label>
+          <InputText id="ruc" value={proveedor.ruc} onChange={(e) => onInputChange(e, 'ruc')} required autoFocus className={classNames({ 'p-invalid': submitted && !proveedor.ruc })} />
+          {submitted && !proveedor.ruc && <small className="p-error">RUC o cedula es requerido</small>}
+        </div>
+        <div className="p-field w-100">
+          <label htmlFor="telefono">TELEFONO</label>
+          <InputText id="telefono" value={proveedor.telefono} onChange={(e) => onInputChange(e, 'telefono')} required autoFocus className={classNames({ 'p-invalid': submitted && !proveedor.telefono })} />
+          {submitted && !proveedor.telefono && <small className="p-error">Telefono es requerido</small>}
         </div>
         <div className="p-field w-100">
           <label htmlFor="direccion">DIRECCIÓN</label>
           <InputTextarea id="direccion" value={proveedor.direccion} onChange={(e) => onInputChange(e, 'direccion')} required rows={3} cols={20} />
+        </div>
+        <div className="p-field w-100">
+          <label htmlFor="observaciones">OBSERVACIONES</label>
+          <InputTextarea id="observaciones" value={proveedor.observaciones} onChange={(e) => onInputChange(e, 'observaciones')} required rows={3} cols={20} />
         </div>
       </Dialog>
 
