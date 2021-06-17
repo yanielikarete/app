@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import classNames from 'classnames';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { ClienteService } from '../../service/ClienteService';
 import { Toast } from 'primereact/toast';
 import { Button } from 'primereact/button';
 import { FileUpload } from 'primereact/fileupload';
@@ -14,6 +13,7 @@ import { InputNumber } from 'primereact/inputnumber';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { Dropdown } from 'primereact/dropdown';
+import { ServiceApp } from '../../service/ServiceApp';
 
 import './common.css';
 
@@ -21,15 +21,14 @@ const ClientesData = (props) => {
 
   let emptyCliente = {
     id: null,
-    ruc_cedula: '',
-    razon_social: '',
+    ruc: '',
+    nombre: '',
     direccion: '',
-    email: '',
-    tipo_id: "RUC",
-    clase_contribuyente: 0,
-    quantity:0,
-    rating: 0,
-    inventoryStatus: 'INSTOCK'
+    correo: '',
+    identificacionId: "RUC",
+    constribuyenteId: 0,
+    observaciones:"",
+    telefono:""
   };
   console.log(props)
   const [clientes, setClientes] = useState(null);
@@ -42,12 +41,12 @@ const ClientesData = (props) => {
   const [globalFilter, setGlobalFilter] = useState(null);
   const toast = useRef(null);
   const dt = useRef(null);
-  const clienteService = new ClienteService();
-  const tipoIdOptions = ['RUC','IDENTIFICACION'];
-  const contribuyenteOptions = ['OTROS','RESPONSABLE']
+  let serviceApp = ServiceApp.getInstance();
+  const tipoIdOptions = [{id:1,label:'RUC'},{id:4,label:'IDENTIFICACION'}];
+  const contribuyenteOptions = [{id:1,label:'Clase 1'},{id:2,label:'RESPONSABLE'}]
 
   useEffect(() => {
-    clienteService.getClientes().then(data => setClientes(data));
+    serviceApp.getAllClientes().then(data => setClientes(data));
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // const formatCurrency = (value) => {
@@ -82,7 +81,7 @@ const ClientesData = (props) => {
   const saveCliente = () => {
     setSubmitted(true);
 
-    if (cliente.razon_social.trim()) {
+    if (cliente.nombre.trim()) {
       let _clientes = [...clientes];
       let _cliente = { ...cliente };
       if (cliente.id) {
@@ -93,8 +92,8 @@ const ClientesData = (props) => {
       }
       else {
         _cliente.id = createId();
-        _cliente.image = 'cliente-placeholder.svg';
         _clientes.push(_cliente);
+        serviceApp.addCliente(_cliente)
         toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Cliente Created', life: 3000 });
       }
 
@@ -169,7 +168,7 @@ const ClientesData = (props) => {
     const val = (e.target && e.target.value) || '';
     let _cliente = { ...cliente };
     _cliente[`${name}`] = val;
-
+    console.log(_cliente);
     setCliente(_cliente);
   }
 
@@ -263,10 +262,10 @@ const ClientesData = (props) => {
           header={header}>
 
           <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
-          <Column field="ruc_cedula" header="RUC/CEDULA" sortable filter></Column>
-          <Column field="razon_social" header="RAZÓN SOCIAL" filter sortable ></Column>
-          <Column field="email" header="EMAIL" sortable filter></Column>
-          <Column field="tipo_id" header="TIPO DE IDENTIFICACIÓN" sortable filter ></Column>
+          <Column field="ruc" header="RUC/CEDULA" sortable filter></Column>
+          <Column field="nombre" header="RAZÓN SOCIAL" filter sortable ></Column>
+          <Column field="correo" header="correo" sortable filter></Column>
+          <Column field="identificacionId" header="TIPO DE IDENTIFICACIÓN" sortable filter ></Column>
           <Column field="direccion" header="DIRECCIÓN" sortable filter></Column>
         
           <Column body={actionBodyTemplate}></Column>
@@ -277,33 +276,42 @@ const ClientesData = (props) => {
         {cliente.image && <img src={`showcase/demo/images/cliente/${cliente.image}`} onError={(e) => e.target.src = 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} alt={cliente.image} className="cliente-image" />}
         
         <div className="p-field w-100">
-          <label htmlFor="razon_social">NOMBRE / RAZON SOCIAL</label>
-          <InputText id="razon_social" value={cliente.razon_social} onChange={(e) => onInputChange(e, 'razon_social')} required className={classNames({ 'p-invalid': submitted && !cliente.razon_social })} />
-          {submitted && !cliente.razon_social && <small className="p-error">Razon social es requerida</small>}
+          <label htmlFor="nombre">NOMBRE / RAZON SOCIAL</label>
+          <InputText id="nombre" value={cliente.nombre} onChange={(e) => onInputChange(e, 'nombre')} required className={classNames({ 'p-invalid': submitted && !cliente.nombre })} />
+          {submitted && !cliente.nombre && <small className="p-error">Razon social es requerida</small>}
         </div>
         <div className="p-field w-100">
-          <label htmlFor="email">EMAIL</label>
-          <InputText id="email" value={cliente.email} onChange={(e) => onInputChange(e, 'email')} />
+          <label htmlFor="correo">correo</label>
+          <InputText id="correo" value={cliente.correo} onChange={(e) => onInputChange(e, 'correo')} />
         </div>
         
 
         <div className="p-field w-50">
-          <label htmlFor="tipo_id w-50">TIPO DE IDENTIFICACIÓN</label><br/>
-          <Dropdown id="tipo_id" value={cliente.tipo_id}   itemTemplate={itemTemplate}  onChange={(e) => onInputChange(e,'tipo_id')} options={tipoIdOptions}/>
+          <label htmlFor="identificacionId w-50">TIPO DE IDENTIFICACIÓN</label><br/>
+          <Dropdown id="identificacionId" value={cliente.identificacionId}     onChange={(e) => onInputChange(e,'identificacionId')} options={tipoIdOptions} optionLabel="label" optionValue="id"/>
         </div>
         
         <div className="p-field w-50">
-          <label htmlFor="clase_contribuyente">CLASE CONTRIBUYENTE</label><br/>
-          <Dropdown id="clase_contribuyente" value={cliente.clase_contribuyente}   itemTemplate={itemTemplate}  onChange={(e) => onInputChange(e,'clase_contribuyente')} options={contribuyenteOptions}/>
+          <label htmlFor="constribuyenteId">CLASE CONTRIBUYENTE</label><br/>
+          <Dropdown id="constribuyenteId" value={cliente.constribuyenteId} onChange={(e) => onInputChange(e,'constribuyenteId')} options={contribuyenteOptions} optionValue="id" optionLabel="label"/>
         </div>
         <div className="p-field w-100">
-          <label htmlFor="ruc_cedula">RUC/CEDULA</label>
-          <InputText id="ruc_cedula" value={cliente.ruc_cedula} onChange={(e) => onInputChange(e, 'ruc_cedula')} required autoFocus className={classNames({ 'p-invalid': submitted && !cliente.ruc_cedula })} />
-          {submitted && !cliente.ruc_cedula && <small className="p-error">RUC o cedula es requerido</small>}
+          <label htmlFor="ruc">RUC/CEDULA</label>
+          <InputText id="ruc" value={cliente.ruc} onChange={(e) => onInputChange(e, 'ruc')} required autoFocus className={classNames({ 'p-invalid': submitted && !cliente.ruc })} />
+          {submitted && !cliente.ruc && <small className="p-error">RUC o cedula es requerido</small>}
+        </div>
+        <div className="p-field w-100">
+          <label htmlFor="telefono">TELEFONO</label>
+          <InputText id="telefono" value={cliente.telefono} onChange={(e) => onInputChange(e, 'telefono')} required autoFocus className={classNames({ 'p-invalid': submitted && !cliente.telefono })} />
+          {submitted && !cliente.telefono && <small className="p-error">Telefono es requerido</small>}
         </div>
         <div className="p-field w-100">
           <label htmlFor="direccion">DIRECCIÓN</label>
           <InputTextarea id="direccion" value={cliente.direccion} onChange={(e) => onInputChange(e, 'direccion')} required rows={3} cols={20} />
+        </div>
+        <div className="p-field w-100">
+          <label htmlFor="observaciones">OBSERVACIONES</label>
+          <InputTextarea id="observaciones" value={cliente.observaciones} onChange={(e) => onInputChange(e, 'observaciones')} required rows={3} cols={20} />
         </div>
       </Dialog>
 

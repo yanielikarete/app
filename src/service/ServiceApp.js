@@ -36,6 +36,13 @@ const FIRMA_DIGITAL = "api/v1/firmasdigital";
 
 const UPLOAD_FILE = "api/uploadfile";
 
+const CLIENTES = {
+  // LOGIN:"login_check",
+  LISTA:"clientes",
+  ALL_TIPOS:"api/v1/tipoclientes",
+  ADD:"cartypes"
+}
+
 
 
 /*-------------------Endpoints-------------------*/
@@ -337,4 +344,37 @@ export class ServiceApp
       }
       );
     }
+
+     /* *********************Clientes****************************** */
+
+     addCliente(cliente){
+      
+      return API.post(CLIENTES.ADD, cliente)
+      .then(res=>{
+
+        if (res.status === 200) {
+          
+          return res.success;
+
+        }else{
+          console.log(res);
+          return res.success;
+        }
+      }
+      );
+    }
+
+    getAllClientes(){
+      return API.get(CLIENTES.LISTA).then(
+        res=>{
+          if (res.statusText === "OK"){
+            console.log("respuesta de la api susseful bponstos de esmision",res)
+            return res.data;
+          }else{
+
+            console.log("respuesta de la api failed",res.status);
+          }
+        }
+      );
+    } 
 }
