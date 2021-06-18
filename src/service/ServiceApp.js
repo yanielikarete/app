@@ -20,15 +20,15 @@ const headers = {
 const AUTH_ENDPOINTS = {
     // LOGIN:"login_check",
     LOGIN:"api/login_check",
-    REGISTER:"register"
+    REGISTER:"register",
+    CURRENT_USER : "api/current_user", 
+    SET_EMP_USER :"api/v1/usuarios/"
 }
 const PUNTOS_EMISION = "api/v1/puntosemision";
  
 const ESTABLECIMIENTOS = "api/v1/establecimientos";
 
 const EMPRESA = "api/v1/empresas";
-
-const CURRENT_USER = "api/current_user";
 
 const PRODUCTOS = "api/v1/productos";
 
@@ -38,10 +38,12 @@ const UPLOAD_FILE = "api/uploadfile";
 
 const CLIENTES = {
   // LOGIN:"login_check",
-  LISTA:"clientes",
+  LISTA:"api/v1/clientes",
   ALL_TIPOS:"api/v1/tipoclientes",
-  ADD:"cartypes"
+  ADD:"api/v1/clientes"
 }
+
+const TRANSPORTISTA = "api/v1/transportistas";
 
 
 
@@ -91,10 +93,24 @@ export class ServiceApp
       }
 
      getCurrentUser(){
-      return API.get(CURRENT_USER).then(
+      return API.get(AUTH_ENDPOINTS.CURRENT_USER).then(
         res=>{
           if (res.statusText === "OK"){
             console.log("respuesta de la api susseful CURRENT USER",res.data)
+            return res.data;
+          }else{
+
+            console.log("respuesta de la api failed",res.status);
+          }
+        }
+      );
+     }
+
+     setEmpresaUser(userId, empresa){
+      return API.patch(AUTH_ENDPOINTS.SET_EMP_USER + userId, empresa).then(
+        res=>{
+          if (res.statusText === "OK"){
+            console.log("respuesta de la api susseful set empresa user",res.data)
             return res.data;
           }else{
 
@@ -377,4 +393,81 @@ export class ServiceApp
         }
       );
     } 
+
+    getProveedores(){
+      let proveedores = [];
+      return API.get(CLIENTES.LISTA).then(
+        res=>{
+          if (res.statusText === "OK"){
+            let todos = res.data
+            for (var indice in todos) {
+              if(todos[indice].tipoCliente.id == 1){
+                proveedores.push(todos[indice]);
+              }
+            }
+
+           return proveedores;
+            // return res.data;
+          }else{
+
+            console.log("respuesta de la api failed",res.status);
+          }
+        }
+      );
+    } 
+
+    getClientes(){
+      let clientes = [];
+      return API.get(CLIENTES.LISTA).then(
+        res=>{
+          if (res.statusText === "OK"){
+            let todos = res.data
+            for (var indice in todos) {
+              if(todos[indice].tipoCliente.id == 2){
+                clientes.push(todos[indice]);
+              }
+            }
+
+           return clientes;
+            // return res.data;
+          }else{
+
+            console.log("respuesta de la api failed",res.status);
+          }
+        }
+      );
+    } 
+
+    /* *********************Transportista****************************** */
+
+    getAllTransportistas(){
+      return API.get(TRANSPORTISTA).then(
+        res=>{
+          if (res.statusText === "OK"){
+            console.log("respuesta de la api susseful bponstos de esmision",res)
+            return res.data;
+          }else{
+
+            console.log("respuesta de la api failed",res.status);
+          }
+        }
+      );
+    } 
+
+    addTransporttista(transportista){
+      
+      return API.post(TRANSPORTISTA, transportista)
+      .then(res=>{
+
+        if (res.status === 200) {
+          
+          return res.success;
+
+        }else{
+          console.log(res);
+          return res.success;
+        }
+      }
+      );
+    }
 }

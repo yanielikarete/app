@@ -21,26 +21,17 @@ import './common.css';
 const ProveedorsData = (props) => {
 
   let emptyProveedor = {
-    // id: null,
-    // ruc_cedula: '',
-    // razon_social: '',
-    // direccion: '',
-    // email: '',
-    // tipo_id: "RUC",
-    // clase_contribuyente: 0,
-    // quantity:0,
-    // rating: 0,
-    // inventoryStatus: 'INSTOCK'
 
     id: null,
     ruc: '',
     nombre: '',
     direccion: '',
     correo: '',
-    identificacionId: "RUC",
-    constribuyenteId: 0,
+    identificacion_id: "RUC",
+    constribuyente_id: 0,
     observaciones:"",
-    telefono:""
+    telefono:"",
+    tipoCliente_id : 1
   };
   console.log(props)
   const [proveedors, setProveedors] = useState(null);
@@ -58,7 +49,7 @@ const ProveedorsData = (props) => {
   const contribuyenteOptions = [{id:1,label:'Clase 1'},{id:2,label:'RESPONSABLE'}]
 
   useEffect(() => {
-    serviceApp.getAllClientes().then(data => setProveedors(data));
+    serviceApp.getProveedores().then(data => setProveedors(data));
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 
@@ -276,7 +267,7 @@ const ProveedorsData = (props) => {
           <Column field="ruc" header="RUC/CEDULA" sortable filter></Column>
           <Column field="nombre" header="RAZÓN SOCIAL" filter sortable ></Column>
           <Column field="correo" header="EMAIL" sortable filter></Column>
-          <Column field="identificacionId" header="TIPO DE IDENTIFICACIÓN" sortable filter ></Column>
+          <Column field="identificacion_id" header="TIPO DE IDENTIFICACIÓN" sortable filter ></Column>
           <Column field="direccion" header="DIRECCIÓN" sortable filter></Column>
         
           <Column body={actionBodyTemplate}></Column>
@@ -298,13 +289,13 @@ const ProveedorsData = (props) => {
         
 
         <div className="p-field w-50">
-          <label htmlFor="identificacionId w-50">TIPO DE IDENTIFICACIÓN</label><br/>
-          <Dropdown id="identificacionId" value={proveedor.identificacionId}     onChange={(e) => onInputChange(e,'identificacionId')} options={tipoIdOptions} optionLabel="label" optionValue="id"/>
+          <label htmlFor="identificacion_id w-50">TIPO DE IDENTIFICACIÓN</label><br/>
+          <Dropdown id="identificacion_id" value={proveedor.identificacion_id}     onChange={(e) => onInputChange(e,'identificacion_id')} options={tipoIdOptions} optionLabel="label" optionValue="id"/>
         </div>
         
         <div className="p-field w-50">
-          <label htmlFor="constribuyenteId">CLASE CONTRIBUYENTE</label><br/>
-          <Dropdown id="constribuyenteId" value={proveedor.constribuyenteId} onChange={(e) => onInputChange(e,'constribuyenteId')} options={contribuyenteOptions} optionValue="id" optionLabel="label"/>
+          <label htmlFor="constribuyente_id">CLASE CONTRIBUYENTE</label><br/>
+          <Dropdown id="constribuyente_id" value={proveedor.constribuyente_id} onChange={(e) => onInputChange(e,'constribuyente_id')} options={contribuyenteOptions} optionValue="id" optionLabel="label"/>
         </div>
         <div className="p-field w-100">
           <label htmlFor="ruc">RUC/CEDULA</label>

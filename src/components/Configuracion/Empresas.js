@@ -39,7 +39,9 @@ const Empresas = (props) => {
   const emisionOptions = ['NORMAL','POCA','MUCHA']
   useEffect(() => {
     appService.getCurrentUser().then(data => {
-      setEmpresa(data.empresa);
+      console.log(data);
+      if(data.empresa!=undefined)
+        setEmpresa(data.empresa);
     });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -68,6 +70,7 @@ const itemTemplate = (option) => {
         
         console.log(empresa)
         appService.saveEmpresa(empresa)
+        appService.setEmpresaUser(appService.getCurrentUser().id, empresa)
         toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Empresa Created', life: 3000 });
       }
     }

@@ -25,10 +25,11 @@ const ClientesData = (props) => {
     nombre: '',
     direccion: '',
     correo: '',
-    identificacionId: "RUC",
-    constribuyenteId: 0,
+    identificacion_id: "RUC",
+    constribuyente_id: 0,
     observaciones:"",
-    telefono:""
+    telefono:"",
+    tipoCliente_id : 2
   };
   console.log(props)
   const [clientes, setClientes] = useState(null);
@@ -46,7 +47,7 @@ const ClientesData = (props) => {
   const contribuyenteOptions = [{id:1,label:'Clase 1'},{id:2,label:'RESPONSABLE'}]
 
   useEffect(() => {
-    serviceApp.getAllClientes().then(data => setClientes(data));
+    serviceApp.getClientes().then(data => setClientes(data));
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // const formatCurrency = (value) => {
@@ -265,7 +266,7 @@ const ClientesData = (props) => {
           <Column field="ruc" header="RUC/CEDULA" sortable filter></Column>
           <Column field="nombre" header="RAZÓN SOCIAL" filter sortable ></Column>
           <Column field="correo" header="correo" sortable filter></Column>
-          <Column field="identificacionId" header="TIPO DE IDENTIFICACIÓN" sortable filter ></Column>
+          <Column field="identificacion_id" header="TIPO DE IDENTIFICACIÓN" sortable filter ></Column>
           <Column field="direccion" header="DIRECCIÓN" sortable filter></Column>
         
           <Column body={actionBodyTemplate}></Column>
@@ -287,13 +288,13 @@ const ClientesData = (props) => {
         
 
         <div className="p-field w-50">
-          <label htmlFor="identificacionId w-50">TIPO DE IDENTIFICACIÓN</label><br/>
-          <Dropdown id="identificacionId" value={cliente.identificacionId}     onChange={(e) => onInputChange(e,'identificacionId')} options={tipoIdOptions} optionLabel="label" optionValue="id"/>
+          <label htmlFor="identificacion_id w-50">TIPO DE IDENTIFICACIÓN</label><br/>
+          <Dropdown id="identificacion_id" value={cliente.identificacion_id}     onChange={(e) => onInputChange(e,'identificacion_id')} options={tipoIdOptions} optionLabel="label" optionValue="id"/>
         </div>
         
         <div className="p-field w-50">
-          <label htmlFor="constribuyenteId">CLASE CONTRIBUYENTE</label><br/>
-          <Dropdown id="constribuyenteId" value={cliente.constribuyenteId} onChange={(e) => onInputChange(e,'constribuyenteId')} options={contribuyenteOptions} optionValue="id" optionLabel="label"/>
+          <label htmlFor="constribuyente_id">CLASE CONTRIBUYENTE</label><br/>
+          <Dropdown id="constribuyente_id" value={cliente.constribuyente_id} onChange={(e) => onInputChange(e,'constribuyente_id')} options={contribuyenteOptions} optionValue="id" optionLabel="label"/>
         </div>
         <div className="p-field w-100">
           <label htmlFor="ruc">RUC/CEDULA</label>

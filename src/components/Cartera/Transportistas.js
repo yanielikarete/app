@@ -14,22 +14,34 @@ import { InputNumber } from 'primereact/inputnumber';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { Dropdown } from 'primereact/dropdown';
+import { ServiceApp } from '../../service/ServiceApp';
 
 import './common.css';
 
 const TransportistasData = (props) => {
 
   let emptyTransportista = {
+    // id: null,
+    // ruc_cedula: '',
+    // razon_social: '',
+    // direccion: '',
+    // email: '',
+    // tipo_id: "RUC",
+    // clase_contribuyente: 0,
+    // quantity:0,
+    // rating: 0,
+    // inventoryStatus: 'INSTOCK'
+
     id: null,
-    ruc_cedula: '',
-    razon_social: '',
-    direccion: '',
-    email: '',
-    tipo_id: "RUC",
-    clase_contribuyente: 0,
-    quantity:0,
-    rating: 0,
-    inventoryStatus: 'INSTOCK'
+    nombre : "",
+    ruc : "" ,
+    correo : "",
+    telefono :"",
+    identificacionId : 1,
+    constribuyenteId : 1,
+    placa: "",
+    direccion : "",
+    activo: true
   };
   console.log(props)
   const [transportistas, setTransportistas] = useState(null);
@@ -43,11 +55,12 @@ const TransportistasData = (props) => {
   const toast = useRef(null);
   const dt = useRef(null);
   const transportistaService = new TransportistaService();
-  const tipoIdOptions = ['RUC','IDENTIFICACION'];
-  const contribuyenteOptions = ['OTROS','RESPONSABLE']
+  const tipoIdOptions = [{id:1,label:'RUC'},{id:4,label:'IDENTIFICACION'}];
+  const contribuyenteOptions = [{id:1,label:'Clase 1'},{id:2,label:'RESPONSABLE'}]
+  let serviceApp = ServiceApp.getInstance();
 
   useEffect(() => {
-    transportistaService.getTransportistas().then(data => setTransportistas(data));
+    serviceApp.getAllTransportistas().then(data => setTransportistas(data));
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // const formatCurrency = (value) => {
@@ -82,7 +95,7 @@ const TransportistasData = (props) => {
   const saveTransportista = () => {
     setSubmitted(true);
 
-    if (transportista.razon_social.trim()) {
+    if (transportista.nombre.trim()) {
       let _transportistas = [...transportistas];
       let _transportista = { ...transportista };
       if (transportista.id) {
@@ -95,6 +108,7 @@ const TransportistasData = (props) => {
         _transportista.id = createId();
         _transportista.image = 'transportista-placeholder.svg';
         _transportistas.push(_transportista);
+        serviceApp.addTransporttista(_transportista)
         toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Transportista Created', life: 3000 });
       }
 
@@ -266,8 +280,8 @@ const TransportistasData = (props) => {
           <Column field="nombre" header="NOMBRE" sortable filter></Column>
           <Column field="tipo_id" header="IDENTIFICACIÓN" sortable filter ></Column>
 
-          <Column field="ruc_cedula" header="RUC/CEDULA" sortable filter></Column>
-          {/* <Column field="razon_social" header="RAZÓN SOCIAL" filter sortable ></Column> */}
+          <Column field="ruc" header="RUC/CEDULA" sortable filter></Column>
+          {/* <Column field="nombre" header="RAZÓN SOCIAL" filter sortable ></Column> */}
           <Column field="email" header="EMAIL" sortable filter></Column>
           <Column field="placa" header="PLACA" sortable filter></Column>
         
@@ -279,39 +293,39 @@ const TransportistasData = (props) => {
         {transportista.image && <img src={`showcase/demo/images/transportista/${transportista.image}`} onError={(e) => e.target.src = 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} alt={transportista.image} className="transportista-image" />}
         
         <div className="p-field w-100">
-          <label htmlFor="razon_social">NOMBRE / RAZON SOCIAL</label>
-          <InputText id="razon_social" value={transportista.razon_social} onChange={(e) => onInputChange(e, 'razon_social')} required className={classNames({ 'p-invalid': submitted && !transportista.razon_social })} />
-          {submitted && !transportista.razon_social && <small className="p-error">Razon social es requerida</small>}
+          <label htmlFor="nombre">NOMBRE / RAZON SOCIAL</label>
+          <InputText id="nombre" value={transportista.nombre} onChange={(e) => onInputChange(e, 'nombre')} required className={classNames({ 'p-invalid': submitted && !transportista.nombre })} />
+          {submitted && !transportista.nombre && <small className="p-error">Razon social es requerida</small>}
         </div>
         <div className="p-field w-100">
-          <label htmlFor="email">EMAIL</label>
-          <InputText id="email" value={transportista.email} onChange={(e) => onInputChange(e, 'email')} />
+          <label htmlFor="correo">EMAIL</label>
+          <InputText id="correo" value={transportista.correo} onChange={(e) => onInputChange(e, 'correo')} />
         </div>
         
 
         <div className="p-field w-50">
-          <label htmlFor="tipo_id w-50">TIPO DE IDENTIFICACIÓN</label><br/>
-          <Dropdown id="tipo_id" value={transportista.tipo_id}   itemTemplate={itemTemplate}  onChange={(e) => onInputChange(e,'tipo_id')} options={tipoIdOptions}/>
+          <label htmlFor="identificacion_id w-50">TIPO DE IDENTIFICACIÓN</label><br/>
+          <Dropdown id="identificacion_id" value={transportista.identificacion_id}     onChange={(e) => onInputChange(e,'identificacion_id')} options={tipoIdOptions} optionLabel="label" optionValue="id"/>
         </div>
         
         <div className="p-field w-50">
-          <label htmlFor="clase_contribuyente">CLASE CONTRIBUYENTE</label><br/>
-          <Dropdown id="clase_contribuyente" value={transportista.clase_contribuyente}   itemTemplate={itemTemplate}  onChange={(e) => onInputChange(e,'clase_contribuyente')} options={contribuyenteOptions}/>
+          <label htmlFor="constribuyente_id">CLASE CONTRIBUYENTE</label><br/>
+          <Dropdown id="constribuyente_id" value={transportista.constribuyente_id} onChange={(e) => onInputChange(e,'constribuyente_id')} options={contribuyenteOptions} optionValue="id" optionLabel="label"/>
         </div>
         <div className="p-field w-100">
-          <label htmlFor="ruc_cedula">RUC/CEDULA</label>
-          <InputText id="ruc_cedula" value={transportista.ruc_cedula} onChange={(e) => onInputChange(e, 'ruc_cedula')} required autoFocus className={classNames({ 'p-invalid': submitted && !transportista.ruc_cedula })} />
-          {submitted && !transportista.ruc_cedula && <small className="p-error">RUC o cedula es requerido</small>}
+          <label htmlFor="ruc">RUC/CEDULA</label>
+          <InputText id="ruc" value={transportista.ruc} onChange={(e) => onInputChange(e, 'ruc')} required autoFocus className={classNames({ 'p-invalid': submitted && !transportista.ruc })} />
+          {submitted && !transportista.ruc && <small className="p-error">RUC o cedula es requerido</small>}
         </div>
         <div className="p-field w-50">
           <label htmlFor="placa">PLACA</label>
           <InputText id="placa" value={transportista.placa} onChange={(e) => onInputChange(e, 'placa')} required autoFocus className={classNames({ 'p-invalid': submitted && !transportista.placa })} />
           {submitted && !transportista.placa && <small className="p-error">La placa es requerida</small>}
         </div>
-        <div className="p-field w-50">
+        {/* <div className="p-field w-50">
           <label htmlFor="rise">RISE</label><br/>
           <Dropdown id="rise" value={transportista.rise}   itemTemplate={itemTemplate}  onChange={(e) => onInputChange(e,'rise')} options={contribuyenteOptions}/>
-        </div>
+        </div> */}
         <div className="p-field w-100">
           <label htmlFor="direccion">DIRECCIÓN</label>
           <InputTextarea id="direccion" value={transportista.direccion} onChange={(e) => onInputChange(e, 'direccion')} required rows={3} cols={20} />
