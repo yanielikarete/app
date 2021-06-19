@@ -36,6 +36,8 @@ const FIRMA_DIGITAL = "api/v1/firmasdigital";
 
 const UPLOAD_FILE = "api/uploadfile";
 
+const USUARIOS =  "api/v1/usuarios";
+
 const CLIENTES = {
   // LOGIN:"login_check",
   LISTA:"api/v1/clientes",
@@ -45,6 +47,13 @@ const CLIENTES = {
 
 const TRANSPORTISTA = "api/v1/transportistas";
 
+/*-------------------Tokens-------------------*/
+
+function getToken() {
+  const tokenString = sessionStorage.getItem('token');
+  const userToken = JSON.parse(tokenString);
+  return userToken
+}
 
 
 /*-------------------Endpoints-------------------*/
@@ -66,6 +75,9 @@ export class ServiceApp
     if (ServiceApp.appInstance == null) {
       
       ServiceApp.appInstance = new ServiceApp();
+      let token = getToken();
+      API.defaults.headers.common.Authorization = "Bearer " + token;
+      API.Authorization = token
   }
 
   return this.appInstance;
@@ -103,8 +115,21 @@ export class ServiceApp
             console.log("respuesta de la api failed",res.status);
           }
         }
-      );
-     }
+      ).catch(function (error) {
+        sessionStorage.removeItem('token')
+        if (error.response) {
+          // Request made and server responded
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        } else if (error.request) {
+          // The request was made but no response was received
+          console.log(error.request);
+        } else {
+          // Something happened in setting up the request that triggered an Error
+          console.log('Error', error.message);
+        };
+     })}
 
      setEmpresaUser(userId, empresa){
       return API.patch(AUTH_ENDPOINTS.SET_EMP_USER + userId, empresa).then(
@@ -266,7 +291,8 @@ export class ServiceApp
       return API.get(PRODUCTOS).then(
         res=>{
           if (res.statusText === "OK"){
-            console.log("respuesta de la api susseful bponstos de esmision",res)
+            console.log("respuesta de la api susseful bponstos de esmision",res.data)
+          
             return res.data;
           }else{
 
@@ -470,4 +496,19 @@ export class ServiceApp
       }
       );
     }
+
+        /* *********************Usuarios****************************** */
+        getAllUsuarios(){
+          return API.get(USUARIOS).then(
+            res=>{
+              if (res.statusText === "OK"){
+                console.log("respuesta de la api susseful USUARIOS",res)
+                return res.data;
+              }else{
+    
+                console.log("respuesta de la api failed",res.status);
+              }
+            }
+          );
+        } 
 }

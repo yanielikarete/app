@@ -40,7 +40,6 @@ const PuntosEmisionsData = (props) => {
   const [globalFilter, setGlobalFilter] = useState(null);
   const toast = useRef(null);
   const dt = useRef(null);
-  const puntosemisionService = new PuntosEmisionService();
   
   let serviceApp = ServiceApp.getInstance();
   // const establecimientos = serviceApp.getAllEstablecimientos()

@@ -33,15 +33,23 @@ const Empresas = (props) => {
   const toast = useRef(null);
   const appService = new ServiceApp();
 
-  const esquemasOptions = ["esquema 1","esquema 2","esquema 3"];
+  const esquemasOptions = [{id:1,label:"Offline"},{id:2,label:"Online"}];
   const contabilidadOptions = ['SI','NO','OPCIONAL']
   const ambienteOptions = ['PRODUCCION','DESARROLLO','PRUEBAS']
   const emisionOptions = ['NORMAL','POCA','MUCHA']
   useEffect(() => {
     appService.getCurrentUser().then(data => {
       console.log(data);
-      if(data.empresa!=undefined)
-        setEmpresa(data.empresa);
+      if(data.user!=undefined){
+        if(data.user.empresa!=undefined&&data.user.empresa!=null){
+          setEmpresa(data.user.empresa);
+          console.log("datos de empresa",data.user.empresa)
+        }
+
+      }else{
+        console.log("aun no entiende",data)
+      }
+        
     });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -116,7 +124,7 @@ const onChangeImage = (e) =>{
       <div className="card">
         <div className="row">
             <div className="p-field w-20">
-                 <img src={empresa.image} onError={(e) => e.target.src = 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} alt={empresa.image} className="empresa-image"  width="90px" height="90px"/> 
+                 {/* <img src={empresa.image} onError={(e) => e.target.src = 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} alt={empresa.image} className="empresa-image"  width="90px" height="90px"/>  */}
             </div>
             <div className="p-field w-60"></div>
             <div className="p-field w-20">
@@ -149,7 +157,7 @@ const onChangeImage = (e) =>{
           </div>
           <div className="p-field w-20">
             <label htmlFor="esquema">Esquema</label><br/>
-            <Dropdown id="esquema" value={empresa.esquema}   itemTemplate={itemTemplate}  onChange={(e) => onInputChange(e,'esquema')} options={esquemasOptions}/>
+            <Dropdown id="esquema" value={empresa.esquema}  onChange={(e) => onInputChange(e,'esquema')} options={esquemasOptions} optionLabel="label" optionValue="id"/>
           </div>
         </div>
 

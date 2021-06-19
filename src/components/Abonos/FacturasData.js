@@ -16,6 +16,7 @@ import { InputNumber } from 'primereact/inputnumber';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { Dropdown } from 'primereact/dropdown';
+import { ServiceApp } from '../../service/ServiceApp';
 
 import './common.css';
 import { Panel } from 'primereact/panel';
@@ -45,6 +46,7 @@ const FacturasData = (props) => {
   console.log(props)
   const [facturas, setFacturas] = useState(null);
   const [clientes, setBeneficiarios] = useState(null);
+  const [dropdownProductos,setDropdownProductos] = useState(null)
   const [selectedBeneficiarios, setSelectedBeneficiarios] = useState(null);
   const [pago,setPago ]=useState(emptyPago);
   const [facturaDialog, setFacturaDialog] = useState(false);
@@ -65,14 +67,14 @@ const FacturasData = (props) => {
   const porcentajeIvaOptions = ['OTROS','10-20','20-40'];
   const dropdownRegistra = ["DEBE","HABER"];
   const dropdownCuentas = ["--CUENTA-PRINCIPAL--","ACTIVOS","PASIVOS"];
-  const dropdownProductos = ["PRODUCTO 1", "PRODUCTO 2", "PRODUCTO 3"];
   const dropdownFormas = ["Forma Pago 1", "Forma Pago 2", "Forma Pago 3"];
   const dropdownUnidadPlazo = ["Días", "Semanas", "Meses"];
-  
+  let serviceApp = ServiceApp.getInstance();
+
   useEffect(() => {
     bancaService.getFacturas().then(data => setFacturas(data));
-    prestamoService.getBeneficiarios().then(data => setBeneficiarios(data));
-
+    serviceApp.getClientes().then(data => setBeneficiarios(data));
+    serviceApp.getAllProductos().then(data => setDropdownProductos(data))
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
   
   // const formatCurrency = (value) => {
@@ -318,11 +320,11 @@ const FacturasData = (props) => {
           header={header}>
 
           <Column selectionMode="single" headerStyle={{ width: '3rem' }}></Column>
-          <Column field="ruc_cedula" header="RUC/CEDULA/ID" sortable filter></Column>
-          <Column field="razon_social" header="NOMBRE/RAZÓN SOCIAL" filter sortable ></Column>
-          {/* <Column field="email" header="EMAIL" sortable filter></Column> */}
+          <Column field="ruc" header="RUC/CEDULA" sortable filter></Column>
+          <Column field="nombre" header="RAZÓN SOCIAL" filter sortable ></Column>
+          <Column field="correo" header="correo" sortable filter></Column>
           <Column field="direccion" header="DIRECCIÓN" sortable filter></Column>
-          <Column field="email" header="EMAIL" sortable filter></Column>
+
         </DataTable>
       </Panel>
 
@@ -343,7 +345,7 @@ const FacturasData = (props) => {
                    <div className="p-field w-20">
 
                       <label htmlFor="registra">Producto </label><br/>
-                      <Dropdown value={producto.producto} onChange={(e) => onInputProductoChange(e,'producto',i)} options={dropdownProductos}  placeholder="Seleccione que registra"   itemTemplate={itemTemplate}/>
+                      <Dropdown value={producto.producto} onChange={(e) => onInputProductoChange(e,'producto',i)} options={dropdownProductos}  placeholder="Seleccione que registra"   optionLabel="nombre" optionValue="id"/>
                       {/* <InputText id="ruc" value={factura.ruc} onChange={(e) => onInputChange(e, 'ruc')} required autoFocus className={classNames({ 'p-invalid': submitted && !factura.ruc })} />
                       {submitted && !factura.ruc && <small className="p-error">RUC es requerido.</small>} */}
                     </div>
