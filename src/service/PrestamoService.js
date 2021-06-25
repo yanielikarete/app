@@ -10,7 +10,6 @@ export class PrestamoService {
     getAbonos(prestamo) {
         return axios.get('assets/demo/data/abonos.json').then(res => res.data.data);
     }
-
     savePrestamo(any){
         return axios.post('',any).then(res => res)
     }

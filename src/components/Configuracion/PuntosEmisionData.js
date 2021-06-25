@@ -10,6 +10,7 @@ import { Toolbar } from 'primereact/toolbar';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { Dropdown } from 'primereact/dropdown';
+import { ServiceApp } from '../../service/ServiceApp';
 
 import './common.css';
 
@@ -27,7 +28,9 @@ const PuntosEmisionsData = (props) => {
     inventoryStatus: 'INSTOCK'
   };
   console.log(props)
+
   const [puntosemisions, setPuntosEmisions] = useState(null);
+  const [establecimientos, setEstablecimientos] = useState(null);
   const [puntosemisionDialog, setPuntosEmisionDialog] = useState(false);
   const [deletePuntosEmisionDialog, setDeletePuntosEmisionDialog] = useState(false);
   const [deletePuntosEmisionsDialog, setDeletePuntosEmisionsDialog] = useState(false);
@@ -37,15 +40,21 @@ const PuntosEmisionsData = (props) => {
   const [globalFilter, setGlobalFilter] = useState(null);
   const toast = useRef(null);
   const dt = useRef(null);
-  const puntosemisionService = new PuntosEmisionService();
-
+  
+  let serviceApp = ServiceApp.getInstance();
+  // const establecimientos = serviceApp.getAllEstablecimientos()
   useEffect(() => {
-    puntosemisionService.getPuntosEmisions().then(data => setPuntosEmisions(data));
+    
+    // puntosemisionService.getPuntosEmisions().then(data => setPuntosEmisions(data));
+    serviceApp.getAllPuntosEmision().then(data => setPuntosEmisions(data))
+    serviceApp.getAllEstablecimientos().then(data => setEstablecimientos(data))
+    // console.log("puntos de acceso", serviceApp.getAllPuntosEmision());
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 
   const estadoOptions = ['Activo','Inactivo']
-  const establecimientos = ['Cargar','Establecimientos','Desde','Service']
+ 
+  
 
 
   const openNew = () => {
@@ -75,14 +84,17 @@ const PuntosEmisionsData = (props) => {
       let _puntosemision = { ...puntosemision };
       if (puntosemision.id) {
         const index = findIndexById(puntosemision.id);
-
+        serviceApp.updatePuntoEmision(_puntosemision,puntosemision.id)
         _puntosemisions[index] = _puntosemision;
         toast.current.show({ severity: 'success', summary: 'Successful', detail: 'PuntosEmision Updated', life: 3000 });
       }
       else {
-        _puntosemision.id = createId();
+        // _puntosemision.id = createId();
         _puntosemision.image = 'puntosemision-placeholder.svg';
         _puntosemisions.push(_puntosemision);
+        // const puntoemision 
+        console.log("punto de emision",_puntosemision);
+        serviceApp.savePuntoEmision(_puntosemision);
         toast.current.show({ severity: 'success', summary: 'Successful', detail: 'PuntosEmision Created', life: 3000 });
       }
 
@@ -103,6 +115,7 @@ const PuntosEmisionsData = (props) => {
   }
 
   const deletePuntosEmision = () => {
+    serviceApp.deletePuntoEmision(puntosemision.id);
     let _puntosemisions = puntosemisions.filter(val => val.id !== puntosemision.id);
     setPuntosEmision(_puntosemisions);
     setDeletePuntosEmisionDialog(false);
@@ -156,6 +169,15 @@ const PuntosEmisionsData = (props) => {
     setPuntosEmision(_puntosemision);
   }
 
+  const onDropdonwChange = (e, name) => {
+    const val = (e.target && e.target.value) || '';
+    console.log(val);
+    let _puntosemision = { ...puntosemision };
+    _puntosemision[`${name}`] = val;
+    _puntosemision[`id_${name}`] = val.id;
+    setPuntosEmision(_puntosemision);
+  }
+
   const leftToolbarTemplate = () => {
     return (
       <React.Fragment>
@@ -177,6 +199,13 @@ const PuntosEmisionsData = (props) => {
     return (
         <div className="country-item">
             <span>{option}</span>
+        </div>
+    );
+  };
+  const itemTemplateEstablecimientos = (option) => {
+    return (
+        <div className="country-item">
+            <span>{option.nombre}</span>
         </div>
     );
   };
@@ -238,7 +267,7 @@ const PuntosEmisionsData = (props) => {
           <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
           <Column field="nombre" header="Nombre" sortable></Column>
           <Column field="codigo" header="Codigo" sortable></Column>
-          <Column field="establecimiento" header="Establecimiento" sortable></Column>
+          <Column field="establecimiento.nombre" header="Establecimiento" sortable></Column>
           <Column field="estado" header="Estado" sortable></Column>
           {/* <Column header="Image" body={imageBodyTemplate}></Column>
           <Column field="price" header="Price" body={priceBodyTemplate} sortable></Column> */}
@@ -266,7 +295,8 @@ const PuntosEmisionsData = (props) => {
           </div>
         <div className="p-field w-100 mb-40">
           <label htmlFor="establecimiento">Establecimiento</label>
-          <Dropdown id="establecimiento" value={puntosemision.establecimiento} itemTemplate={itemTemplate} onChange={(e) => onInputChange(e, 'establecimiento')} required rows={3} cols={20} options={establecimientos} />
+          {/* <Dropdown id="establecimiento" value={establecimientos} onChange={(e) => setEstablecimientos(e.value)} options={establecimientos} required rows={3} cols={20}/> */}
+          <Dropdown id="id_establecimiento" value={puntosemision.establecimiento}  onChange={(e) => onDropdonwChange(e,'establecimiento')} required rows={3} cols={20} options={establecimientos} optionLabel="nombre" />
         </div>
        
       
