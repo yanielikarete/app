@@ -54,7 +54,7 @@ const lineData = {
     ]
 };
 
-export const Dashboard = () => {
+export const Dashboard = (props) => {
 
     const [tasksCheckbox, setTasksCheckbox] = useState([]);
     const [dropdownCity, setDropdownCity] = useState(null);
@@ -83,6 +83,8 @@ export const Dashboard = () => {
     };
 
     return (
+        <>
+        <h1>{props.title}</h1>
         <div className="p-grid p-fluid dashboard">
             <div className="p-col-12 p-lg-4">
                 <div className="card summary">
@@ -331,5 +333,6 @@ export const Dashboard = () => {
                 </Panel>
             </div>
         </div>
+        </>
     );
 }
