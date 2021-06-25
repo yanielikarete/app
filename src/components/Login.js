@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState,useRef } from 'react';
 import { ServiceApp } from '../service/ServiceApp';
 
 import PropTypes from 'prop-types';
 import './Login.css';
-
+import Loader from "react-loader-spinner";
+import { Toast } from 'primereact/toast';
 
 
 async function loginUser(credentials) {
@@ -17,18 +18,27 @@ function Login({ setToken }) {
   // const password = useFormInput('');
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
-
+  const toast = useRef(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   let serviceApp = ServiceApp.getInstance();
 
   // handle button click of login form
   const submitLogin = () => {
+    setLoading(true);
     serviceApp.userLogin(
       username,
       password
     ).then(t=>{
-      setToken(t);
+      console.log(" INDEX OFF",t.indexOf("error"))
+      if(t.indexOf("error")>=0){
+        console.log("ERROR BIEN ENCONTRADO",t)
+        toast.current.show({ severity: 'success', summary: 'No autorizado', detail: 'Error de usuario o contraseña', life: 3000 });
+
+      }else{
+        setToken(t);
+      }
+      setLoading(false);
     });
   }
 
@@ -40,7 +50,7 @@ function Login({ setToken }) {
     <div class="container_login">
       
         
-
+      <Toast ref={toast} />
          
             <div class=" p-col-7 p-ai-center p-jc-center login_backgroud">
 
@@ -92,7 +102,9 @@ function Login({ setToken }) {
                 {error && <><small style={{ color: 'red' }}>{error}</small><br /></>}<br />
                 <div class="group-btn-auth">
                 <button class="p-button p-component button-login" value={loading ? 'Loading...' : 'Login'} onClick={submitLogin} disabled={loading}>
-                  <span class="p-button-label p-c">Login</span>
+                
+                {loading && <Loader type="ThreeDots" color="#00BFFF" height={40} width={60}  />}
+                                  <span class="p-button-label p-c">Login</span>
                 </button>
 
                 <button class="p-button p-component button-register">

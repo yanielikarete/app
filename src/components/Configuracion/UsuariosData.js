@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import classNames from 'classnames';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { UserService } from '../../service/UserService';
+import { ServiceApp } from '../../service/ServiceApp';
 import { Toast } from 'primereact/toast';
 import { Button } from 'primereact/button';
 import { FileUpload } from 'primereact/fileupload';
@@ -39,10 +39,10 @@ const UsuariosData = (props) => {
   const [globalFilter, setGlobalFilter] = useState(null);
   const toast = useRef(null);
   const dt = useRef(null);
-  const userService = new UserService();
+  let serviceApp = ServiceApp.getInstance();
 
   useEffect(() => {
-    userService.getUsers().then(data => setUsers(data));
+    serviceApp.getAllUsuarios().then(data => setUsers(data));
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // const formatCurrency = (value) => {
@@ -194,9 +194,9 @@ const UsuariosData = (props) => {
     return <Rating value={rowData.rating} readOnly cancel={false} />;
   }
 
-  const statusBodyTemplate = (rowData) => {
-    return <span className={`user-badge status-${rowData.inventoryStatus.toLowerCase()}`}>{rowData.inventoryStatus}</span>;
-  }
+  // const statusBodyTemplate = (rowData) => {
+  //   return <span className={`user-badge status-${rowData.inventoryStatus.toLowerCase()}`}>{rowData.inventoryStatus}</span>;
+  // }
 
   const actionBodyTemplate = (rowData) => {
     return (
@@ -252,11 +252,12 @@ const UsuariosData = (props) => {
           header={header}>
 
           <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
-          <Column field="code" header="Nombre" sortable></Column>
-          <Column field="name" header="Usuario" sortable></Column>
+          <Column field="firstname" header="Nombre" sortable></Column>
+          <Column field="username" header="Usuario" sortable></Column>
+          <Column field="email" header="Correo" sortable></Column>
         
           <Column field="rating" header="Estado" body={ratingBodyTemplate} sortable></Column>
-          <Column field="inventoryStatus" header="Status" body={statusBodyTemplate} sortable></Column>
+          {/* <Column field="inventoryStatus" header="Status" body={statusBodyTemplate} sortable></Column> */}
           <Column body={actionBodyTemplate}></Column>
         </DataTable>
       </div>

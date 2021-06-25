@@ -75,6 +75,17 @@ import HistorialFacturasData from './components/Documentos/HistorialFacturaData'
 import OperacionesData from './components/Banca/OperacionesData';
 import FacturasData from './components/Abonos/FacturasData';
 
+function setToken(userToken) {
+    console.log("saving token on session storage",userToken)
+    sessionStorage.setItem('token', JSON.stringify(userToken));
+}
+
+function getToken() {
+  const tokenString = sessionStorage.getItem('token');
+  const userToken = JSON.parse(tokenString);
+  console.log("llamando al gettoken",userToken,"EL QE",userToken)
+  return userToken
+}
 
 
 const App = () => {
@@ -86,11 +97,16 @@ const App = () => {
     const [mobileMenuActive, setMobileMenuActive] = useState(false);
     const [inputStyle, setInputStyle] = useState('outlined');
     const [ripple, setRipple] = useState(false);
+    const [dumi, setDumi] = useState(null);
     const sidebar = useRef();
 
-    const [token, setToken] = useState();
+    const token = getToken();
 
-    
+    const setCustomToken= (t) =>{
+        setToken(t)
+        setDumi(t)  
+        
+    }
 
     const history = useHistory();
 
@@ -460,8 +476,9 @@ const App = () => {
         'layout-sidebar-light': layoutColorMode === 'light'
     });
 
+
     if(!token) {
-        return <Login setToken={setToken} />
+        return <Login setToken={setCustomToken} />
     }
 
     return (

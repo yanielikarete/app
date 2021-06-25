@@ -68,7 +68,7 @@ const Secuencialess = (props) => {
         <div className="row">
           <div className="bg-blue text-white w-100 p-10 p-field">
             <p> Nota: Usted puede editar cada uno de los secuenciales de los distintos comprobantes dejando en blanco
-            el resto de los campos y solo completando el que requiere modificar. Ej: Para modificar el secuencial de facturas, eleminide el contenido de los demás tipos de documentos, en este caso solo se alteraría el secuencial de las facturas...
+            el resto de los campos y solo completando el que requiere modificar. Ej: Para modificar el secuencial de facturas, elimine el contenido de los demás tipos de documentos, en este caso solo se alteraría el secuencial de las facturas...
             Importante: El nuevo secuencial siempre debe ser superior al anterior de lo contrario no tendra efecto la configuración
             </p>
           </div>
