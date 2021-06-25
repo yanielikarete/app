@@ -57,6 +57,7 @@ const FacturasData = (props) => {
   const [submitted, setSubmitted] = useState(false);
   const [globalFilter, setGlobalFilter] = useState(null);
   const [disableSave, setDisableSave] = useState(true);
+  const [empresa,setEmpresa] = useState(null)
 
   const toast = useRef(null);
   const dt = useRef(null);
@@ -74,7 +75,23 @@ const FacturasData = (props) => {
   useEffect(() => {
     bancaService.getFacturas().then(data => setFacturas(data));
     serviceApp.getClientes().then(data => setBeneficiarios(data));
-    serviceApp.getAllProductos().then(data => setDropdownProductos(data))
+    serviceApp.getAllProductos().then(data => setDropdownProductos(data));
+    
+    
+    //esto si la api lo puede setear mejor
+    serviceApp.getCurrentUser().then(data => {
+      console.log(data);
+      if(data.user!=undefined){
+        if(data.user.empresa!=undefined&&data.user.empresa!=null){
+          setEmpresa(data.user.empresa);
+          console.log("datos de empresa",data.user.empresa)
+        }
+
+      }else{
+        console.log("aun no entiende",data)
+      }
+        
+    });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
   
   // const formatCurrency = (value) => {
@@ -119,27 +136,23 @@ const FacturasData = (props) => {
 
   const saveFactura = () => {
     setSubmitted(true);
-
-    if (factura.registra.trim()) {
-      let _facturas = [...facturas];
-      let _factura = { ...factura };
-      if (factura.id) {
-        const index = findIndexById(factura.id);
-
-        _facturas[index] = _factura;
-        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Factura Updated', life: 3000 });
-      }
-      else {
-        _factura.id = createId();
-        _factura.image = 'factura-placeholder.svg';
-        _facturas.push(_factura);
-        toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Factura Created', life: 3000 });
-      }
-
-      setFacturas(_facturas);
-      setFacturaDialog(false);
-      setFactura(emptyFactura);
-    }
+    console.log("BENEFISIARIOS",selectedBeneficiarios);
+     var _factura = factura
+      _factura["formaPago_id"] = pago["forma"];
+      _factura["unidadTiempo_id"] = pago["unidad_plazo"];
+      _factura["propina"] = pago["propina"];
+      _factura["plazos"] = pago["plazo"];
+      _factura["cliente_id"] = selectedBeneficiarios.id
+      _factura["productos"] = factura["productos"]
+      _factura["empresa_id"] = empresa["id"]
+      console.log(selectedBeneficiarios)
+      console.log("MI FACTURA ",_factura)
+      serviceApp.addFactura(_factura).then(d=>{
+        console.log(d);
+      })
+      
+        
+    
   }
 
   const editFactura = (factura) => {

@@ -2,14 +2,13 @@ import axios from 'axios';
 import { instances } from 'chart.js';
 /*-------------------config-------------------*/
 // const BASE_URL = 'https://localhost/api/';
-// const BASE_URL = 'http://sgde.perfect-solutions.com.ec/api/';
-const BASE_URL = 'http://localhost/';
+// const BASE_URL = 'http://sgde.perfect-solutions.com.ec/';
+const BASE_URL = 'http://sgde.com/';
 const API = axios.create({
     baseURL: BASE_URL
 })
 const headers = {
   // 'Content-Type': 'text/html'
-	
 };
 
 
@@ -46,6 +45,7 @@ const CLIENTES = {
 }
 
 const TRANSPORTISTA = "api/v1/transportistas";
+const FACTURA = "api/v1/facturas";
 
 /*-------------------Tokens-------------------*/
 
@@ -78,6 +78,7 @@ export class ServiceApp
       let token = getToken();
       API.defaults.headers.common.Authorization = "Bearer " + token;
       API.Authorization = token
+
   }
 
   return this.appInstance;
@@ -94,6 +95,7 @@ export class ServiceApp
             API.defaults.headers.common.Authorization = "Bearer " + token;
             API.Authorization = token
             console.log("entro a guardar token", API.defaults.headers.common.Authorization);
+            // API.getCurrentUser()
             return token;
 
           }else{
@@ -101,7 +103,10 @@ export class ServiceApp
             alert('Error autenticando');
           }
         }
-        );
+        ).catch(function (error) {
+          console.log(error);
+          return "error al login";
+        });
       }
 
      getCurrentUser(){
@@ -109,6 +114,8 @@ export class ServiceApp
         res=>{
           if (res.statusText === "OK"){
             console.log("respuesta de la api susseful CURRENT USER",res.data)
+            sessionStorage.setItem('USER', JSON.stringify(res.data));
+
             return res.data;
           }else{
 
@@ -497,18 +504,36 @@ export class ServiceApp
       );
     }
 
-        /* *********************Usuarios****************************** */
-        getAllUsuarios(){
-          return API.get(USUARIOS).then(
-            res=>{
-              if (res.statusText === "OK"){
-                console.log("respuesta de la api susseful USUARIOS",res)
-                return res.data;
-              }else{
-    
-                console.log("respuesta de la api failed",res.status);
-              }
-            }
-          );
-        } 
+    /* *********************Usuarios****************************** */
+    getAllUsuarios(){
+      return API.get(USUARIOS).then(
+        res=>{
+          if (res.statusText === "OK"){
+            console.log("respuesta de la api susseful USUARIOS",res)
+            return res.data;
+          }else{
+
+            console.log("respuesta de la api failed",res.status);
+          }
+        }
+      );
+    } 
+
+    /**********************Facturas****************************** */
+    addFactura(factura){
+      
+      return API.post(FACTURA, factura)
+      .then(res=>{
+
+        if (res.status === 200) {
+          
+          return res.success;
+
+        }else{
+          console.log(res);
+          return res.success;
+        }
+      }
+      );
+    }
 }
