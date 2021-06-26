@@ -137,6 +137,9 @@ const FacturasData = (props) => {
   const saveFactura = () => {
     setSubmitted(true);
     console.log("BENEFISIARIOS",selectedBeneficiarios);
+    const userString = sessionStorage.getItem('USER');
+    const userOBJ = JSON.parse(userString);
+    console.log(userOBJ);
      var _factura = factura
       _factura["formaPago_id"] = pago["forma"];
       _factura["unidadTiempo_id"] = pago["unidad_plazo"];

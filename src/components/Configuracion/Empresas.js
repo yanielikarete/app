@@ -30,27 +30,21 @@ const Empresas = (props) => {
   console.log(props)
   const [empresa, setEmpresa] = useState(emptyEmpresa);
   const [submitted, setSubmitted] = useState(false);
+  const [emisionOptions, setEmisionOptions] = useState(false);
+  const [ambienteOptions, setAmbienteOptions] = useState(false);
   const toast = useRef(null);
   const appService = new ServiceApp();
 
   const esquemasOptions = [{id:1,label:"Offline"},{id:2,label:"Online"}];
   const contabilidadOptions = ['SI','NO','OPCIONAL']
-  const ambienteOptions = ['PRODUCCION','DESARROLLO','PRUEBAS']
-  const emisionOptions = ['NORMAL','POCA','MUCHA']
   useEffect(() => {
-    appService.getCurrentUser().then(data => {
-      console.log(data);
-      if(data.user!=undefined){
-        if(data.user.empresa!=undefined&&data.user.empresa!=null){
-          setEmpresa(data.user.empresa);
-          console.log("datos de empresa",data.user.empresa)
-        }
-
-      }else{
-        console.log("aun no entiende",data)
-      }
-        
-    });
+    const tokenString = sessionStorage.getItem('USER');
+    const userObj = JSON.parse(tokenString);
+    console.log("EMPRESA =>",userObj.user.empresa);
+    if(userObj.user.empresa!=undefined)
+      setEmpresa(userObj.user.empresa);
+    appService.getTipoEmisiones().then(data=>{setEmisionOptions(data)});
+    appService.getTipoAmbiente().then(data=>{setAmbienteOptions(data)});
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 //   const formatCurrency = (value) => {
@@ -70,15 +64,20 @@ const itemTemplate = (option) => {
     if (empresa.razonSocial.trim()) {
       if (empresa.id) {
         // appService.saveEmpresa(empresa)
+        empresa["id_tipo_ambiente"]=empresa["ambiente"];
+        empresa["id_tipo_emision"]=empresa["tipoEmision"];
+        empresa["id_esquema"]=empresa["esquema"];
         toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Empresa Updated', life: 3000 });
+        appService.updateEmpresa(empresa);
       }
       else {
         empresa.id = createId();
         empresa.image = 'empresa-placeholder.svg';
         
         console.log(empresa)
-        appService.saveEmpresa(empresa)
-        appService.setEmpresaUser(appService.getCurrentUser().id, empresa)
+        appService.saveEmpresa(empresa).them(data=>{
+          appService.setEmpresaUser(appService.getCurrentUser().id, data.id)
+        })
         toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Empresa Created', life: 3000 });
       }
     }
@@ -173,11 +172,11 @@ const onChangeImage = (e) =>{
           </div>
           <div className="p-field w-20">
             <label htmlFor="ambiente">Ambiente</label><br/>
-            <Dropdown id="ambiente" value={empresa.ambiente}   itemTemplate={itemTemplate}  onChange={(e) => onInputChange(e,'ambiente')} options={ambienteOptions}/>
+            <Dropdown id="ambiente" value={empresa.ambiente}  onChange={(e) => onInputChange(e,'ambiente')} options={ambienteOptions} optionLabel="nombre" optionValue="id" />
           </div>
           <div className="p-field w-20">
             <label htmlFor="emision">Emision</label><br/>
-            <Dropdown id="emision" value={empresa.emision}   itemTemplate={itemTemplate}  onChange={(e) => onInputChange(e,'emision')} options={emisionOptions}/>
+            <Dropdown id="emision" value={empresa.tipoEmision}    onChange={(e) => onInputChange(e,'tipoEmision')} options={emisionOptions} optionLabel="nombre" optionValue="id" />
           </div>
         </div>
 
