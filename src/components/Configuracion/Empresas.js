@@ -36,7 +36,7 @@ const Empresas = (props) => {
   const appService = new ServiceApp();
 
   const esquemasOptions = [{id:1,label:"Offline"},{id:2,label:"Online"}];
-  const contabilidadOptions = ['SI','NO','OPCIONAL']
+  const contabilidadOptions = [{id:true,label:'SI'},{id:false,label:'NO'}]
   useEffect(() => {
     const tokenString = sessionStorage.getItem('USER');
     const userObj = JSON.parse(tokenString);
@@ -64,7 +64,7 @@ const itemTemplate = (option) => {
     if (empresa.razonSocial.trim()) {
       if (empresa.id) {
         // appService.saveEmpresa(empresa)
-        empresa["id_tipo_ambiente"]=empresa["ambiente"];
+        empresa["id_tipo_ambiente"]=empresa["tipoAmbiente"];
         empresa["id_tipo_emision"]=empresa["tipoEmision"];
         empresa["id_esquema"]=empresa["esquema"];
         toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Empresa Updated', life: 3000 });
@@ -162,17 +162,17 @@ const onChangeImage = (e) =>{
 
         <div className="row">
           <div className="p-field w-30">
-            <label htmlFor="constribuyente">Contribuyente Especial</label><br/>
-            <InputText id="constribuyente" value={empresa.constribuyente} onChange={(e) => onInputChange(e, 'constribuyente')} required />
-            {submitted && !empresa.constribuyente && <small className="p-error">Contribuyente es requerido.</small>}
+            <label htmlFor="contribuyenteEspecial">Contribuyente Especial</label><br/>
+            <InputText id="contribuyenteEspecial" value={empresa.contribuyenteEspecial} onChange={(e) => onInputChange(e, 'contribuyenteEspecial')} required />
+            {submitted && !empresa.contribuyenteEspecial && <small className="p-error">Contribuyente es requerido.</small>}
           </div>
           <div className="p-field w-30">
             <label htmlFor="contabilidad">Obligado a Contabilidad</label><br/>
-            <Dropdown id="contabilidad" value={empresa.contabilidad}   itemTemplate={itemTemplate}  onChange={(e) => onInputChange(e,'contabilidad')} options={contabilidadOptions}/>
+            <Dropdown id="contabilidad" value={empresa.obligadoContabilidad}    onChange={(e) => onInputChange(e,'obligadoContabilidad')} options={contabilidadOptions} optionValue="id" optionLabel="label"/>
           </div>
           <div className="p-field w-20">
             <label htmlFor="ambiente">Ambiente</label><br/>
-            <Dropdown id="ambiente" value={empresa.ambiente}  onChange={(e) => onInputChange(e,'ambiente')} options={ambienteOptions} optionLabel="nombre" optionValue="id" />
+            <Dropdown id="ambiente" value={empresa.tipoAmbiente}  onChange={(e) => onInputChange(e,'tipoAmbiente')} options={ambienteOptions} optionLabel="nombre" optionValue="id" />
           </div>
           <div className="p-field w-20">
             <label htmlFor="emision">Emision</label><br/>

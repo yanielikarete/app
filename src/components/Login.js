@@ -103,7 +103,7 @@ function Login({ setToken }) {
                 <div class="group-btn-auth">
                 <button class="p-button p-component button-login" value={loading ? 'Loading...' : 'Login'} onClick={submitLogin} disabled={loading}>
                 
-                {loading && <Loader type="ThreeDots" color="#00BFFF" height={40} width={60}  />}
+                {loading && <Loader type="ThreeDots" color="#00BFFF" height={18} width={40}  />}
                                   <span class="p-button-label p-c">Login</span>
                 </button>
 
