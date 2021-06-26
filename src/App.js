@@ -87,6 +87,7 @@ function getToken() {
   return userToken
 }
 
+
 const App = () => {
 
     const [layoutMode, setLayoutMode] = useState('static');
@@ -498,7 +499,9 @@ const App = () => {
                 layoutMode={layoutMode} onLayoutModeChange={onLayoutModeChange} layoutColorMode={layoutColorMode} onColorModeChange={onColorModeChange} />
 
             <div className="layout-main">
-                <Route path="/" exact component={Dashboard} />
+                <Route path="/" exact>
+                    <Dashboard title="Inicio"></Dashboard>
+                </Route>
                 <Route path="/formlayout" component={FormLayoutDemo} />
                 <Route path="/input" component={InputDemo} />
                 <Route path="/floatlabel" component={FloatLabelDemo} />
@@ -578,12 +581,9 @@ const App = () => {
                 <Route path="/establecimientos">
                     <EstablecimientosData header="Manejar Establecimientos" title="Establecimientos" sing="Establecimiento" />
                 </Route>
-                <Route path="/firma" component={FirmaDigital} />
-                <Route path="/secuenciales" component={Secuencialess} />
-
-               
-                
-                {/* <Route path="/*" component={NotFound} /> */}
+                <Route path="/facturas">
+                    <Dashboard title="Facturas"></Dashboard>
+                </Route>
             </div>
 
             <AppFooter />
