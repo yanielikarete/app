@@ -581,9 +581,9 @@ const App = () => {
                 <Route path="/establecimientos">
                     <EstablecimientosData header="Manejar Establecimientos" title="Establecimientos" sing="Establecimiento" />
                 </Route>
-                <Route path="/facturas">
+                {/* <Route path="/facturas">
                     <Dashboard title="Facturas"></Dashboard>
-                </Route>
+                </Route> */}
             </div>
 
             <AppFooter />

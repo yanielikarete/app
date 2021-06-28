@@ -40,14 +40,16 @@ const ClientesData = (props) => {
   const [selectedClientes, setSelectedClientes] = useState(null);
   const [submitted, setSubmitted] = useState(false);
   const [globalFilter, setGlobalFilter] = useState(null);
+  const [tipoIdOptions, setTipoIdOptions] = useState(null);
+  const [contribuyenteOptions, setContribuyenteOptions] = useState(null);
   const toast = useRef(null);
   const dt = useRef(null);
   let serviceApp = ServiceApp.getInstance();
-  const tipoIdOptions = [{id:1,label:'RUC'},{id:4,label:'IDENTIFICACION'}];
-  const contribuyenteOptions = [{id:1,label:'Clase 1'},{id:2,label:'RESPONSABLE'}]
 
   useEffect(() => {
     serviceApp.getClientes().then(data => setClientes(data));
+    serviceApp.getTiposIdentificacion().then(data => setTipoIdOptions(data));
+    serviceApp.getClaseContribuyentes().then(data => setContribuyenteOptions(data));
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // const formatCurrency = (value) => {
@@ -289,12 +291,12 @@ const ClientesData = (props) => {
 
         <div className="p-field w-50">
           <label htmlFor="identificacion_id w-50">TIPO DE IDENTIFICACIÓN</label><br/>
-          <Dropdown id="identificacion_id" value={cliente.identificacion_id}     onChange={(e) => onInputChange(e,'identificacion_id')} options={tipoIdOptions} optionLabel="label" optionValue="id"/>
+          <Dropdown id="identificacion_id" value={cliente.identificacion_id}     onChange={(e) => onInputChange(e,'identificacion_id')} options={tipoIdOptions} optionLabel="nombre" optionValue="id"/>
         </div>
         
         <div className="p-field w-50">
           <label htmlFor="constribuyente_id">CLASE CONTRIBUYENTE</label><br/>
-          <Dropdown id="constribuyente_id" value={cliente.constribuyente_id} onChange={(e) => onInputChange(e,'constribuyente_id')} options={contribuyenteOptions} optionValue="id" optionLabel="label"/>
+          <Dropdown id="constribuyente_id" value={cliente.constribuyente_id} onChange={(e) => onInputChange(e,'constribuyente_id')} options={contribuyenteOptions} optionValue="id" optionLabel="nombre"/>
         </div>
         <div className="p-field w-100">
           <label htmlFor="ruc">RUC/CEDULA</label>

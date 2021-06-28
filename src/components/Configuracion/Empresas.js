@@ -23,7 +23,7 @@ const Empresas = (props) => {
     esquema:"OFFLINE",
     ambiente:"PRODUCCION",
     emision:"NORMAL",
-    constribuyente: null,
+    contribuyenteEspecial: 0,
   
 
   };
@@ -32,6 +32,7 @@ const Empresas = (props) => {
   const [submitted, setSubmitted] = useState(false);
   const [emisionOptions, setEmisionOptions] = useState(false);
   const [ambienteOptions, setAmbienteOptions] = useState(false);
+  const [currentUser, setCurrentUser] = useState(false);
   const toast = useRef(null);
   const appService = new ServiceApp();
 
@@ -41,6 +42,7 @@ const Empresas = (props) => {
     const tokenString = sessionStorage.getItem('USER');
     const userObj = JSON.parse(tokenString);
     console.log("EMPRESA =>",userObj.user.empresa);
+    setCurrentUser(userObj.user);
     if(userObj.user.empresa!=undefined)
       setEmpresa(userObj.user.empresa);
     appService.getTipoEmisiones().then(data=>{setEmisionOptions(data)});
@@ -71,12 +73,15 @@ const itemTemplate = (option) => {
         appService.updateEmpresa(empresa);
       }
       else {
-        empresa.id = createId();
+        // empresa.id = createId();
         empresa.image = 'empresa-placeholder.svg';
-        
+        empresa["id_tipo_ambiente"]=empresa["tipoAmbiente"];
+        empresa["id_tipo_emision"]=empresa["tipoEmision"];
+        empresa["id_esquema"]=empresa["esquema"];
         console.log(empresa)
-        appService.saveEmpresa(empresa).them(data=>{
-          appService.setEmpresaUser(appService.getCurrentUser().id, data.id)
+        appService.saveEmpresa(empresa).then(data=>{
+          console.log(data);
+          appService.setEmpresaUser(currentUser.id, {"empresa_id":data.data.id});
         })
         toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Empresa Created', life: 3000 });
       }

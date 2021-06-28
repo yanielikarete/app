@@ -37,14 +37,15 @@ const ProductosData = (props) => {
   const [selectedProductos, setSelectedProductos] = useState(null);
   const [submitted, setSubmitted] = useState(false);
   const [globalFilter, setGlobalFilter] = useState(null);
+  const [tipoProductoOptions, setTipoProductoOptions] = useState(null);
+  const [porcentajeIvaOptions, setPorcentajeIvaOptions] = useState(null);
   const toast = useRef(null);
   const dt = useRef(null);
-  const productoService = new ProductoService();
-  const tipoProductoOptions = ['BIEN','MAL','REGULAR'];
-  const porcentajeIvaOptions = ['OTROS','10-20','20-40']
   let serviceApp = ServiceApp.getInstance();
   useEffect(() => {
     serviceApp.getAllProductos().then(data=> setProductos(data))
+    serviceApp.getTipoProductos().then(data=> setTipoProductoOptions(data))
+    serviceApp.getTarifaIvas().then(data=> setPorcentajeIvaOptions(data))
     // productoService.getProductos().then(data => setProductos(data));
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -269,7 +270,7 @@ const ProductosData = (props) => {
           <Column field="nombre" header="NOMBRE" sortable ></Column>
           <Column field="codigo" header="CODIGO"  sortable ></Column>
           <Column field="codigoAux" header="CODIGO AUXILIAR" sortable ></Column>
-          <Column field="valorUnitario" header="VALOR UNITARIO" sortable  ></Column>
+          <Column field="valor_unitario" header="VALOR UNITARIO" sortable  ></Column>
         
           <Column body={actionBodyTemplate}></Column>
         </DataTable>
@@ -295,16 +296,16 @@ const ProductosData = (props) => {
 
         <div className="p-field w-100">
           <label htmlFor="valorUnitario w-50">Valor Unitario</label><br/>
-          <InputText id="valorUnitario" value={producto.valorUnitario}   onChange={(e) => onInputChange(e,'valorUnitario')} />
+          <InputText id="valor_unitario" value={producto.valor_unitario}   onChange={(e) => onInputChange(e,'valor_unitario')} />
         </div>
         <div className="p-field w-50">
           <label htmlFor="tipoProductoId w-50">Tipo de Producto</label><br/>
-          <Dropdown id="tipoProductoId" value={producto.tipoProductoId}   itemTemplate={itemTemplate}  onChange={(e) => onInputChange(e,'tipoProductoId')} options={tipoProductoOptions}/>
+          <Dropdown id="tipo_producto_id" value={producto.tipo_producto_id} onChange={(e) => onInputChange(e,'tipo_producto_id')} options={tipoProductoOptions} optionLabel="nombre" optionValue="id"/>
         </div>
         
         <div className="p-field w-50">
           <label htmlFor="tarifaIvaId">Porcentaje IVA</label><br/>
-          <Dropdown id="tarifaIvaId" value={producto.tarifaIvaId}   itemTemplate={itemTemplate}  onChange={(e) => onInputChange(e,'tarifaIvaId')} options={porcentajeIvaOptions}/>
+          <Dropdown id="tarifa_iva_id" value={producto.tarifa_iva_id} onChange={(e) => onInputChange(e,'tarifa_iva_id')} options={porcentajeIvaOptions} optionLabel="nombre" optionValue="id"/>
         </div>
         
         
