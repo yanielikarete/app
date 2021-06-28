@@ -17,6 +17,7 @@ import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { Dropdown } from 'primereact/dropdown';
 import { ServiceApp } from '../../service/ServiceApp';
+import {useHistory} from 'react-router-dom';
 
 import './common.css';
 import { Panel } from 'primereact/panel';
@@ -46,7 +47,7 @@ const FacturasData = (props) => {
     comentarios:"",
     productos:[]
   };
-  console.log(props)
+  console.log(props,"props")
   const [facturas, setFacturas] = useState(null);
   const [clientes, setBeneficiarios] = useState(null);
   const [dropdownProductos,setDropdownProductos] = useState(null)
@@ -133,7 +134,7 @@ const FacturasData = (props) => {
   const hideDeleteFacturasDialog = () => {
     setDeleteFacturasDialog(false);
   }
-
+  const history = useHistory();
   const saveFactura = () => {
     setSubmitted(true);
     console.log("BENEFISIARIOS",selectedBeneficiarios);
@@ -153,9 +154,12 @@ const FacturasData = (props) => {
       console.log("MI FACTURA ",_factura)
       serviceApp.addFactura(_factura).then(d=>{
         console.log(d);
+        history.push({pathname:"/prefacturas",state: { detail: d}});
       })
       
-        
+    
+      
+      
     
   }
 

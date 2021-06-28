@@ -74,6 +74,7 @@ import DiarioContablesData from './components/Banca/DiarioContableData';
 import HistorialFacturasData from './components/Documentos/HistorialFacturaData';
 import OperacionesData from './components/Banca/OperacionesData';
 import FacturasData from './components/Abonos/FacturasData';
+import PrefacturaData from './components/Abonos/PrefacturaData';
 
 function setToken(userToken) {
     console.log("saving token on session storage",userToken)
@@ -581,9 +582,9 @@ const App = () => {
                 <Route path="/establecimientos">
                     <EstablecimientosData header="Manejar Establecimientos" title="Establecimientos" sing="Establecimiento" />
                 </Route>
-                {/* <Route path="/facturas">
-                    <Dashboard title="Facturas"></Dashboard>
-                </Route> */}
+                <Route path="/prefacturas" >
+                    <PrefacturaData title="Pre-Facturas" sing="prefacturas"></PrefacturaData>
+                </Route>
             </div>
 
             <AppFooter />
