@@ -2,10 +2,18 @@ import axios from 'axios';
 import { instances } from 'chart.js';
 /*-------------------config-------------------*/
 // const BASE_URL = 'https://localhost/api/';
-const BASE_URL = 'http://sgde.perfect-solutions.com.ec/';
-// const BASE_URL = 'http://sgde.com/';
+// const BASE_URL = 'http://sgde.perfect-solutions.com.ec/';
+const BASE_URL = 'http://sgde.com/';
 const API = axios.create({
-    baseURL: BASE_URL
+    baseURL: BASE_URL,
+    validateStatus:(status)=>{
+        console.log("VALIDATING STATUS",status);
+        if(status==401){
+          sessionStorage.removeItem('token')
+          document.location = "/";
+        }
+        return status
+    }
 })
 const headers = {
   // 'Content-Type': 'text/html'
@@ -46,6 +54,14 @@ const CLIENTES = {
 
 const TRANSPORTISTA = "api/v1/transportistas";
 const FACTURA = "api/v1/facturas";
+const TIPO_EMISION = "api/v1/tipoEmisiones";
+const TIPO_AMBIENTE = "api/v1/tipoAmbientes";
+const TIPO_IDENTIFIACION = "api/v1/tipoIdentificacion";
+const CLASE_CONTRIBUYENTES = "api/v1/claseContribuyentes";
+const TIPO_PRODUCTOS = "api/v1/tipoproductos";
+const TARIFA_IVA = "api/v1/tarifaiva";
+const FORMA_PAGOS = "api/v1/formapagos";
+const UNIDAD_TIEMPOS = "api/v1/unidadtiempos";
 
 /*-------------------Tokens-------------------*/
 
@@ -95,7 +111,7 @@ export class ServiceApp
             API.defaults.headers.common.Authorization = "Bearer " + token;
             API.Authorization = token
             console.log("entro a guardar token", API.defaults.headers.common.Authorization);
-            // API.getCurrentUser()
+            this.getCurrentUser()
             return token;
 
           }else{
@@ -337,13 +353,28 @@ export class ServiceApp
       );
     }
 
-     /* *********************Productos****************************** */
+     /* *********************EMPRESA****************************** */
 
      saveEmpresa(empresa){
       
       return API.post(EMPRESA, empresa)
       .then(res=>{
 
+        if (res.status === 200) {
+          
+          return res.data;
+
+        }else{
+          console.log(res);
+          return res.data;
+        }
+      }
+      );
+    }
+    updateEmpresa(empresa){
+      console.log("updating empresa", empresa)
+      return API.put(EMPRESA+"/"+empresa.id, empresa)
+      .then(res=>{
         if (res.status === 200) {
           
           return res.success;
@@ -534,6 +565,115 @@ export class ServiceApp
           return res.success;
         }
       }
+      );
+    }
+        /**********************NOMENCLADORES****************************** */
+
+    getTipoEmisiones(){
+      return API.get(TIPO_EMISION).then(
+        res=>{
+          if (res.statusText === "OK"){
+            console.log("respuesta de la api susseful TIPO_EMISION",res)
+            return res.data;
+          }else{
+
+            console.log("respuesta de la api failed",res.status);
+          }
+        }
+      );
+    } 
+
+    getTipoAmbiente(){
+      return API.get(TIPO_AMBIENTE).then(
+        res=>{
+          if (res.statusText === "OK"){
+            console.log("respuesta de la api susseful TIPO_EMISION",res)
+            return res.data;
+          }else{
+
+            console.log("respuesta de la api failed",res.status);
+          }
+        }
+      );
+    } 
+    getTiposIdentificacion(){
+      return API.get(TIPO_IDENTIFIACION).then(
+        res=>{
+          if (res.statusText === "OK"){
+            console.log("respuesta de la api susseful TIPO_EMISION",res)
+            return res.data;
+          }else{
+
+            console.log("respuesta de la api failed",res.status);
+          }
+        }
+      );
+    } 
+
+    getClaseContribuyentes(){
+      return API.get(CLASE_CONTRIBUYENTES).then(
+        res=>{
+          if (res.statusText === "OK"){
+            console.log("respuesta de la api susseful TIPO_EMISION",res)
+            return res.data;
+          }else{
+
+            console.log("respuesta de la api failed",res.status);
+          }
+        }
+      );
+    } 
+
+    getTipoProductos(){
+      return API.get(TIPO_PRODUCTOS).then(
+        res=>{
+          if (res.statusText === "OK"){
+            console.log("respuesta de la api susseful TIPO_EMISION",res)
+            return res.data;
+          }else{
+
+            console.log("respuesta de la api failed",res.status);
+          }
+        }
+      );
+    }
+    getTarifaIvas(){
+      return API.get(TARIFA_IVA).then(
+        res=>{
+          if (res.statusText === "OK"){
+            console.log("respuesta de la api susseful TIPO_EMISION",res)
+            return res.data;
+          }else{
+
+            console.log("respuesta de la api failed",res.status);
+          }
+        }
+      );
+    }
+    getFormaPagos(){
+      return API.get(FORMA_PAGOS).then(
+        res=>{
+          if (res.statusText === "OK"){
+            console.log("respuesta de la api susseful TIPO_EMISION",res)
+            return res.data;
+          }else{
+
+            console.log("respuesta de la api failed",res.status);
+          }
+        }
+      );
+    }
+    getUnidadTiempos(){
+      return API.get(UNIDAD_TIEMPOS).then(
+        res=>{
+          if (res.statusText === "OK"){
+            console.log("respuesta de la api susseful TIPO_EMISION",res)
+            return res.data;
+          }else{
+
+            console.log("respuesta de la api failed",res.status);
+          }
+        }
       );
     }
 }
