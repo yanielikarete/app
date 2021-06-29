@@ -582,8 +582,8 @@ const App = () => {
                 <Route path="/establecimientos">
                     <EstablecimientosData header="Manejar Establecimientos" title="Establecimientos" sing="Establecimiento" />
                 </Route>
-                <Route path="/prefacturas" >
-                    <PrefacturaData title="Pre-Facturas" sing="prefacturas"></PrefacturaData>
+                <Route path="/prefacturas/:id_factura" >
+                    <PrefacturaData title="Pre-Facturas" sing="prefacturas" ></PrefacturaData>
                 </Route>
             </div>
 

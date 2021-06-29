@@ -18,10 +18,13 @@ import { InputText } from 'primereact/inputtext';
 import { Dropdown } from 'primereact/dropdown';
 import { ServiceApp } from '../../service/ServiceApp';
 import {useHistory,useLocation} from 'react-router-dom';
+import {useParams} from 'react-router';
+// import FacturasData from './FacturasData.js'
 import './common.css';
 import { Panel } from 'primereact/panel';
 const PrefacturaData = (props) => {
 
+  let { id_factura }= useParams()
   let emptyPago = {
     forma:"",
     plazo:0,
@@ -45,6 +48,8 @@ const PrefacturaData = (props) => {
     comentarios:"",
     productos:[]
   };
+
+  let datosFactura = null;
   const location = useLocation();
 
   const [prefacturas, setPrefacturas] = useState(null);
@@ -106,7 +111,7 @@ const PrefacturaData = (props) => {
     // serviceApp.getTarifaIvas().then(data => setDropdownTarifaIva(data));
     // serviceApp.getFormaPagos().then(data => setDropdownFormas(data));
     // serviceApp.getUnidadTiempos().then(data => setDropdownUnidadPlazo(data));
-    // serviceApp.getAllProductos().then(data=> setProductos(data))
+    // serviceApp.getFactura(id_factura).then(data=> setPrefactura(data))
     console.log("STATES",location);
     const tokenString = sessionStorage.getItem('USER');
     const userObj = JSON.parse(tokenString);
@@ -114,8 +119,10 @@ const PrefacturaData = (props) => {
     if(userObj.user.empresa!=undefined)
       setEmpresa(userObj.user.empresa);
 
-      
-    
+    serviceApp.getFactura(id_factura).then(d=>{
+        console.log("datos prefactura", d)
+        setPrefactura(d);
+      })
     //esto si la api lo puede setear mejor
    
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -185,7 +192,7 @@ const PrefacturaData = (props) => {
         
     
   }
-
+ console.log("props", props)
   const editPrefactura = (prefactura) => {
     setPrefactura({ ...prefactura });
     setPrefacturaDialog(true);
@@ -368,8 +375,8 @@ const PrefacturaData = (props) => {
       <h1>{props.title}</h1>
 
       <div class="p-d-flex p-jc-between">
-          <div>Razón Social / Nombre y Apellidos: {}</div>
-          <div>Identificació: <span>hgieuweje93</span></div>
+          <div>Razón Social / Nombre y Apellidos: </div>
+          <div>Identificació: <span>{id_factura}</span></div>
          
 
       </div>
@@ -380,22 +387,22 @@ const PrefacturaData = (props) => {
 <div >
         <h2>Resumen de Productos</h2>
 
-        <DataTable ref={dt} value={productos} selection={selectedProductos} onSelectionChange={(e) => setSelectedProductos(e.value)}
+        <DataTable ref={dt} value={prefactura.productos} selection={selectedProductos} onSelectionChange={(e) => setSelectedProductos(e.value)}
           dataKey="id" paginator rows={10} rowsPerPageOptions={[5, 10, 25]}
           paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
           currentPageReportTemplate="Showing {first} to {last} of {totalRecords} productos"
           globalFilter={globalFilter}
           header={header}>
 
-          <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
+          {/* <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column> */}
           
-          <Column field="codigo" header="CODIGO"  sortable ></Column>
-          <Column field="codigoAux" header="CODIGO AUXILIAR" sortable ></Column>
+          <Column field="producto.codigo" header="CODIGO"  sortable ></Column>
+          <Column field="producto.codigoAux" header="CODIGO AUXILIAR" sortable ></Column>
           <Column field="cantidad" header="CANTIDAD" sortable ></Column>
-          <Column field="nombre" header="DESCRIPCIÓN" sortable ></Column>
-          <Column field="valor_unitario" header="VALOR UNITARIO" sortable  ></Column>
+          <Column field="producto.nombre" header="DESCRIPCIÓN" sortable ></Column>
+          <Column field="precioUnitario" header="VALOR UNITARIO" sortable  ></Column>
           <Column field="descuento" header="VALOR UNITARIO" sortable  ></Column>
-          <Column field="precio_total" header="PRECIO TOTAL" sortable  ></Column>
+          <Column field="totalConImpuesto" header="PRECIO TOTAL" sortable  ></Column>
         
           {/* <Column body={actionBodyTemplate}></Column> */}
         </DataTable>
@@ -409,7 +416,6 @@ const PrefacturaData = (props) => {
        
     </div>
 
-  
       
     
 

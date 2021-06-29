@@ -558,7 +558,7 @@ export class ServiceApp
 
         if (res.status === 200) {
           
-          return res.success;
+          return res.data.data;
 
         }else{
           console.log(res);
@@ -566,6 +566,35 @@ export class ServiceApp
         }
       }
       );
+    }
+    procesarFactura(id){
+      
+      return API.post(FACTURA+"/procesar/"+id)
+      .then(res=>{
+        if (res.status === 200) {
+          return res.data;
+        }else{
+          console.log(res);
+          return res.success;
+        }
+      }
+      );
+    }
+
+    getFactura(id_factura){
+      
+      return API.get(FACTURA+'/'+id_factura).then(
+        res=>{
+          if (res.statusText === "OK"){
+            console.log("respuesta de la api susseful factura",res.data)
+            return res.data;
+          }else{
+
+            console.log("respuesta de la api failed",res.status);
+          }
+        }
+      );
+
     }
         /**********************NOMENCLADORES****************************** */
 
