@@ -579,6 +579,7 @@ const App = () => {
                     <UsuariosData header="Manejar Usuarios" title="Usuarios" sing="Usuario" />
                 </Route>
                 <Route path="/empresa" component={Empresas} />
+                <Route path="/firma" component={FirmaDigital} />
                 <Route path="/establecimientos">
                     <EstablecimientosData header="Manejar Establecimientos" title="Establecimientos" sing="Establecimiento" />
                 </Route>

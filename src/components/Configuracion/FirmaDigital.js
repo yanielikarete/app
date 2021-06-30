@@ -17,16 +17,23 @@ const FirmaDigital = (props) => {
     passwordAuth: "null",
     passwordCert: '',
     certificado: "null",
-   
-
   };
   console.log(props)
   const [firmadigital, setFirmaDigital] = useState(emptyFirmaDigital);
+  const [empresa, setEmpresa] = useState(null);
+  const [firmaPass, setFirmaPass] = useState(null);
   const toast = useRef(null);
   const firmadigitalService = new EmpresaService();
+  const appService = new ServiceApp();
+
 
 
   useEffect(() => {
+    const tokenString = sessionStorage.getItem('USER');
+    const userObj = JSON.parse(tokenString);
+    console.log("EMPRESA =>",userObj.user.empresa);
+    setEmpresa(userObj.user.empresa)
+    
     firmadigitalService.getFirmaDigital().then(data => {
         console.log(data)
       setFirmaDigital(data);
@@ -40,15 +47,25 @@ const FirmaDigital = (props) => {
 
   const saveFirmaDigital = () => {
       //@todo guardar la firma digital
+      // uploadFile
+      appService.uploadFile(firmadigital['certificado'],'firma').then(data=>{
+          console.log("SUBIOOOO",data);
+          appService.saveFirma({"id_file":data.file_id,"id_empresa":empresa.id,"firmaPass":firmaPass}).then(res2=>{
+            console.log("finito los muñequitos",res2);
+          });
+      });
       toast.current.show({ severity: 'success', summary: 'Successful', detail: 'FirmaDigital Creada', life: 3000 });
       setFirmaDigital(emptyFirmaDigital);
     
   }
 
 
-
+const onUpload = (e) =>{
+  console.log("on upload ",e);
+}
 
 const onChangeCert = (e) =>{
+  console.log("ON CHANGE CERT");
   console.log(e.originalEvent);
   console.log(e.files.item(0));
   let val = e.files.item(0)
@@ -76,19 +93,20 @@ const onChangeCert = (e) =>{
           </div>
           <div className="p-field w-50">
             <label htmlFor="passwordCert">Contraseña de su certificado</label><br/>
-            <Password id="passwordCert" type="password" />
+            <Password id="passwordCert" type="password" onInput={(e)=> setFirmaPass(e.target.value)} />
           </div>
           </div>
           <div className="row">
 
             <div className="p-field w-50">
                   <label htmlFor="certificado">Fichero contenedor .P12 </label><br/>
+                  {/* <FileUpload name="certificado" url="./upload.php" onUpload={onUpload} multiple accept="image/*" maxFileSize={1000000} /> */}
 
-                  <FileUpload id="certificado" mode="basic" accept="*/*" maxFileSize={1000000} label="certificado" chooseLabel="Certificado" className="p-mr-2 p-d-inline-block" onSelect={(e) => onChangeCert(e)}  />
+                  <FileUpload id="certificado" mode="basic" accept="*/*" maxFileSize={1000000} label="certificado" chooseLabel="Certificado" className="p-mr-2 p-d-inline-block" onSelect={(e) => onChangeCert(e)} onUpload={onUpload} />
             </div>
         </div>
         <React.Fragment>
-          <Button label="Guardar" icon="pi pi-check" className="p-button" onClick={saveFirmaDigital} />
+          <Button label="Guardar" icon="pi pi-check" className="p-button" onClick={saveFirmaDigital}  />
         </React.Fragment>
       </div>
     </div>

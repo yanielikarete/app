@@ -62,7 +62,6 @@ const TIPO_PRODUCTOS = "api/v1/tipoproductos";
 const TARIFA_IVA = "api/v1/tarifaiva";
 const FORMA_PAGOS = "api/v1/formapagos";
 const UNIDAD_TIEMPOS = "api/v1/unidadtiempos";
-
 /*-------------------Tokens-------------------*/
 
 function getToken() {
@@ -395,35 +394,20 @@ export class ServiceApp
       .then(res=>{
 
         if (res.status === 200) {
-          
-          return res.success;
+          console.log("POR ALLA",res);
+
+          return res;
 
         }else{
-          console.log(res);
-          return res.success;
+          console.log("POR AQUI",res);
+          return res;
         }
       }
       );
     }
 
-     /* *********************Upload File****************************** */
-
-     uploadFile(file){
-      
-      return API.post(UPLOAD_FILE, file)
-      .then(res=>{
-
-        if (res.status === 200) {
-          
-          return res.success;
-
-        }else{
-          console.log(res);
-          return res.success;
-        }
-      }
-      );
-    }
+  
+    
 
      /* *********************Clientes****************************** */
 
@@ -596,6 +580,23 @@ export class ServiceApp
       );
 
     }
+
+
+        /**********************FIRMA DIGITAL****************************** */
+        uploadFile(file,type){
+          var formData = new FormData();
+          formData.append("my_file", file);
+          formData.append("type", type);
+          return API.post(UPLOAD_FILE, formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }}).then(res=>{
+              console.log("RES DATA",res)
+              return res.data;
+          }
+          );
+        }
+
         /**********************NOMENCLADORES****************************** */
 
     getTipoEmisiones(){
