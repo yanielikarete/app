@@ -449,7 +449,7 @@ export class ServiceApp
           if (res.statusText === "OK"){
             let todos = res.data
             for (var indice in todos) {
-              if(todos[indice].tipoCliente.id == 1){
+              if(todos[indice].tipoCliente.nombre === "Proveedor"){
                 proveedores.push(todos[indice]);
               }
             }
@@ -471,7 +471,7 @@ export class ServiceApp
           if (res.statusText === "OK"){
             let todos = res.data
             for (var indice in todos) {
-              if(todos[indice].tipoCliente.id == 2){
+              if(todos[indice].tipoCliente.nombre === "Cliente"){
                 clientes.push(todos[indice]);
               }
             }

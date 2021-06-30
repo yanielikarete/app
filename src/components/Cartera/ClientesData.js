@@ -47,7 +47,9 @@ const ClientesData = (props) => {
   let serviceApp = ServiceApp.getInstance();
 
   useEffect(() => {
-    serviceApp.getClientes().then(data => setClientes(data));
+    serviceApp.getClientes().then(data => {
+      console.log("seteando data", data)
+      setClientes(data)});
     serviceApp.getTiposIdentificacion().then(data => setTipoIdOptions(data));
     serviceApp.getClaseContribuyentes().then(data => setContribuyenteOptions(data));
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -268,7 +270,7 @@ const ClientesData = (props) => {
           <Column field="ruc" header="RUC/CEDULA" sortable filter></Column>
           <Column field="nombre" header="RAZÓN SOCIAL" filter sortable ></Column>
           <Column field="correo" header="correo" sortable filter></Column>
-          <Column field="identificacion_id" header="TIPO DE IDENTIFICACIÓN" sortable filter ></Column>
+          <Column field="identificacion.nombre" header="TIPO DE IDENTIFICACIÓN" sortable filter ></Column>
           <Column field="direccion" header="DIRECCIÓN" sortable filter></Column>
         
           <Column body={actionBodyTemplate}></Column>
