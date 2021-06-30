@@ -62,7 +62,6 @@ const TIPO_PRODUCTOS = "api/v1/tipoproductos";
 const TARIFA_IVA = "api/v1/tarifaiva";
 const FORMA_PAGOS = "api/v1/formapagos";
 const UNIDAD_TIEMPOS = "api/v1/unidadtiempos";
-
 /*-------------------Tokens-------------------*/
 
 function getToken() {
@@ -395,35 +394,20 @@ export class ServiceApp
       .then(res=>{
 
         if (res.status === 200) {
-          
-          return res.success;
+          console.log("POR ALLA",res);
+
+          return res;
 
         }else{
-          console.log(res);
-          return res.success;
+          console.log("POR AQUI",res);
+          return res;
         }
       }
       );
     }
 
-     /* *********************Upload File****************************** */
-
-     uploadFile(file){
-      
-      return API.post(UPLOAD_FILE, file)
-      .then(res=>{
-
-        if (res.status === 200) {
-          
-          return res.success;
-
-        }else{
-          console.log(res);
-          return res.success;
-        }
-      }
-      );
-    }
+  
+    
 
      /* *********************Clientes****************************** */
 
@@ -558,7 +542,7 @@ export class ServiceApp
 
         if (res.status === 200) {
           
-          return res.success;
+          return res.data.data;
 
         }else{
           console.log(res);
@@ -567,6 +551,52 @@ export class ServiceApp
       }
       );
     }
+    procesarFactura(id){
+      
+      return API.post(FACTURA+"/procesar/"+id)
+      .then(res=>{
+        if (res.status === 200) {
+          return res.data;
+        }else{
+          console.log(res);
+          return res.success;
+        }
+      }
+      );
+    }
+
+    getFactura(id_factura){
+      
+      return API.get(FACTURA+'/'+id_factura).then(
+        res=>{
+          if (res.statusText === "OK"){
+            console.log("respuesta de la api susseful factura",res.data)
+            return res.data;
+          }else{
+
+            console.log("respuesta de la api failed",res.status);
+          }
+        }
+      );
+
+    }
+
+
+        /**********************FIRMA DIGITAL****************************** */
+        uploadFile(file,type){
+          var formData = new FormData();
+          formData.append("my_file", file);
+          formData.append("type", type);
+          return API.post(UPLOAD_FILE, formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }}).then(res=>{
+              console.log("RES DATA",res)
+              return res.data;
+          }
+          );
+        }
+
         /**********************NOMENCLADORES****************************** */
 
     getTipoEmisiones(){

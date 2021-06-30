@@ -17,12 +17,15 @@ import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { Dropdown } from 'primereact/dropdown';
 import { ServiceApp } from '../../service/ServiceApp';
-
+import {useHistory} from 'react-router-dom';
+// import PrefacturaData from './PrefacturaData.js'
 import './common.css';
 import { Panel } from 'primereact/panel';
+// import Component from '@fullcalendar/core/component/Component';
 
 const FacturasData = (props) => {
 
+  let datosFactura = null
   let emptyPago = {
     forma:"",
     plazo:0,
@@ -46,7 +49,8 @@ const FacturasData = (props) => {
     comentarios:"",
     productos:[]
   };
-  console.log(props)
+  console.log(props,"props")
+  const [result, setResult] = useState(null);
   const [facturas, setFacturas] = useState(null);
   const [clientes, setBeneficiarios] = useState(null);
   const [dropdownProductos,setDropdownProductos] = useState(null)
@@ -133,7 +137,7 @@ const FacturasData = (props) => {
   const hideDeleteFacturasDialog = () => {
     setDeleteFacturasDialog(false);
   }
-
+  const history = useHistory();
   const saveFactura = () => {
     setSubmitted(true);
     console.log("BENEFISIARIOS",selectedBeneficiarios);
@@ -151,11 +155,18 @@ const FacturasData = (props) => {
       _factura["productos"] = factura["productos"]
       console.log(selectedBeneficiarios)
       console.log("MI FACTURA ",_factura)
-      serviceApp.addFactura(_factura).then(d=>{
-        console.log(d);
+      serviceApp.addFactura(_factura).then(data=>{
+        // setResult(data)
+        // console.log("result", result)
+        console.log("respuesta de la api ", data);
+        // datosFactura = data
+        serviceApp.procesarFactura(data.id);
+        history.push({pathname:"/prefacturas/" + data.id ,state: { detail: data}});
       })
       
-        
+    
+      
+      
     
   }
 
@@ -193,6 +204,8 @@ const FacturasData = (props) => {
     return index;
   }
 
+  
+  
   const createId = () => {
     let id = '';
     let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -272,6 +285,7 @@ const FacturasData = (props) => {
 
 
 
+
   const ratingBodyTemplate = (rowData) => {
     return <Rating value={rowData.rating} readOnly cancel={false} />;
   }
@@ -323,7 +337,8 @@ const FacturasData = (props) => {
 
   return (
       <>
-      <h1>{props.title}</h1>     
+      <h1>{props.title}</h1>  
+      
     <div>
       <div className="datatable-crud-demo"> 
         <Toast ref={toast} />

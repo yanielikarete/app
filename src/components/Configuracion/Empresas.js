@@ -24,6 +24,7 @@ const Empresas = (props) => {
     ambiente:"PRODUCCION",
     emision:"NORMAL",
     contribuyenteEspecial: 0,
+    establecimientos : []
   
 
   };
@@ -32,6 +33,7 @@ const Empresas = (props) => {
   const [submitted, setSubmitted] = useState(false);
   const [emisionOptions, setEmisionOptions] = useState(false);
   const [ambienteOptions, setAmbienteOptions] = useState(false);
+  // const [establecimientos, setEstablecimientos] = useState(false);
   const [currentUser, setCurrentUser] = useState(false);
   const toast = useRef(null);
   const appService = new ServiceApp();
@@ -47,6 +49,7 @@ const Empresas = (props) => {
       setEmpresa(userObj.user.empresa);
     appService.getTipoEmisiones().then(data=>{setEmisionOptions(data)});
     appService.getTipoAmbiente().then(data=>{setAmbienteOptions(data)});
+    // appService.getAllEstablecimientos().then(data => {setEstablecimientos(data)})
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 //   const formatCurrency = (value) => {
@@ -69,6 +72,7 @@ const itemTemplate = (option) => {
         empresa["id_tipo_ambiente"]=empresa["tipoAmbiente"];
         empresa["id_tipo_emision"]=empresa["tipoEmision"];
         empresa["id_esquema"]=empresa["esquema"];
+        empresa["establecimientos"] = appService.getAllEstablecimientos()
         toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Empresa Updated', life: 3000 });
         appService.updateEmpresa(empresa);
       }
@@ -78,6 +82,7 @@ const itemTemplate = (option) => {
         empresa["id_tipo_ambiente"]=empresa["tipoAmbiente"];
         empresa["id_tipo_emision"]=empresa["tipoEmision"];
         empresa["id_esquema"]=empresa["esquema"];
+        empresa["establecimientos"] = appService.getAllEstablecimientos()
         console.log(empresa)
         appService.saveEmpresa(empresa).then(data=>{
           console.log(data);
@@ -154,7 +159,7 @@ const onChangeImage = (e) =>{
 
         </div>
         <div className="row">
-          <div className="p-field w-80">
+          <div className="p-field w-60">
             <label htmlFor="direccionMatriz">Direccion Matriz</label><br/>
             <InputText id="direccionMatriz" value={empresa.direccionMatriz} onChange={(e) => onInputChange(e, 'direccionMatriz')} required />
             {submitted && !empresa.direccionMatriz && <small className="p-error">Direccion es requerido.</small>}
