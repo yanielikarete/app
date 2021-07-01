@@ -286,7 +286,7 @@ const App = () => {
               {
                  label:'Factura',
                  icon:'pi pi-fw pi-file',
-                 to:'facturas'
+                 to:'/facturas'
               },
               {
                  label:'Nota de Crédito',
@@ -580,6 +580,7 @@ const App = () => {
                 </Route>
                 <Route path="/empresa" component={Empresas} />
                 <Route path="/firma" component={FirmaDigital} />
+                <Route path="/secuenciales" component={Secuencialess} />
                 <Route path="/establecimientos">
                     <EstablecimientosData header="Manejar Establecimientos" title="Establecimientos" sing="Establecimiento" />
                 </Route>
