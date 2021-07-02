@@ -408,6 +408,14 @@ export class ServiceApp
       }
       );
     }
+    getUser(){
+      const tokenString = sessionStorage.getItem('USER');
+      const userObj = JSON.parse(tokenString);
+      if(userObj==null){
+          this.logout();
+      }
+      return userObj.user;
+    }
     getEmpresaId(){
       const tokenString = sessionStorage.getItem('USER');
       const userObj = JSON.parse(tokenString);

@@ -57,6 +57,7 @@ const FacturasData = (props) => {
   const [dropdownTarifaIva,setDropdownTarifaIva] = useState(null)
   const [selectedBeneficiarios, setSelectedBeneficiarios] = useState(null);
   const [pago,setPago ]=useState(emptyPago);
+  const [documentId,setDocumentId ]=useState(null);
   const [facturaDialog, setFacturaDialog] = useState(false);
   const [deleteFacturaDialog, setDeleteFacturaDialog] = useState(false);
   const [deleteFacturasDialog, setDeleteFacturasDialog] = useState(false);
@@ -87,6 +88,13 @@ const FacturasData = (props) => {
     serviceApp.getTarifaIvas().then(data => setDropdownTarifaIva(data));
     serviceApp.getFormaPagos().then(data => setDropdownFormas(data));
     serviceApp.getUnidadTiempos().then(data => setDropdownUnidadPlazo(data));
+    serviceApp.getTipoDocumento().then(d=>{
+      for(const doc of d){
+          if(doc.nombre=="facturas"){
+              setDocumentId(doc.id)
+          }
+      }
+    });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
   
   // const formatCurrency = (value) => {
@@ -140,7 +148,7 @@ const FacturasData = (props) => {
      
       _factura["unidadtiempo_id"] = pago["unidadtiempo_id"];
       _factura["propina"] = pago["propina"];
-      _factura["tipodocumento_id"] = 1;//FACTURA
+      _factura["tipodocumento_id"] =documentId;//FACTURA
       _factura["plazos"] = pago["plazo"];
       _factura["cliente_id"] = selectedBeneficiarios.id
       _factura["productos"] = factura["productos"]
