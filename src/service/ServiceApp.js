@@ -113,8 +113,10 @@ export class ServiceApp
             API.defaults.headers.common.Authorization = "Bearer " + token;
             API.Authorization = token
             console.log("entro a guardar token", API.defaults.headers.common.Authorization);
-            this.getCurrentUser()
-            return token;
+            return this.getCurrentUser().then(a=>{
+                return token
+            })
+            
 
           }else{
             console.log(res);
@@ -426,7 +428,7 @@ export class ServiceApp
     }
     logout(){
       sessionStorage.removeItem('token')
-          document.location = "/";
+          // document.location = "/";
     }
     /* *********************Secuencciales****************************** */
     getSecuenciales(){
