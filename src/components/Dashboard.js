@@ -88,22 +88,22 @@ export const Dashboard = (props) => {
         <div className="p-grid p-fluid dashboard">
             <div className="p-col-12 p-lg-4">
                 <div className="card summary">
-                    <span className="title">Users</span>
-                    <span className="detail">Number of visitors</span>
+                    <span className="title">Usuarios</span>
+                    <span className="detail">Visitantes</span>
                     <span className="count visitors">12</span>
                 </div>
             </div>
             <div className="p-col-12 p-lg-4">
                 <div className="card summary">
-                    <span className="title">Sales</span>
-                    <span className="detail">Number of purchases</span>
+                    <span className="title">Ventas</span>
+                    <span className="detail">Numero de facturas</span>
                     <span className="count purchases">534</span>
                 </div>
             </div>
             <div className="p-col-12 p-lg-4">
                 <div className="card summary">
-                    <span className="title">Revenue</span>
-                    <span className="detail">Income for today</span>
+                    <span className="title">Ingresos</span>
+                    <span className="detail">Ingresos del día</span>
                     <span className="count revenue">$3,200</span>
                 </div>
             </div>

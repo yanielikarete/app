@@ -9,10 +9,9 @@ const API = axios.create({
     validateStatus:(status)=>{
         console.log("VALIDATING STATUS",status);
         if(status==401){
-          sessionStorage.removeItem('token')
-          document.location = "/";
+          ServiceApp.getInstance.logout()
         }
-        return status
+        return status;
     }
 })
 const headers = {
@@ -56,12 +55,15 @@ const TRANSPORTISTA = "api/v1/transportistas";
 const FACTURA = "api/v1/facturas";
 const TIPO_EMISION = "api/v1/tipoEmisiones";
 const TIPO_AMBIENTE = "api/v1/tipoAmbientes";
+const TIPO_DOCUMENTO = "api/v1/tipodocumentos";
 const TIPO_IDENTIFIACION = "api/v1/tipoIdentificacion";
 const CLASE_CONTRIBUYENTES = "api/v1/claseContribuyentes";
 const TIPO_PRODUCTOS = "api/v1/tipoproductos";
 const TARIFA_IVA = "api/v1/tarifaiva";
 const FORMA_PAGOS = "api/v1/formapagos";
 const UNIDAD_TIEMPOS = "api/v1/unidadtiempos";
+const SECUENCIALES_EMPRESA = "api/v1/secuenciales/empresa";
+const SECUENCIALES = "api/v1/secuenciales";
 /*-------------------Tokens-------------------*/
 
 function getToken() {
@@ -95,6 +97,7 @@ export class ServiceApp
       API.Authorization = token
 
   }
+ 
 
   return this.appInstance;
   }
@@ -138,7 +141,7 @@ export class ServiceApp
           }
         }
       ).catch(function (error) {
-        sessionStorage.removeItem('token')
+       this.logout()
         if (error.response) {
           // Request made and server responded
           console.log(error.response.data);
@@ -405,7 +408,50 @@ export class ServiceApp
       }
       );
     }
+    getUser(){
+      const tokenString = sessionStorage.getItem('USER');
+      const userObj = JSON.parse(tokenString);
+      if(userObj==null){
+          this.logout();
+      }
+      return userObj.user;
+    }
+    getEmpresaId(){
+      const tokenString = sessionStorage.getItem('USER');
+      const userObj = JSON.parse(tokenString);
+      if(userObj==null){
+          this.logout();
+      }
+      return userObj.user.empresa.id;
+    }
+    logout(){
+      sessionStorage.removeItem('token')
+          document.location = "/";
+    }
+    /* *********************Secuencciales****************************** */
+    getSecuenciales(){
+      return API.get(SECUENCIALES_EMPRESA+"/"+this.getEmpresaId()).then(
+        res=>{
+          console.log("LOADING SECUENCIALES",res);
+          return res.data;
+        });
+    }
+    saveSecuencial(cliente){
+      cliente["empresa_id"]=this.getEmpresaId()
+      cliente["codigo"]="TEST"//@TODO EL CODIGO QUE ES
+      return API.post(SECUENCIALES, cliente)
+      .then(res=>{
+        if (res.status === 200) {
+          
+          return res.success;
 
+        }else{
+          console.log(res);
+          return res.success;
+        }
+      }
+      );
+    }
   
     
 
@@ -536,7 +582,7 @@ export class ServiceApp
 
     /**********************Facturas****************************** */
     addFactura(factura){
-      
+      factura["empresa_id"]=this.getEmpresaId();
       return API.post(FACTURA, factura)
       .then(res=>{
 
@@ -695,6 +741,19 @@ export class ServiceApp
     }
     getUnidadTiempos(){
       return API.get(UNIDAD_TIEMPOS).then(
+        res=>{
+          if (res.statusText === "OK"){
+            console.log("respuesta de la api susseful TIPO_EMISION",res)
+            return res.data;
+          }else{
+
+            console.log("respuesta de la api failed",res.status);
+          }
+        }
+      );
+    }
+    getTipoDocumento(){
+      return API.get(TIPO_DOCUMENTO).then(
         res=>{
           if (res.statusText === "OK"){
             console.log("respuesta de la api susseful TIPO_EMISION",res)

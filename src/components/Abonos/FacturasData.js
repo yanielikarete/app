@@ -57,6 +57,7 @@ const FacturasData = (props) => {
   const [dropdownTarifaIva,setDropdownTarifaIva] = useState(null)
   const [selectedBeneficiarios, setSelectedBeneficiarios] = useState(null);
   const [pago,setPago ]=useState(emptyPago);
+  const [documentId,setDocumentId ]=useState(null);
   const [facturaDialog, setFacturaDialog] = useState(false);
   const [deleteFacturaDialog, setDeleteFacturaDialog] = useState(false);
   const [deleteFacturasDialog, setDeleteFacturasDialog] = useState(false);
@@ -67,7 +68,6 @@ const FacturasData = (props) => {
   const [dropdownFormas, setDropdownFormas] = useState(null);
   const [dropdownUnidadPlazo, setDropdownUnidadPlazo] = useState(null);
   const [disableSave, setDisableSave] = useState(true);
-  const [empresa,setEmpresa] = useState(null)
 
   const toast = useRef(null);
   const dt = useRef(null);
@@ -88,14 +88,13 @@ const FacturasData = (props) => {
     serviceApp.getTarifaIvas().then(data => setDropdownTarifaIva(data));
     serviceApp.getFormaPagos().then(data => setDropdownFormas(data));
     serviceApp.getUnidadTiempos().then(data => setDropdownUnidadPlazo(data));
-    const tokenString = sessionStorage.getItem('USER');
-    const userObj = JSON.parse(tokenString);
-    console.log("EMPRESA =>",userObj.user.empresa);
-    if(userObj.user.empresa!=undefined)
-      setEmpresa(userObj.user.empresa);
-    
-    //esto si la api lo puede setear mejor
-   
+    serviceApp.getTipoDocumento().then(d=>{
+      for(const doc of d){
+          if(doc.nombre=="facturas"){
+              setDocumentId(doc.id)
+          }
+      }
+    });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
   
   // const formatCurrency = (value) => {
@@ -146,10 +145,10 @@ const FacturasData = (props) => {
     console.log(userOBJ);
      var _factura = factura
       _factura["formapago_id"] = pago["formapago_id"];
-      _factura["empresa_id"] = empresa.id;
+     
       _factura["unidadtiempo_id"] = pago["unidadtiempo_id"];
       _factura["propina"] = pago["propina"];
-      _factura["tipodocumento_id"] = 1;//FACTURA
+      _factura["tipodocumento_id"] =documentId;//FACTURA
       _factura["plazos"] = pago["plazo"];
       _factura["cliente_id"] = selectedBeneficiarios.id
       _factura["productos"] = factura["productos"]

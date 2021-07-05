@@ -410,10 +410,61 @@ const PrefacturaData = (props) => {
 
   </div> 
 
-<div class="card w-40 card-totales" >
+<div class="card w-40 card-totales list-demo" >
 
     <h2>Totales</h2>
-       
+            <div className="p-col-12">
+                <div className="product-list-item">
+                    <div className="product-list-detail">
+                        <div>
+                            <i className="pi pi-tag product-category-icon"></i>
+                            <span className="product-category">Importe Total sin Impuestos</span>
+                        </div>
+                    </div>
+                    <div className="product-list-action">
+                        <span className="product-category">{prefactura.importeTotalSinImpuesto}</span>
+                    </div>
+                </div>
+              </div>
+              <div className="p-col-12">
+                <div className="product-list-item">
+                    <div className="product-list-detail">
+                        <div>
+                            <i className="pi pi-tag product-category-icon"></i>
+                            <span className="product-category">Importe Total con Impuestos</span>
+                        </div>
+                    </div>
+                    <div className="product-list-action">
+                        <span className="product-category">{prefactura.importeTotalConImpuesto}</span>
+                    </div>
+                </div>
+              </div>
+              <div className="p-col-12">
+                <div className="product-list-item">
+                    <div className="product-list-detail">
+                        <div>
+                            <i className="pi pi-tag product-category-icon"></i>
+                            <span className="product-category">Descuento Total</span>
+                        </div>
+                    </div>
+                    <div className="product-list-action">
+                        <span className="product-category">{prefactura.totalDescuento}</span>
+                    </div>
+                </div>
+              </div>
+              <div className="p-col-12">
+                <div className="product-list-item">
+                    <div className="product-list-detail">
+                        <div>
+                            <i className="pi pi-tag product-category-icon"></i>
+                            <span className="product-category">Importe Total</span>
+                        </div>
+                    </div>
+                    <div className="product-list-action">
+                        <span className="product-category">{prefactura.importeTotal}</span>
+                    </div>
+                </div>
+              </div>
     </div>
 
       
