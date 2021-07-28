@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { instances } from 'chart.js';
 /*-------------------config-------------------*/
-// const BASE_URL = 'https://localhost/api/';
-const BASE_URL = 'http://sgde.perfect-solutions.com.ec/';
-// const BASE_URL = 'http://sgde.com/';
+// const BASE_URL = 'http://localhost/';
+// const BASE_URL = 'http://sgde.perfect-solutions.com.ec/';
+const BASE_URL = 'http://sgde.com/';
 const API = axios.create({
     baseURL: BASE_URL,
     validateStatus:(status)=>{
@@ -59,6 +59,7 @@ const TIPO_DOCUMENTO = "api/v1/tipodocumentos";
 const TIPO_IDENTIFIACION = "api/v1/tipoIdentificacion";
 const CLASE_CONTRIBUYENTES = "api/v1/claseContribuyentes";
 const TIPO_PRODUCTOS = "api/v1/tipoproductos";
+const HISTORIAL_PRODUCTO = "api/v1/historialprod";
 const TARIFA_IVA = "api/v1/tarifaiva";
 const FORMA_PAGOS = "api/v1/formapagos";
 const UNIDAD_TIEMPOS = "api/v1/unidadtiempos";
@@ -107,6 +108,7 @@ export class ServiceApp
         
         return API.post(AUTH_ENDPOINTS.LOGIN, {'username': username,'password':password}, {headers})
         .then(res=>{
+          console.log('respuesta de api', res)
           if (res.status === 200) {
             
             const token = res.data.token
@@ -322,7 +324,7 @@ export class ServiceApp
       );
     } 
 
-    getProductoById(id){
+    deleteProductoById(id){
       return API.delete(PRODUCTOS+"/"+id).then(
         res=>{
           if (res.status === 200){
@@ -336,7 +338,21 @@ export class ServiceApp
       );
     }
 
-    getProductoByName(name){
+    getProductoById(id){
+      return API.get(PRODUCTOS+"/"+id).then(
+        res=>{
+          if (res.status === 200){
+            console.log("respuesta de la api susseful producto por id",res)
+            return res.data;
+          }else{
+
+            console.log("respuesta de la api failed",res.status);
+          }
+        }
+      );
+    }
+
+    deleteProductoByName(name){
       return API.delete(PRODUCTOS+"/"+name).then(
         res=>{
           if (res.status === 200){
@@ -348,6 +364,22 @@ export class ServiceApp
           }
         }
       );
+    }
+
+    getHistorialProducto(id){
+
+      return API.get(HISTORIAL_PRODUCTO+"/"+id).then(
+        res=>{
+          if (res.status === 200){
+            console.log("respuesta de la api susseful historial producto por id",res)
+            return res.data;
+          }else{
+
+            console.log("respuesta de la api failed",res.status);
+          }
+        }
+      );
+
     }
 
      /* *********************EMPRESA****************************** */

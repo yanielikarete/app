@@ -15,10 +15,11 @@ import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { Dropdown } from 'primereact/dropdown';
 import { ServiceApp } from '../../service/ServiceApp';
+import {useHistory} from 'react-router-dom';
 import './common.css';
 
 const ProductosData = (props) => {
-
+  const history = useHistory();
   let emptyProducto =  {
     id: null,
     nombre: "",
@@ -117,6 +118,13 @@ const ProductosData = (props) => {
     setProducto(producto);
     setDeleteProductoDialog(true);
   }
+  
+  const verDetalleProducto = (producto) => {
+    // setProducto(producto);
+    // setDeleteProductoDialog(true);
+    // history.push({pathname:"/prefacturas/" + data.id ,state: { detail: data}});
+    history.push({pathname:"/detalleprod/" + producto.id, state: {detail: producto}});
+  }
 
   const deleteProducto = () => {
     let _productos = productos.filter(val => val.id !== producto.id);
@@ -214,12 +222,23 @@ const ProductosData = (props) => {
   }
 
   const actionBodyTemplate = (rowData) => {
-    return (
-      <React.Fragment>
-        <Button icon="pi pi-pencil" className="p-button-rounded p-button-success p-mr-2" onClick={() => editProducto(rowData)} />
-        <Button icon="pi pi-trash" className="p-button-rounded p-button-warning" onClick={() => confirmDeleteProducto(rowData)} />
-      </React.Fragment>
-    );
+
+    const result =  tipoProductoOptions.filter((element) => { 
+      if (element.nombre === 'BIEN'){
+        return element.id
+      }else{
+        return null;
+      }
+    })
+  
+  return (  <React.Fragment>
+      <Button icon="pi pi-pencil" className="p-button-rounded p-button-success p-mr-2" onClick={() => editProducto(rowData)} />
+      <Button icon="pi pi-trash" className="p-button-rounded p-button-warning p-mr-2" onClick={() => confirmDeleteProducto(rowData)} />
+      {result  && result[0].id === rowData.tipo_producto_id && <Button icon="pi pi-eye" className="p-button-rounded p-button-info" onClick={() => verDetalleProducto(rowData)} />}  
+
+    </React.Fragment> 
+  )
+    
   }
 
   const header = (

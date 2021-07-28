@@ -67,3 +67,31 @@
     background:linear-gradient(to right, #0388E5 0%, #07BDF4 100%) ;
     color:white
 }
+
+.p-tabview-nav li{
+    width: 50%;
+}
+.p-tabview-selected a{
+    background-color: #08b47c !important;
+    color: white;
+    text-transform: uppercase;
+    width: 100%;
+    text-align: center;
+
+}
+
+.p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link{
+    color: white;
+    text-transform: uppercase;
+    border-color: #08b47c;
+    
+    text-align: center;
+}
+.card{
+    margin-bottom: 1rem;
+    padding:0rem;
+}
+.p-tabview-title{
+    margin-left: 35%;
+    text-transform: uppercase;
+}
