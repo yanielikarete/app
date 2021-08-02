@@ -88,7 +88,7 @@ const NotaCreditoData = (props) => {
           <React.Fragment>
             {/* <Button label={"Atras" } icon="pi pi-arrow-left" className="p-button-secondary p-mr-2" onClick={goBack} /> */}
             <Button label={"Agregar" } icon="pi pi-plus" className="p-button-secondary p-mr-2"  onClick={addProducto} />
-            <Button label={"Eliminar" } icon="pi pi-trash" className="p-button-danger"  onClick={removeProducto} />
+            <Button label={"Eliminar" } icon="pi pi-trash" className="p-button-danger"  onClick={removeProducto}  disabled={!notaCredito.productos.length}/>
           </React.Fragment>
         )
       }

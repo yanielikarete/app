@@ -23,17 +23,12 @@ import {useHistory} from 'react-router-dom';
 
 const RetencionData = (props) => {
     // let { id_producto }= useParams()
-    const history = useHistory();
-    const toast = useRef(null);
-    const crearRemision = false;
-    const [producto, setProducto] = useState(emptyProducto);
-    const [detallesProd, setDetallesProd] = useState(null);
-    const [globalFilter, setGlobalFilter] = useState('');
-    const [loading, setLoading] = useState(false);
-    const [tipoIdOptions, setTipoIdOptions] = useState(null);
-    const [radioValue, setRadioValue] = useState(null);
-    const [submitted, setSubmitted] = useState(false);
-    // const [loading, setLoading] = useState(true);
+
+    let emptyImpuesto = {};
+    let emptyRetencion ={
+      impuestos: []
+    };
+
     let emptyProducto =  {
         id: null,
         nombre: "",
@@ -43,6 +38,22 @@ const RetencionData = (props) => {
         tipoProductoId: "",
         valorUnitario: 0
       };
+    
+    const history = useHistory();
+    const toast = useRef(null);
+    const crearRemision = false;
+    const [producto, setProducto] = useState(emptyProducto);
+    const [impuesto, setImpuesto] = useState(emptyImpuesto);
+    const [retencion, setRetencion] = useState(emptyRetencion);
+    const [detallesProd, setDetallesProd] = useState(null);
+    const [globalFilter, setGlobalFilter] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [tipoIdOptions, setTipoIdOptions] = useState(null);
+    const [radioValue, setRadioValue] = useState(null);
+    const [submitted, setSubmitted] = useState(false);
+    // const [loading, setLoading] = useState(true);
+
+      
     let serviceApp = ServiceApp.getInstance();
 
     useEffect(() => {
@@ -155,13 +166,23 @@ const RetencionData = (props) => {
           <React.Fragment>
             {/* <Button label={"Atras" } icon="pi pi-arrow-left" className="p-button-secondary p-mr-2" onClick={goBack} /> */}
             <Button label={"Agregar" } icon="pi pi-plus" className="p-button-secondary p-mr-2"  onClick={agregarImpuestos} />
-            <Button label={"Eliminar" } icon="pi pi-trash" className="p-button-danger"   />
+            <Button label={"Eliminar" } icon="pi pi-trash" className="p-button-danger"  onClick={removeImpuesto} disabled={!retencion.impuestos.length} />
           </React.Fragment>
         )
       }
 
     const agregarImpuestos = () =>{
+        let _retencion = {...retencion};
+        _retencion.impuestos.push(emptyImpuesto);
+        setRetencion(_retencion);
 
+
+    }
+
+    const removeImpuesto = () => {
+        let _retencion = {...retencion};
+        _retencion.impuestos.pop();
+        setRetencion(_retencion);
     }
 
     const onInputChange = (e, name) => {
@@ -420,12 +441,16 @@ const RetencionData = (props) => {
 
         
         </div>
-        <div class="p-grid p-align-stretch vertical-container p-mb-4">
 
+        <div class="card">
+        
+        { retencion.impuestos.map(function(impuesto,i){
+            return (
+                <div class="p-grid p-align-stretch vertical-container p-mb-4">
             <div class="p-col">
                 <fieldset class=" p-component p-fieldset-toggleable">
                     <legend class="p-fieldset-legend p-unselectable-text">
-                        <span><i className="pi pi-minus" style={{color: '#ff0000'}}></i>  Impuestos</span>
+                        <span><i className="pi pi-minus" style={{color: '#ff0000'}}></i>{"Impuestos " + (i+1)}</span>
                     </legend>
                     <div id="pr_id_51_content" class="p-toggleable-content" role="region" aria-labelledby="pr_id_51_header">
                         <div class="p-fieldset-content">
@@ -446,11 +471,18 @@ const RetencionData = (props) => {
                     </div>
                 </fieldset>
             </div>
+            </div>
 
-        </div>
+             
+)
+})}
+      <Toolbar left={leftToolbarFooterTemplate}></Toolbar>  
+    
+
         
-
-        <Toolbar left={leftToolbarFooterTemplate}></Toolbar>
+        
+        </div>
+       
     </div>
    
 

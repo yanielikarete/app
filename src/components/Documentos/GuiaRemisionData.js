@@ -20,6 +20,8 @@ import { ProgressBar } from 'primereact/progressbar';
 import './common.css';
 import {useParams} from 'react-router';
 import {useHistory} from 'react-router-dom';
+import { Calendar } from 'react-date-range';
+
 
 const GuiaRemisionData = (props) => {
     // let { id_producto }= useParams()
@@ -31,6 +33,12 @@ const GuiaRemisionData = (props) => {
     const [globalFilter, setGlobalFilter] = useState('');
     const [loading, setLoading] = useState(false);
     const [tipoIdOptions, setTipoIdOptions] = useState(null);
+
+    let selectionRange = {
+        startDate: new Date(),
+        endDate: new Date(),
+        key: 'selection',
+      }
     // const [loading, setLoading] = useState(true);
     let emptyProducto =  {
         id: null,
@@ -48,6 +56,18 @@ const GuiaRemisionData = (props) => {
         serviceApp.getTiposIdentificacion().then(data => setTipoIdOptions(data));
       }, []); 
 
+
+    const handleSelect= (ranges)=>{
+        console.log(ranges);
+        // {
+        //   selection: {
+        //     startDate: [native Date Object],
+        //     endDate: [native Date Object],
+        //   }
+        // }
+      }
+
+      
     const rightToolbarTemplate  = () => {
         return (
           <React.Fragment>
@@ -233,7 +253,7 @@ const GuiaRemisionData = (props) => {
                     <div id="pr_id_51_content" class="p-toggleable-content" role="region" aria-labelledby="pr_id_51_header">
                         <div class="p-fieldset-content">
                             <div className="p-field w-100">
-                                
+                           
                             <InputText id="rango-fecha"  disable onChange={(e) => onInputChange(e, 'id_transportista')} required autoFocus /*className={classNames({ 'p-invalid': submitted && !cliente.telefono })}*/ />
                             </div>
                         </div>
@@ -296,6 +316,7 @@ const GuiaRemisionData = (props) => {
         </div>
    
     </div>
+
 
 
     <div className= "card">
