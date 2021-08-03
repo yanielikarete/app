@@ -56,14 +56,12 @@ function Login({ setToken }) {
 
 
               <div class="row"><div class="logo-login">
-                SGDE
+                <img className="img-icon-logo" src="assets/images/icono-perfect-blanco.png"/>
                 </div></div>
-              <div class="row"><div class="img-login">
-                
-                </div></div>
+             
               <div class="row"> <div class="slogan-login">
-                <h1 class="titulo-slogan">Sistema de Facturación Electrónica <br/>La Solución Ideal Para Su Empresa</h1>
-                <p class="subtitulo-slogan">Maneje todas sus cuentas de comercio electrónico en un solo lugar.</p>
+                
+                <img  className="imagen-slogan" src="assets/images/perfect-byn.png"/>
 
                 </div></div>
 
