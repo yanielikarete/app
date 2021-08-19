@@ -1,0 +1,15 @@
+{
+    "data": [
+        {"id": "1000","ruc_cedula": "f230fh0g3","razon_social": "Proveedor de Bamboo Watch","direccion": "Proveedor Direction","email": "bamboo-watch@gmail.com","tipo_id": "RUC","placa": "OTROS","quantity": 24,"rise": "INSTOCK","rating": 5,"nombre":"NOMBRE 1"},
+        {"id": "1001","ruc_cedula": "nvklal433","razon_social": "Proveedor de Black Watch","direccion": "Proveedor Direction","email": "black-watch@gmail.com","tipo_id": "CEDULA","placa": "OTROS","quantity": 61,"rise": "INSTOCK","rating": 4,"nombre":"NOMBRE 2"},
+        {"id": "1002","ruc_cedula": "zz21cz3c1","razon_social": "Proveedor de Blue Band","direccion": "Proveedor Direction","email": "blue-band@gmail.com","tipo_id": "RUC","placa": "Fitness","quantity": 2,"rise": "LOWSTOCK","rating": 3,"nombre":"NOMBRE 3"},
+        {"id": "1003","ruc_cedula": "244wgerg2","razon_social": "Proveedor de Blue T-Shirt","direccion": "Proveedor Direction","email": "blue-t-shirt@gmail.com","tipo_id": "RUC","placa": "Clothing","quantity": 25,"rise": "INSTOCK","rating": 5,"nombre":"NOMBRE 4"},
+        {"id": "1004","ruc_cedula": "h456wer53","razon_social": "Proveedor de Bracelet","direccion": "Proveedor Direction","email": "bracelet@gmail.com","tipo_id": "CEDULA","placa": "OTROS","quantity": 73,"rise": "INSTOCK","rating": 4,"nombre":"NOMBRE 5"},
+        {"id": "1005","ruc_cedula": "av2231fwg","razon_social": "Proveedor de Brown Purse","direccion": "Proveedor Direction","email": "brown-purse@gmail.com","tipo_id": "RUC","placa": "OTROS","quantity": 0,"rise": "OUTOFSTOCK","rating": 4,"nombre":"NOMBRE 6"},
+        {"id": "1006","ruc_cedula": "bib36pfvm","razon_social": "Chakra Bracelet","direccion": "Proveedor Direction","email": "chakra-bracelet@gmail.com","tipo_id": "RUC","placa": "OTROS","quantity": 5,"rise": "LOWSTOCK","rating": 3,"nombre":"NOMBRE 7"},
+        {"id": "1007","ruc_cedula": "mbvjkgip5","razon_social": "Galaxy Earrings","direccion": "Proveedor Direction","email": "galaxy-earrings@gmail.com","tipo_id": "CEDULA","placa": "OTROS","quantity": 23,"rise": "INSTOCK","rating": 5,"nombre":"NOMBRE 8"},
+        {"id": "1008","ruc_cedula": "vbb124btr","razon_social": "Game Controller","direccion": "Proveedor Direction","email": "game-controller@gmail.com","tipo_id": "RUC","placa": "Electronics","quantity": 2,"rise": "LOWSTOCK","rating": 4,"nombre":"NOMBRE 9"},
+        {"id": "1009","ruc_cedula": "cm230f032","razon_social": "Gaming Set","direccion": "Proveedor Direction","email": "gaming-set@gmail.com","tipo_id": "RUC","placa": "Electronics","quantity": 63,"rise": "INSTOCK","rating": 3,"nombre":"NOMBRE 10"}
+    ]
+}
+    

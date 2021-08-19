@@ -1,0 +1,9 @@
+{
+    "data": [
+        {"id": "1000","comprobante": "1000","fecha_pago": "f230fh0g3","forma_pago": "Bamboo Watch","descripcion_pago": "10 días","cantidad_exedente":0,"cantidad":7000,"descripcion":"2021-09-20"},
+        {"id": "1001","comprobante": "1001","fecha_pago": "nvklal433","forma_pago": "Black Watch","descripcion_pago": "10 días","cantidad_exedente":0,"cantidad":7000,"descripcion":"2021-09-20"},
+        {"id": "1002","comprobante": "1002","fecha_pago": "zz21cz3c1","forma_pago": "Blue Band","descripcion_pago": "10 días","cantidad_exedente":0,"cantidad":7000,"descripcion":"2021-09-20"},
+        {"id": "1007","comprobante": "1007","fecha_pago": "mbvjkgip5","forma_pago": "Galaxy Earrings","descripcion_pago": "35 días","cantidad_exedente":0,"cantidad":7000,"descripcion":"2021-09-20"}
+       ]
+}
+    
