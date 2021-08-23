@@ -40,7 +40,7 @@ const PRODUCTOS = "api/v1/productos";
 
 const FIRMA_DIGITAL = "api/v1/firmasdigital";
 
-const UPLOAD_FILE = "api/uploadfile";
+const UPLOAD_FILE = "api/v1/uploadfile";
 
 const USUARIOS =  "api/v1/usuarios";
 

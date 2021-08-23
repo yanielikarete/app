@@ -38,7 +38,7 @@ const Empresas = (props) => {
   const toast = useRef(null);
   const appService = new ServiceApp();
 
-  const esquemasOptions = [{id:1,label:"Offline"},{id:2,label:"Online"}];
+  const esquemasOptions = [{id:2,label:"Offline"},{id:3,label:"Online"}];
   const contabilidadOptions = [{id:true,label:'SI'},{id:false,label:'NO'}]
   useEffect(() => {
     const tokenString = sessionStorage.getItem('USER');
@@ -115,8 +115,12 @@ const itemTemplate = (option) => {
 const onChangeImage = (e) =>{
   console.log(e.originalEvent);
   console.log(e.files.item(0));
+  
   let val = URL.createObjectURL(e.files.item(0))
   let _empresa = { ...empresa };
+  appService.uploadFile(e.files.item(0), 'logo')
+            .then(data => { _empresa[`logo_id`] = data.file_id })
+            .catch(error => { console.log('Upload Error', error) })
   _empresa[`image`] = val;
 
   setEmpresa(_empresa);
