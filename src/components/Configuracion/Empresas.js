@@ -45,7 +45,7 @@ const Empresas = (props) => {
     const userObj = JSON.parse(tokenString);
     console.log("EMPRESA =>",userObj.user.empresa);
     setCurrentUser(userObj.user);
-    if(userObj.user.empresa!=undefined)
+    if(userObj.user.empresa !== undefined)
       setEmpresa(userObj.user.empresa);
     appService.getTipoEmisiones().then(data=>{setEmisionOptions(data)});
     appService.getTipoAmbiente().then(data=>{setAmbienteOptions(data)});
@@ -55,13 +55,13 @@ const Empresas = (props) => {
 //   const formatCurrency = (value) => {
 //     return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
 //   }
-const itemTemplate = (option) => {
-  return (
-      <div className="country-item">
-          <span>{option}</span>
-      </div>
-  );
-};
+// const itemTemplate = (option) => {
+//   return (
+//       <div className="country-item">
+//           <span>{option}</span>
+//       </div>
+//   );
+// };
 
   const saveEmpresa = () => {
     console.log(empresa)
@@ -94,14 +94,14 @@ const itemTemplate = (option) => {
 
   }
 
-  const createId = () => {
-    let id = '';
-    let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    for (let i = 0; i < 5; i++) {
-      id += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    return id;
-  }
+  // const createId = () => {
+  //   let id = '';
+  //   let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  //   for (let i = 0; i < 5; i++) {
+  //     id += chars.charAt(Math.floor(Math.random() * chars.length));
+  //   }
+  //   return id;
+  // }
 
   const onInputChange = (e, name) => {
     const val = (e.target && e.target.value) || '';
