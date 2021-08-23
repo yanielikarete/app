@@ -37,12 +37,15 @@ const UsuariosData = (props) => {
   const [selectedUsers, setSelectedUsers] = useState(null);
   const [submitted, setSubmitted] = useState(false);
   const [globalFilter, setGlobalFilter] = useState(null);
+
+  const [isLoading, setIsLoading] = useState(true);
+
   const toast = useRef(null);
   const dt = useRef(null);
   let serviceApp = ServiceApp.getInstance();
 
   useEffect(() => {
-    serviceApp.getAllUsuarios().then(data => setUsers(data));
+    serviceApp.getAllUsuarios().then(data => { setUsers(data); setIsLoading(false) });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // const formatCurrency = (value) => {
@@ -249,10 +252,12 @@ const UsuariosData = (props) => {
           paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
           currentPageReportTemplate="Showing {first} to {last} of {totalRecords} users"
           globalFilter={globalFilter}
-          header={header}>
+          header={header}
+          loading={isLoading}>
 
           <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
           <Column field="firstname" header="Nombre" sortable></Column>
+          <Column field="lastName" header="Apellidos" sortable></Column>
           <Column field="username" header="Usuario" sortable></Column>
           <Column field="email" header="Correo" sortable></Column>
         

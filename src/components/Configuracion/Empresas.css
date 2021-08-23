@@ -47,3 +47,8 @@
 .w-80{
     width: 80%;
 }
+
+label {
+    font-weight: bold;
+    text-transform: uppercase;
+}

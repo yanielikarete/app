@@ -8,7 +8,7 @@ const API = axios.create({
     baseURL: BASE_URL,
     validateStatus:(status)=>{
         console.log("VALIDATING STATUS",status);
-        if(status==401){
+        if(status === 401){
           ServiceApp.getInstance.logout()
         }
         return status;
@@ -40,7 +40,7 @@ const PRODUCTOS = "api/v1/productos";
 
 const FIRMA_DIGITAL = "api/v1/firmasdigital";
 
-const UPLOAD_FILE = "api/uploadfile";
+const UPLOAD_FILE = "api/v1/uploadfile";
 
 const USUARIOS =  "api/v1/usuarios";
 

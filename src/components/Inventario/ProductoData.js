@@ -38,7 +38,7 @@ const ProductosData = (props) => {
   const [selectedProductos, setSelectedProductos] = useState(null);
   const [submitted, setSubmitted] = useState(false);
   const [globalFilter, setGlobalFilter] = useState(null);
-  const [tipoProductoOptions, setTipoProductoOptions] = useState(null);
+  const [tipoProductoOptions, setTipoProductoOptions] = useState([]);
   const [porcentajeIvaOptions, setPorcentajeIvaOptions] = useState(null);
   const toast = useRef(null);
   const dt = useRef(null);
