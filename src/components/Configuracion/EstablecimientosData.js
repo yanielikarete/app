@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import classNames from 'classnames';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { EstablecimientoService } from '../../service/EstablecimientoService';
+// import { EstablecimientoService } from '../../service/EstablecimientoService';
 import { Toast } from 'primereact/toast';
 import { Button } from 'primereact/button';
 import { FileUpload } from 'primereact/fileupload';
@@ -35,14 +35,17 @@ const EstablecimientosData = (props) => {
   const [selectedEstablecimientos, setSelectedEstablecimientos] = useState(null);
   const [submitted, setSubmitted] = useState(false);
   const [globalFilter, setGlobalFilter] = useState(null);
+
+  const [isLoading, setIsLoading] = useState(true);
+
   const toast = useRef(null);
   const dt = useRef(null);
-  const establecimientoService = new EstablecimientoService();
+  // const establecimientoService = new EstablecimientoService();
 
   let serviceApp = ServiceApp.getInstance();
   useEffect(() => {
     // establecimientoService.getEstablecimientos().then(data => setEstablecimientos(data));
-    serviceApp.getAllEstablecimientos().then(data => setEstablecimientos(data));
+    serviceApp.getAllEstablecimientos().then(data => { setEstablecimientos(data); setIsLoading(false) });
     // console.log("establecimientos", serviceApp.getAllEstablecimientos());
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -222,13 +225,13 @@ const EstablecimientosData = (props) => {
       <Toast ref={toast} />
       <div className="card">
         <Toolbar className="p-mb-4" left={leftToolbarTemplate} right={rightToolbarTemplate}></Toolbar>
-
         <DataTable ref={dt} value={establecimientos} selection={selectedEstablecimientos} onSelectionChange={(e) => setSelectedEstablecimientos(e.value)}
           dataKey="id" paginator rows={10} rowsPerPageOptions={[5, 10, 25]}
           paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
           currentPageReportTemplate="Showing {first} to {last} of {totalRecords} establecimientos"
           globalFilter={globalFilter}
-          header={header}>
+          header={header}
+          loading={isLoading}>
 
           <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
           <Column field="nombre" header="Nombre" sortable></Column>

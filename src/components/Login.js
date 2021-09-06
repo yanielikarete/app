@@ -47,19 +47,19 @@ function Login({ setToken }) {
 
 
   return (
-    <div class="container_login">
+    <div className="container_login">
       
         
       <Toast ref={toast} />
          
-            <div class=" p-col-7 p-ai-center p-jc-center login_backgroud">
+            <div className=" p-col-7 p-ai-center p-jc-center login_backgroud">
 
 
-              <div class="row"><div class="logo-login">
-                <img className="img-icon-logo" src="assets/images/icono-perfect-blanco.png"/>
+              <div className="row"><div className="logo-login" style={{paddingTop: "20%"}}>
+                {/* <img className="img-icon-logo" src="assets/images/icono-perfect-blanco.png"/> */}
                 </div></div>
              
-              <div class="row"> <div class="slogan-login">
+              <div className="row"> <div className="slogan-login">
                 
                 <img  className="imagen-slogan" src="assets/images/perfect-byn.png"/>
 
@@ -73,40 +73,40 @@ function Login({ setToken }) {
             </div>
 
 
-            <div class="p-col-5 p-d-flex p-ai-center p-jc-center login-form">
+            <div className="p-col-5 p-d-flex p-ai-center p-jc-center login-form">
 
 
-              <div class="p-fluid login_fields">
-                <div class="p-field">
-                  <label for="username">Username</label>
-                  <span class=" p-input-icon-left">
-                    <i class="pi pi-user"></i>
-                    <input id="username" type="text" class="p-inputtext p-component" placeholder="Username" {...username} onChange={e => setUserName(e.target.value)} />
+              <div className="p-fluid login_fields">
+                <div className="p-field">
+                  <label htmlFor="username">Nombre de Usuario</label>
+                  <span className=" p-input-icon-left">
+                    <i className="pi pi-user"></i>
+                    <input id="username" type="text" className="p-inputtext p-component" placeholder="Username"  onChange={e => setUserName(e.target.value)} />
 
                   </span>
                 </div>
-                <div class="p-field">
+                <div className="p-field">
 
-                  <label for="password">Password</label>
-                  <span class="p-input-icon-left">
+                  <label htmlFor="password">Contrase&ntilde;a</label>
+                  <span className="p-input-icon-left">
 
-                    <i class="pi pi-lock-open"></i>
-                    <input id="password" type="password" {...password} class="p-inputtext p-component p-password-input" onChange={e => setPassword(e.target.value)} />
+                    <i className="pi pi-lock-open"></i>
+                    <input id="password" type="password"  className="p-inputtext p-component p-password-input" onChange={e => setPassword(e.target.value)} />
 
 
                   </span>
                 </div>
 
                 {error && <><small style={{ color: 'red' }}>{error}</small><br /></>}<br />
-                <div class="group-btn-auth">
-                <button class="p-button p-component button-login" value={loading ? 'Loading...' : 'Login'} onClick={submitLogin} disabled={loading}>
+                <div className="group-btn-auth">
+                <button className="p-button p-component button-login" value={loading ? 'Accediendo...' : 'Entrar'} onClick={submitLogin} disabled={loading}>
                 
                 {loading && <Loader type="ThreeDots" color="#00BFFF" height={18} width={40}  />}
-                                  <span class="p-button-label p-c">Login</span>
+                                  <span className="p-button-label p-c">Entrar</span>
                 </button>
 
-                <button class="p-button p-component button-register">
-                  <span class="p-button-label p-c">Register</span>
+                <button className="p-button p-component button-register">
+                  <span className="p-button-label p-c">Registrarse</span>
                 </button>
                 </div>
               </div>

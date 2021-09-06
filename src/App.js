@@ -105,14 +105,14 @@ const App = () => {
     const [mobileMenuActive, setMobileMenuActive] = useState(false);
     const [inputStyle, setInputStyle] = useState('outlined');
     const [ripple, setRipple] = useState(false);
-    const [dumi, setDumi] = useState(null);
+    //const [dumi, setDumi] = useState(null);
     const sidebar = useRef();
 
     const token = getToken();
 
     const setCustomToken= (t) =>{
         setToken(t)
-        setDumi(t)  
+        //setDumi(t)  
         
     }
 
