@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { instances } from 'chart.js';
+// import { instances } from 'chart.js';
 /*-------------------config-------------------*/
 // const BASE_URL = 'http://localhost/';
 // const BASE_URL = 'http://sgde.perfect-solutions.com.ec/';
