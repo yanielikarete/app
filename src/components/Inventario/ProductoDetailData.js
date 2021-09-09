@@ -22,6 +22,23 @@ import {useParams} from 'react-router';
 import {useHistory} from 'react-router-dom';
 
 const ProductosDetailData = (props) => {
+
+  let emptyProducto =  {
+    id: null,
+    nombre: "",
+    codigo: "",
+    codigoAux: "",
+    tarifaIvaId: "",
+    tipoProductoId: "",
+    valorUnitario: 0
+  };
+
+  let emptyDetalle = {
+    producto_id: null,
+    razon: "",
+    cantidad: 0,
+    incremento: false
+  }
     let { id_producto }= useParams()
     const history = useHistory();
     const toast = useRef(null);
@@ -29,16 +46,11 @@ const ProductosDetailData = (props) => {
     const [detallesProd, setDetallesProd] = useState(null);
     const [globalFilter, setGlobalFilter] = useState('');
     const [loading, setLoading] = useState(false);
+    const [detalleProdDialog, setDetalleProdDialog] = useState(false);
+    const [submitted, setSubmitted] = useState(false);
+    const [detalle, setDetalle] = useState(emptyDetalle);
     // const [loading, setLoading] = useState(true);
-    let emptyProducto =  {
-        id: null,
-        nombre: "",
-        codigo: "",
-        codigoAux: "",
-        tarifaIvaId: "",
-        tipoProductoId: "",
-        valorUnitario: 0
-      };
+    
     let serviceApp = ServiceApp.getInstance();
 
     useEffect(() => {
@@ -50,12 +62,17 @@ const ProductosDetailData = (props) => {
         return (
           <React.Fragment>
             <Button label={"Atras" } icon="pi pi-arrow-left" className="p-button-secondary p-mr-2" onClick={goBack} />
-            <Button label={"Agregar" } icon="pi pi-plus" className="p-button-success p-mr-2"  />
+            <Button label={"Agregar" } icon="pi pi-plus" className="p-button-success p-mr-2"  onClick={openNew} />
             <Button label={"Eliminar" } icon="pi pi-minus" className="p-button-danger"   />
           </React.Fragment>
         )
       }
 
+      const openNew = () => {
+        setDetalle(emptyDetalle);
+        setSubmitted(false);
+        setDetalleProdDialog(true);
+      }
       const goBack = () => {
         history.goBack()
       }
@@ -111,7 +128,29 @@ const ProductosDetailData = (props) => {
             </>
         );
     };
+    const detalleProdDialogFooter = (
+        <React.Fragment>
+          <Button label="Cerrar" icon="pi pi-times" className="p-button-text" onClick={hideDialog} />
+          <Button label="Guardar" icon="pi pi-check" className="p-button-text" onClick={saveDetalle} />
+        </React.Fragment>
+      );
 
+      const saveDetalle = () =>{
+
+       
+      }
+
+      const hideDialog = () => {
+        setSubmitted(false);
+        setDetallesProd(false);
+      }
+
+      const onInputDetalleChange = (e, name) => {
+        const val = (e.target && e.target.value) || '';
+        let _detalle = { ...detalle };
+        _detalle[`${name}`] = val;
+        setDetalle(_detalle);
+      }
     const statusBodyTemplate = (data) => {
         return (
             <>
@@ -186,6 +225,25 @@ const ProductosDetailData = (props) => {
                         </TabPanel>
                        
                     </TabView>
+
+
+
+                    <Dialog visible={detalleProdDialog} style={{ width: '450px' }} header="Detalles del Cliente" modal className="p-fluid" footer={detalleProdDialogFooter} onHide={hideDialog}>
+        
+                    <div className="card">
+                    <div className="p-field w-100">
+          <label htmlFor="razon">Descripción de adicción</label>
+          <InputTextarea id="razon" value={detalle.razon} onChange={(e) => onInputDetalleChange(e, 'razon')} required rows={3} cols={20} />
+        </div>
+
+        <div className="p-field w-100">
+          <label htmlFor="cantidad">Cantidad</label>
+          <InputText id="cantidad" value={detalle.cantidad} onChange={(e) => onInputDetalleChange(e, 'cantidad')} required autoFocus className={classNames({ 'p-invalid': submitted && !detalle.cantidad})} />
+          {submitted && !detalle.cantidad && <small className="p-error">Catidad es requerido</small>}
+        </div>
+                    </div>
+                    </Dialog>
+
 
         </div>
 

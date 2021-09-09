@@ -30,6 +30,13 @@ const NotaDebitoData = (props) => {
         unidad_plazo:"",
         propina:0
       }
+      let emptyCliente = {
+          identificacion_id:"",
+        forma:"",
+        plazo:0,
+        unidad_plazo:"",
+        propina:0
+      }
 
       let emptyProducto =  {
         id: null,
@@ -67,6 +74,7 @@ const NotaDebitoData = (props) => {
     const [tipoIdOptions, setTipoIdOptions] = useState(null);
     const [radioValue, setRadioValue] = useState(null);
     const [pago,setPago ]=useState(emptyPago);
+    const [cliente,setCliente ]=useState(emptyCliente);
     const [documentId,setDocumentId ]=useState(null);
     const [dropdownFormas, setDropdownFormas] = useState(null);
     const [dropdownUnidadPlazo, setDropdownUnidadPlazo] = useState(null);
@@ -201,6 +209,13 @@ const NotaDebitoData = (props) => {
         let _pago = { ...pago };
         _pago[`${name}`] = val;
         setPago(_pago);
+      }
+
+      const onInputClienteChange = (e, name) => {
+        const val = (e.target && e.target.value) || '';
+        let _cliente = { ...cliente };
+        _cliente[`${name}`] = val;
+        setCliente(_cliente);
       }
 
     const setCrearRemision = (e, valor) => {
@@ -406,7 +421,7 @@ const NotaDebitoData = (props) => {
                         <div class="p-fieldset-content">
                             <div className="p-field w-100">
                                 
-                            <Dropdown id="identificacion_id"  onChange={(e) => onInputChange(e,'identificacion_id')} options={tipoIdOptions} optionLabel="nombre" optionValue="id"/>
+                            <Dropdown id="identificacion_id" value={cliente.identificacion_id} onChange={(e) => onInputChange(e,'identificacion_id')} options={tipoIdOptions} optionLabel="nombre" optionValue="id"/>
                             </div>
                         </div>
                     </div>
