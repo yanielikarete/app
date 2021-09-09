@@ -1,9 +1,9 @@
 import axios from 'axios';
 // import { instances } from 'chart.js';
 /*-------------------config-------------------*/
-const BASE_URL = 'https://127.0.0.1:8000/';
-//const BASE_URL = 'http://sgde.perfect-solutions.com.ec/';
-// const BASE_URL = 'http://sgde.com/';
+// const BASE_URL = 'http://localhost/';
+// const BASE_URL = 'http://sgde.perfect-solutions.com.ec/';
+const BASE_URL = 'http://sgde.com/';
 const API = axios.create({
     baseURL: BASE_URL,
     validateStatus:(status)=>{
