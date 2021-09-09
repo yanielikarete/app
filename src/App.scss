@@ -767,6 +767,11 @@ pre[class*="language-"] {
     line-height: 1;
 }
 
+.layout-logo{
+    img{
+        max-width: 170px;
+    }
+}
 @media screen and (max-width: 960px) {
     .customized-timeline {
         .p-timeline-event:nth-child(even) {

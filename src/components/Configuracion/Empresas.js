@@ -38,14 +38,14 @@ const Empresas = (props) => {
   const toast = useRef(null);
   const appService = new ServiceApp();
 
-  const esquemasOptions = [{id:1,label:"Offline"},{id:2,label:"Online"}];
+  const esquemasOptions = [{id:2,label:"Offline"},{id:3,label:"Online"}];
   const contabilidadOptions = [{id:true,label:'SI'},{id:false,label:'NO'}]
   useEffect(() => {
     const tokenString = sessionStorage.getItem('USER');
     const userObj = JSON.parse(tokenString);
     console.log("EMPRESA =>",userObj.user.empresa);
     setCurrentUser(userObj.user);
-    if(userObj.user.empresa!=undefined)
+    if(userObj.user.empresa !== undefined)
       setEmpresa(userObj.user.empresa);
     appService.getTipoEmisiones().then(data=>{setEmisionOptions(data)});
     appService.getTipoAmbiente().then(data=>{setAmbienteOptions(data)});
@@ -55,13 +55,13 @@ const Empresas = (props) => {
 //   const formatCurrency = (value) => {
 //     return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
 //   }
-const itemTemplate = (option) => {
-  return (
-      <div className="country-item">
-          <span>{option}</span>
-      </div>
-  );
-};
+// const itemTemplate = (option) => {
+//   return (
+//       <div className="country-item">
+//           <span>{option}</span>
+//       </div>
+//   );
+// };
 
   const saveEmpresa = () => {
     console.log(empresa)
@@ -94,14 +94,14 @@ const itemTemplate = (option) => {
 
   }
 
-  const createId = () => {
-    let id = '';
-    let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    for (let i = 0; i < 5; i++) {
-      id += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    return id;
-  }
+  // const createId = () => {
+  //   let id = '';
+  //   let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  //   for (let i = 0; i < 5; i++) {
+  //     id += chars.charAt(Math.floor(Math.random() * chars.length));
+  //   }
+  //   return id;
+  // }
 
   const onInputChange = (e, name) => {
     const val = (e.target && e.target.value) || '';
@@ -115,8 +115,12 @@ const itemTemplate = (option) => {
 const onChangeImage = (e) =>{
   console.log(e.originalEvent);
   console.log(e.files.item(0));
+  
   let val = URL.createObjectURL(e.files.item(0))
   let _empresa = { ...empresa };
+  appService.uploadFile(e.files.item(0), 'logo')
+            .then(data => { _empresa[`logo_id`] = data.file_id })
+            .catch(error => { console.log('Upload Error', error) })
   _empresa[`image`] = val;
 
   setEmpresa(_empresa);

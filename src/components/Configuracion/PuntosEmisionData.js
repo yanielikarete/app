@@ -38,6 +38,9 @@ const PuntosEmisionsData = (props) => {
   const [selectedPuntosEmisions, setSelectedPuntosEmisions] = useState(null);
   const [submitted, setSubmitted] = useState(false);
   const [globalFilter, setGlobalFilter] = useState(null);
+
+  const [isLoading, setIsLoading] = useState(true);
+
   const toast = useRef(null);
   const dt = useRef(null);
   
@@ -46,7 +49,7 @@ const PuntosEmisionsData = (props) => {
   useEffect(() => {
     
     // puntosemisionService.getPuntosEmisions().then(data => setPuntosEmisions(data));
-    serviceApp.getAllPuntosEmision().then(data => setPuntosEmisions(data))
+    serviceApp.getAllPuntosEmision().then(data => { setPuntosEmisions(data); setIsLoading(false); })
     serviceApp.getAllEstablecimientos().then(data => setEstablecimientos(data))
     // console.log("puntos de acceso", serviceApp.getAllPuntosEmision());
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -262,7 +265,8 @@ const PuntosEmisionsData = (props) => {
           paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
           currentPageReportTemplate="Showing {first} to {last} of {totalRecords} puntosemisions"
           globalFilter={globalFilter}
-          header={header}>
+          header={header}
+          loading={isLoading}>
 
           <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
           <Column field="nombre" header="Nombre" sortable></Column>

@@ -13,8 +13,8 @@ login_fields{
 .login_backgroud{
     
        
-       background-image: url("separador.png");
-       background-color: #28a745;
+       background-image: url("separator.jpeg");
+       background-color: #00b280;
        background-position: right;
        background-repeat: no-repeat;
        background-size: contain;
@@ -33,24 +33,37 @@ login_fields{
 .logo-login{
     color: white;
 font-weight: bold;
-margin-left: 60px;
+margin-left: 20px;
 margin-top: 20px;
 font-size: 11px;
 }
 
 .titulo-slogan{
  color: white;
+
+ 
+}
+.imagen-slogan{
+    margin-right: 100px !important;
+ width: 40% !important;
 }
 .subtitulo-slogan{
     color: white;
     font-size: 20px;
 }
-
+.p-button:enabled:hover{
+    background: #27d2ee;
+    border-color: #27d2ee;
+}
 .slogan-login{
     text-align: center;
 
+    margin-top: 100px;
 }
-     
+    
+.img-icon-logo{
+    width: 12%;
+}
 .img-login{
     background-image: url("maceta.png");
     height: 200px; 
@@ -83,8 +96,8 @@ left: 3%;
 }
 .button-login, .button-register{
     max-width: 45%;
-    background-color: #28a745;
-    border: #28a745 solid 1px;
+    background-color: #00b280;
+    border: #00b280 solid 1px;
    
 
 }

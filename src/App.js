@@ -54,6 +54,8 @@ import '@fullcalendar/timegrid/main.css';
 import './layout/flags/flags.css';
 import './layout/layout.scss';
 import './App.scss';
+import 'react-date-range/dist/styles.css';
+import 'react-date-range/dist/theme/default.css'; 
 import UsuariosData from './components/Configuracion/UsuariosData';
 import Empresas from './components/Configuracion/Empresas';
 import EstablecimientosData from './components/Configuracion/EstablecimientosData';
@@ -75,6 +77,11 @@ import HistorialFacturasData from './components/Documentos/HistorialFacturaData'
 import OperacionesData from './components/Banca/OperacionesData';
 import FacturasData from './components/Abonos/FacturasData';
 import PrefacturaData from './components/Abonos/PrefacturaData';
+import ProductosDetailData from './components/Inventario/ProductoDetailData';
+import GuiaRemisionData from './components/Documentos/GuiaRemisionData';
+import RetencionData from './components/Documentos/RetencionData';
+import NotaCreditoData from './components/Documentos/NotaCreditoData';
+import NotaDebitoData from './components/Documentos/NotaDebitoData';
 
 function setToken(userToken) {
     console.log("saving token on session storage",userToken)
@@ -98,14 +105,14 @@ const App = () => {
     const [mobileMenuActive, setMobileMenuActive] = useState(false);
     const [inputStyle, setInputStyle] = useState('outlined');
     const [ripple, setRipple] = useState(false);
-    const [dumi, setDumi] = useState(null);
+    //const [dumi, setDumi] = useState(null);
     const sidebar = useRef();
 
     const token = getToken();
 
     const setCustomToken= (t) =>{
         setToken(t)
-        setDumi(t)  
+        //setDumi(t)  
         
     }
 
@@ -188,24 +195,27 @@ const App = () => {
                     {
                        label:'Factura',
                        icon:'pi pi-fw pi-file',
-                       url: '/facturas'
+                       to: '/facturas'
                     },
                     {
                      label:'Guia de Remisión',
                      icon:'pi pi-fw pi-file',
-                     url: '/remision'
+                     to: '/guiaRemision'
                   },
                   {
                      label:'Retención',
-                     icon:'pi pi-fw pi-file'
+                     icon:'pi pi-fw pi-file',
+                     to: '/retencion'
                   },
                   {
                      label:'Nota de crédito',
-                     icon:'pi pi-fw pi-file'
+                     icon:'pi pi-fw pi-file',
+                     to:'/notacredito'
                   },
                   {
                      label:'Nota de débito',
-                     icon:'pi pi-fw pi-file'
+                     icon:'pi pi-fw pi-file',
+                     to: '/notadebito'
                   },
                   {
                      label:'Retencion Recibida',
@@ -245,7 +255,8 @@ const App = () => {
                 },
                 {
                    label:'Retención',
-                   icon:'pi pi-fw pi-clock'
+                   icon:'pi pi-fw pi-clock',
+                   to:'/retencion'
                 },
                 {
                    label:'Nota de crédito',
@@ -460,7 +471,7 @@ const App = () => {
         return true;
     }
 
-    const logo = layoutColorMode === 'dark' ? 'assets/layout/images/logo-white.svg' : 'assets/layout/images/logo.svg';
+    const logo = layoutColorMode === 'dark' ? 'assets/layout/images/logo-white.png' : 'assets/layout/images/perfect-logo.png';
 
     const wrapperClass = classNames('layout-wrapper', {
         'layout-overlay': layoutMode === 'overlay',
@@ -535,6 +546,22 @@ const App = () => {
                 <Route path="/historialFacturas">
                     <HistorialFacturasData title="Historial de Factura" sing="facturas" />
                 </Route>
+
+                <Route path="/guiaRemision">
+                    <GuiaRemisionData title="Guia de Remisión" sing="remision" />
+                </Route>
+
+                <Route path="/retencion">
+                    <RetencionData title="Retención" sing="retencion" />
+                </Route>
+
+                <Route path="/notacredito">
+                    <NotaCreditoData title="Nota de Crédito" sing="notacredito" />
+                </Route>
+
+                <Route path="/notadebito">
+                    <NotaDebitoData title="Nota de Débito" sing="notadebito" />
+                </Route>
                 {/* ABONO */}
                 <Route path="/facturas">
                     <FacturasData title="Facturas" sing="factura" />
@@ -559,6 +586,9 @@ const App = () => {
                 {/* INVENTARIO */}
                 <Route path="/productos">
                     <ProductosData header="Manejar Productos" title="Productos" sing="productos" />
+                </Route>
+                <Route path="/detalleprod/:id_producto">
+                    <ProductosDetailData header="Detalles Productos" title="Detalles Productos" sing="detalle_prod" />
                 </Route>
 
                 {/* CARTERA */}

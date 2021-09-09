@@ -1,14 +1,14 @@
 import axios from 'axios';
-import { instances } from 'chart.js';
+// import { instances } from 'chart.js';
 /*-------------------config-------------------*/
-// const BASE_URL = 'https://localhost/api/';
+// const BASE_URL = 'http://localhost/';
 // const BASE_URL = 'http://sgde.perfect-solutions.com.ec/';
 const BASE_URL = 'http://sgde.com/';
 const API = axios.create({
     baseURL: BASE_URL,
     validateStatus:(status)=>{
         console.log("VALIDATING STATUS",status);
-        if(status==401){
+        if(status === 401){
           ServiceApp.getInstance.logout()
         }
         return status;
@@ -40,7 +40,7 @@ const PRODUCTOS = "api/v1/productos";
 
 const FIRMA_DIGITAL = "api/v1/firmasdigital";
 
-const UPLOAD_FILE = "api/uploadfile";
+const UPLOAD_FILE = "api/v1/uploadfile";
 
 const USUARIOS =  "api/v1/usuarios";
 
@@ -59,6 +59,7 @@ const TIPO_DOCUMENTO = "api/v1/tipodocumentos";
 const TIPO_IDENTIFIACION = "api/v1/tipoIdentificacion";
 const CLASE_CONTRIBUYENTES = "api/v1/claseContribuyentes";
 const TIPO_PRODUCTOS = "api/v1/tipoproductos";
+const HISTORIAL_PRODUCTO = "api/v1/historialprod";
 const TARIFA_IVA = "api/v1/tarifaiva";
 const FORMA_PAGOS = "api/v1/formapagos";
 const UNIDAD_TIEMPOS = "api/v1/unidadtiempos";
@@ -107,14 +108,17 @@ export class ServiceApp
         
         return API.post(AUTH_ENDPOINTS.LOGIN, {'username': username,'password':password}, {headers})
         .then(res=>{
+          console.log('respuesta de api', res)
           if (res.status === 200) {
             
             const token = res.data.token
             API.defaults.headers.common.Authorization = "Bearer " + token;
             API.Authorization = token
             console.log("entro a guardar token", API.defaults.headers.common.Authorization);
-            this.getCurrentUser()
-            return token;
+            return this.getCurrentUser().then(a=>{
+                return token
+            })
+            
 
           }else{
             console.log(res);
@@ -130,15 +134,8 @@ export class ServiceApp
      getCurrentUser(){
       return API.get(AUTH_ENDPOINTS.CURRENT_USER).then(
         res=>{
-          if (res.statusText === "OK"){
             console.log("respuesta de la api susseful CURRENT USER",res.data)
             sessionStorage.setItem('USER', JSON.stringify(res.data));
-
-            return res.data;
-          }else{
-
-            console.log("respuesta de la api failed",res.status);
-          }
         }
       ).catch(function (error) {
        this.logout()
@@ -159,7 +156,7 @@ export class ServiceApp
      setEmpresaUser(userId, empresa){
       return API.patch(AUTH_ENDPOINTS.SET_EMP_USER + userId, empresa).then(
         res=>{
-          if (res.statusText === "OK"){
+          if (res.status === 200){
             console.log("respuesta de la api susseful set empresa user",res.data)
             return res.data;
           }else{
@@ -173,7 +170,7 @@ export class ServiceApp
     getAllEstablecimientos(){
       return API.get(ESTABLECIMIENTOS).then(
         res=>{
-          if (res.statusText === "OK"){
+          if (res.status === 200){
             console.log("respuesta de la api susseful establecimientos",res.data)
             return res.data;
           }else{
@@ -252,7 +249,7 @@ export class ServiceApp
     getAllPuntosEmision(){
       return API.get(PUNTOS_EMISION).then(
         res=>{
-          if (res.statusText === "OK"){
+          if (res.status === 200){
             console.log("respuesta de la api susseful bponstos de esmision",res)
             return res.data;
           }else{
@@ -266,7 +263,7 @@ export class ServiceApp
     deletePuntoEmision(id){
       return API.delete(PUNTOS_EMISION+"/"+id).then(
         res=>{
-          if (res.statusText === "OK"){
+          if (res.status === 200){
             console.log("respuesta de la api susseful bponstos de esmision",res)
             return res.data;
           }else{
@@ -315,7 +312,7 @@ export class ServiceApp
     getAllProductos(){
       return API.get(PRODUCTOS).then(
         res=>{
-          if (res.statusText === "OK"){
+          if (res.status === 200){
             console.log("respuesta de la api susseful bponstos de esmision",res.data)
           
             return res.data;
@@ -327,10 +324,10 @@ export class ServiceApp
       );
     } 
 
-    getProductoById(id){
+    deleteProductoById(id){
       return API.delete(PRODUCTOS+"/"+id).then(
         res=>{
-          if (res.statusText === "OK"){
+          if (res.status === 200){
             console.log("respuesta de la api susseful bponstos de esmision",res)
             return res.data;
           }else{
@@ -341,10 +338,24 @@ export class ServiceApp
       );
     }
 
-    getProductoByName(name){
+    getProductoById(id){
+      return API.get(PRODUCTOS+"/"+id).then(
+        res=>{
+          if (res.status === 200){
+            console.log("respuesta de la api susseful producto por id",res)
+            return res.data;
+          }else{
+
+            console.log("respuesta de la api failed",res.status);
+          }
+        }
+      );
+    }
+
+    deleteProductoByName(name){
       return API.delete(PRODUCTOS+"/"+name).then(
         res=>{
-          if (res.statusText === "OK"){
+          if (res.status === 200){
             console.log("respuesta de la api susseful bponstos de esmision",res)
             return res.data;
           }else{
@@ -353,6 +364,22 @@ export class ServiceApp
           }
         }
       );
+    }
+
+    getHistorialProducto(id){
+
+      return API.get(HISTORIAL_PRODUCTO+"/"+id).then(
+        res=>{
+          if (res.status === 200){
+            console.log("respuesta de la api susseful historial producto por id",res)
+            return res.data;
+          }else{
+
+            console.log("respuesta de la api failed",res.status);
+          }
+        }
+      );
+
     }
 
      /* *********************EMPRESA****************************** */
@@ -425,8 +452,8 @@ export class ServiceApp
       return userObj.user.empresa.id;
     }
     logout(){
-      sessionStorage.removeItem('token')
-          document.location = "/";
+      // sessionStorage.removeItem('token')
+          // document.location = "/";
     }
     /* *********************Secuencciales****************************** */
     getSecuenciales(){
@@ -477,7 +504,7 @@ export class ServiceApp
     getAllClientes(){
       return API.get(CLIENTES.LISTA).then(
         res=>{
-          if (res.statusText === "OK"){
+          if (res.status === 200){
             console.log("respuesta de la api susseful bponstos de esmision",res)
             return res.data;
           }else{
@@ -492,7 +519,7 @@ export class ServiceApp
       let proveedores = [];
       return API.get(CLIENTES.LISTA).then(
         res=>{
-          if (res.statusText === "OK"){
+          if (res.status === 200){
             let todos = res.data
             for (var indice in todos) {
               if(todos[indice].tipoCliente.nombre === "Proveedor"){
@@ -514,7 +541,7 @@ export class ServiceApp
       let clientes = [];
       return API.get(CLIENTES.LISTA).then(
         res=>{
-          if (res.statusText === "OK"){
+          if (res.status === 200){
             let todos = res.data
             for (var indice in todos) {
               if(todos[indice].tipoCliente.nombre === "Cliente"){
@@ -537,7 +564,7 @@ export class ServiceApp
     getAllTransportistas(){
       return API.get(TRANSPORTISTA).then(
         res=>{
-          if (res.statusText === "OK"){
+          if (res.status === 200){
             console.log("respuesta de la api susseful bponstos de esmision",res)
             return res.data;
           }else{
@@ -569,7 +596,7 @@ export class ServiceApp
     getAllUsuarios(){
       return API.get(USUARIOS).then(
         res=>{
-          if (res.statusText === "OK"){
+          if (res.status === 200){
             console.log("respuesta de la api susseful USUARIOS",res)
             return res.data;
           }else{
@@ -615,7 +642,7 @@ export class ServiceApp
       
       return API.get(FACTURA+'/'+id_factura).then(
         res=>{
-          if (res.statusText === "OK"){
+          if (res.status === 200){
             console.log("respuesta de la api susseful factura",res.data)
             return res.data;
           }else{
@@ -648,7 +675,7 @@ export class ServiceApp
     getTipoEmisiones(){
       return API.get(TIPO_EMISION).then(
         res=>{
-          if (res.statusText === "OK"){
+          if (res.status === 200){
             console.log("respuesta de la api susseful TIPO_EMISION",res)
             return res.data;
           }else{
@@ -662,7 +689,7 @@ export class ServiceApp
     getTipoAmbiente(){
       return API.get(TIPO_AMBIENTE).then(
         res=>{
-          if (res.statusText === "OK"){
+          if (res.status === 200){
             console.log("respuesta de la api susseful TIPO_EMISION",res)
             return res.data;
           }else{
@@ -675,7 +702,7 @@ export class ServiceApp
     getTiposIdentificacion(){
       return API.get(TIPO_IDENTIFIACION).then(
         res=>{
-          if (res.statusText === "OK"){
+          if (res.status === 200){
             console.log("respuesta de la api susseful TIPO_EMISION",res)
             return res.data;
           }else{
@@ -689,7 +716,7 @@ export class ServiceApp
     getClaseContribuyentes(){
       return API.get(CLASE_CONTRIBUYENTES).then(
         res=>{
-          if (res.statusText === "OK"){
+          if (res.status === 200){
             console.log("respuesta de la api susseful TIPO_EMISION",res)
             return res.data;
           }else{
@@ -703,7 +730,7 @@ export class ServiceApp
     getTipoProductos(){
       return API.get(TIPO_PRODUCTOS).then(
         res=>{
-          if (res.statusText === "OK"){
+          if (res.status === 200){
             console.log("respuesta de la api susseful TIPO_EMISION",res)
             return res.data;
           }else{
@@ -716,7 +743,7 @@ export class ServiceApp
     getTarifaIvas(){
       return API.get(TARIFA_IVA).then(
         res=>{
-          if (res.statusText === "OK"){
+          if (res.status === 200){
             console.log("respuesta de la api susseful TIPO_EMISION",res)
             return res.data;
           }else{
@@ -729,7 +756,7 @@ export class ServiceApp
     getFormaPagos(){
       return API.get(FORMA_PAGOS).then(
         res=>{
-          if (res.statusText === "OK"){
+          if (res.status === 200){
             console.log("respuesta de la api susseful TIPO_EMISION",res)
             return res.data;
           }else{
@@ -742,7 +769,7 @@ export class ServiceApp
     getUnidadTiempos(){
       return API.get(UNIDAD_TIEMPOS).then(
         res=>{
-          if (res.statusText === "OK"){
+          if (res.status === 200){
             console.log("respuesta de la api susseful TIPO_EMISION",res)
             return res.data;
           }else{
@@ -755,7 +782,7 @@ export class ServiceApp
     getTipoDocumento(){
       return API.get(TIPO_DOCUMENTO).then(
         res=>{
-          if (res.statusText === "OK"){
+          if (res.status === 200){
             console.log("respuesta de la api susseful TIPO_EMISION",res)
             return res.data;
           }else{
