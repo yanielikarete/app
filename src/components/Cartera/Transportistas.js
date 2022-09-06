@@ -55,13 +55,15 @@ const TransportistasData = (props) => {
   const toast = useRef(null);
   const dt = useRef(null);
   const transportistaService = new TransportistaService();
-  const tipoIdOptions = [{id:1,label:'RUC'},{id:4,label:'IDENTIFICACION'}];
-  const contribuyenteOptions = [{id:1,label:'Clase 1'},{id:2,label:'RESPONSABLE'}]
+  const [tipoIdOptions, setTipoIdOptions] = useState(null);
+  const [contribuyenteOptions, setContribuyenteOptions] = useState(null);
   let serviceApp = ServiceApp.getInstance();
 
   useEffect(() => {
     serviceApp.getAllTransportistas().then(data => setTransportistas(data));
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    serviceApp.getTiposIdentificacion().then(data => setTipoIdOptions(data));
+    serviceApp.getClaseContribuyentes().then(data => setContribuyenteOptions(data));
+ }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // const formatCurrency = (value) => {
   //   return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
@@ -305,12 +307,12 @@ const TransportistasData = (props) => {
 
         <div className="p-field w-50">
           <label htmlFor="identificacion_id w-50">TIPO DE IDENTIFICACIÓN</label><br/>
-          <Dropdown id="identificacion_id" value={transportista.identificacion_id}     onChange={(e) => onInputChange(e,'identificacion_id')} options={tipoIdOptions} optionLabel="label" optionValue="id"/>
+          <Dropdown id="identificacion_id" value={transportista.identificacion_id}     onChange={(e) => onInputChange(e,'identificacion_id')} options={tipoIdOptions} optionLabel="nombre" optionValue="id"/>
         </div>
         
         <div className="p-field w-50">
           <label htmlFor="constribuyente_id">CLASE CONTRIBUYENTE</label><br/>
-          <Dropdown id="constribuyente_id" value={transportista.constribuyente_id} onChange={(e) => onInputChange(e,'constribuyente_id')} options={contribuyenteOptions} optionValue="id" optionLabel="label"/>
+          <Dropdown id="constribuyente_id" value={transportista.constribuyente_id} onChange={(e) => onInputChange(e,'constribuyente_id')} options={contribuyenteOptions} optionValue="id" optionLabel="nombre"/>
         </div>
         <div className="p-field w-100">
           <label htmlFor="ruc">RUC/CEDULA</label>

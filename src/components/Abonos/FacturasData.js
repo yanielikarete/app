@@ -17,12 +17,15 @@ import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { Dropdown } from 'primereact/dropdown';
 import { ServiceApp } from '../../service/ServiceApp';
-
+import {useHistory} from 'react-router-dom';
+// import PrefacturaData from './PrefacturaData.js'
 import './common.css';
 import { Panel } from 'primereact/panel';
+// import Component from '@fullcalendar/core/component/Component';
 
 const FacturasData = (props) => {
 
+  let datosFactura = null
   let emptyPago = {
     forma:"",
     plazo:0,
@@ -31,8 +34,11 @@ const FacturasData = (props) => {
   }
   let emptyProducto = {
     cantidad:0,
-    producto:"",
-    descuento:""
+    producto_id:"",
+    // descuento:"",
+    precio_unitario: 0,
+    descuento: 0,
+    tarifaiva_id:""
   };
   let emptyFactura =  {
     id: null,
@@ -43,12 +49,15 @@ const FacturasData = (props) => {
     comentarios:"",
     productos:[]
   };
-  console.log(props)
+  console.log(props,"props")
+  const [result, setResult] = useState(null);
   const [facturas, setFacturas] = useState(null);
   const [clientes, setBeneficiarios] = useState(null);
   const [dropdownProductos,setDropdownProductos] = useState(null)
+  const [dropdownTarifaIva,setDropdownTarifaIva] = useState(null)
   const [selectedBeneficiarios, setSelectedBeneficiarios] = useState(null);
   const [pago,setPago ]=useState(emptyPago);
+  const [documentId,setDocumentId ]=useState(null);
   const [facturaDialog, setFacturaDialog] = useState(false);
   const [deleteFacturaDialog, setDeleteFacturaDialog] = useState(false);
   const [deleteFacturasDialog, setDeleteFacturasDialog] = useState(false);
@@ -56,8 +65,9 @@ const FacturasData = (props) => {
   const [selectedFacturas, setSelectedFacturas] = useState(null);
   const [submitted, setSubmitted] = useState(false);
   const [globalFilter, setGlobalFilter] = useState(null);
+  const [dropdownFormas, setDropdownFormas] = useState(null);
+  const [dropdownUnidadPlazo, setDropdownUnidadPlazo] = useState(null);
   const [disableSave, setDisableSave] = useState(true);
-  const [empresa,setEmpresa] = useState(null)
 
   const toast = useRef(null);
   const dt = useRef(null);
@@ -68,29 +78,22 @@ const FacturasData = (props) => {
   const porcentajeIvaOptions = ['OTROS','10-20','20-40'];
   const dropdownRegistra = ["DEBE","HABER"];
   const dropdownCuentas = ["--CUENTA-PRINCIPAL--","ACTIVOS","PASIVOS"];
-  const dropdownFormas = ["Forma Pago 1", "Forma Pago 2", "Forma Pago 3"];
-  const dropdownUnidadPlazo = ["Días", "Semanas", "Meses"];
+
   let serviceApp = ServiceApp.getInstance();
 
   useEffect(() => {
     bancaService.getFacturas().then(data => setFacturas(data));
     serviceApp.getClientes().then(data => setBeneficiarios(data));
     serviceApp.getAllProductos().then(data => setDropdownProductos(data));
-    
-    
-    //esto si la api lo puede setear mejor
-    serviceApp.getCurrentUser().then(data => {
-      console.log(data);
-      if(data.user!=undefined){
-        if(data.user.empresa!=undefined&&data.user.empresa!=null){
-          setEmpresa(data.user.empresa);
-          console.log("datos de empresa",data.user.empresa)
-        }
-
-      }else{
-        console.log("aun no entiende",data)
+    serviceApp.getTarifaIvas().then(data => setDropdownTarifaIva(data));
+    serviceApp.getFormaPagos().then(data => setDropdownFormas(data));
+    serviceApp.getUnidadTiempos().then(data => setDropdownUnidadPlazo(data));
+    serviceApp.getTipoDocumento().then(d=>{
+      for(const doc of d){
+          if(doc.nombre==="facturas"){
+              setDocumentId(doc.id)
+          }
       }
-        
     });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
   
@@ -133,25 +136,36 @@ const FacturasData = (props) => {
   const hideDeleteFacturasDialog = () => {
     setDeleteFacturasDialog(false);
   }
-
+  const history = useHistory();
   const saveFactura = () => {
     setSubmitted(true);
     console.log("BENEFISIARIOS",selectedBeneficiarios);
+    const userString = sessionStorage.getItem('USER');
+    const userOBJ = JSON.parse(userString);
+    console.log(userOBJ);
      var _factura = factura
-      _factura["formaPago_id"] = pago["forma"];
-      _factura["unidadTiempo_id"] = pago["unidad_plazo"];
+      _factura["formapago_id"] = pago["formapago_id"];
+     
+      _factura["unidadtiempo_id"] = pago["unidadtiempo_id"];
       _factura["propina"] = pago["propina"];
+      _factura["tipodocumento_id"] =documentId;//FACTURA
       _factura["plazos"] = pago["plazo"];
       _factura["cliente_id"] = selectedBeneficiarios.id
       _factura["productos"] = factura["productos"]
-      _factura["empresa_id"] = empresa["id"]
       console.log(selectedBeneficiarios)
       console.log("MI FACTURA ",_factura)
-      serviceApp.addFactura(_factura).then(d=>{
-        console.log(d);
+      serviceApp.addFactura(_factura).then(data=>{
+        // setResult(data)
+        // console.log("result", result)
+        console.log("respuesta de la api ", data);
+        // datosFactura = data
+        serviceApp.procesarFactura(data.id);
+        history.push({pathname:"/prefacturas/" + data.id ,state: { detail: data}});
       })
       
-        
+    
+      
+      
     
   }
 
@@ -189,6 +203,8 @@ const FacturasData = (props) => {
     return index;
   }
 
+  
+  
   const createId = () => {
     let id = '';
     let chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -268,6 +284,7 @@ const FacturasData = (props) => {
 
 
 
+
   const ratingBodyTemplate = (rowData) => {
     return <Rating value={rowData.rating} readOnly cancel={false} />;
   }
@@ -319,7 +336,8 @@ const FacturasData = (props) => {
 
   return (
       <>
-      <h1>{props.title}</h1>     
+      <h1>{props.title}</h1>  
+      
     <div>
       <div className="datatable-crud-demo"> 
         <Toast ref={toast} />
@@ -358,7 +376,7 @@ const FacturasData = (props) => {
                    <div className="p-field w-20">
 
                       <label htmlFor="registra">Producto </label><br/>
-                      <Dropdown value={producto.producto} onChange={(e) => onInputProductoChange(e,'producto',i)} options={dropdownProductos}  placeholder="Seleccione que registra"   optionLabel="nombre" optionValue="id"/>
+                      <Dropdown value={producto.producto_id} onChange={(e) => onInputProductoChange(e,'producto_id',i)} options={dropdownProductos}  placeholder="Seleccione que registra"   optionLabel="nombre" optionValue="id"/>
                       {/* <InputText id="ruc" value={factura.ruc} onChange={(e) => onInputChange(e, 'ruc')} required autoFocus className={classNames({ 'p-invalid': submitted && !factura.ruc })} />
                       {submitted && !factura.ruc && <small className="p-error">RUC es requerido.</small>} */}
                     </div>
@@ -367,6 +385,20 @@ const FacturasData = (props) => {
             <InputText id="descuento" value={producto.descuento} onChange={(e) => onInputProductoChange(e, 'descuento',i)} required  className={classNames({ 'p-invalid': submitted && !producto.descuento })} />
             {submitted && !producto.descuento && <small className="p-error">Cantidad es requerida.</small>}
           </div>
+
+          <div className="p-field w-20">
+
+<label htmlFor="tarifa">Tarifa IVA </label><br/>
+<Dropdown value={producto.tarifaiva_id} onChange={(e) => onInputProductoChange(e,'tarifaiva_id',i)} options={dropdownTarifaIva}  placeholder="Seleccione tarifa iva"   optionLabel="nombre" optionValue="id"/>
+{/* <InputText id="ruc" value={factura.ruc} onChange={(e) => onInputChange(e, 'ruc')} required autoFocus className={classNames({ 'p-invalid': submitted && !factura.ruc })} />
+{submitted && !factura.ruc && <small className="p-error">RUC es requerido.</small>} */}
+</div>
+<div className="p-field w-30">
+<label htmlFor="precio_unitario">Precio Unitario</label><br/>
+<InputText id="precio_unitario" value={producto.precio_unitario} onChange={(e) => onInputProductoChange(e, 'precio_unitario',i)} required  className={classNames({ 'p-invalid': submitted && !producto.precio_unitario })} />
+{submitted && !producto.precio_unitario && <small className="p-error">Cantidad es requerida.</small>}
+</div>
+
                 </div>
                 </Panel>
               )
@@ -379,7 +411,7 @@ const FacturasData = (props) => {
       <div className="row">
         <div className="p-field w-20">
           <label htmlFor="forma">Forma de pago</label>
-          <Dropdown value={pago.forma} onChange={(e) => onInputPagoChange(e,'forma')} options={dropdownFormas}  placeholder="Seleccione forma de pago"   itemTemplate={itemTemplate}/>
+          <Dropdown value={pago.formapago_id} onChange={(e) => onInputPagoChange(e,'formapago_id')} options={dropdownFormas}  placeholder="Seleccione forma de pago" optionLabel="nombre" optionValue="id"/>
         </div>
         <div className="p-field w-30">
           <label htmlFor="plazo">Plazo</label>
@@ -387,8 +419,8 @@ const FacturasData = (props) => {
           {submitted && !pago.plazo && <small className="p-error">plazo es requerido</small>}
         </div>
         <div className="p-field w-20">
-          <label htmlFor="unidad_plazo">Unidad de tiempo</label>
-          <Dropdown value={pago.unidad_plazo} onChange={(e) => onInputPagoChange(e,'unidad_plazo')} options={dropdownUnidadPlazo}  placeholder="Seleccione forma de pago"   itemTemplate={itemTemplate}/>
+          <label htmlFor="unidadtiempo_id">Unidad de tiempo</label>
+          <Dropdown value={pago.unidadtiempo_id} onChange={(e) => onInputPagoChange(e,'unidadtiempo_id')} options={dropdownUnidadPlazo}  placeholder="Seleccione forma de pago"  optionLabel="nombre" optionValue="id"/>
         </div>
         <div className="p-field w-30">
           <label htmlFor="propina">Propina</label>

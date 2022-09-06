@@ -7,7 +7,7 @@ import { AppTopbar } from './AppTopbar';
 import { AppFooter } from './AppFooter';
 import { AppMenu } from './AppMenu';
 import { AppProfile } from './AppProfile';
-import { AppConfig } from './AppConfig';
+//import { AppConfig } from './AppConfig';
 
 import { Dashboard } from './components/Dashboard';
 import { ButtonDemo } from './components/ButtonDemo';
@@ -38,10 +38,10 @@ import { GridDemo } from './utilities/GridDemo';
 import { IconsDemo } from './utilities/IconsDemo';
 import { SpacingDemo } from './utilities/SpacingDemo';
 import { TextDemo } from './utilities/TextDemo';
-import { TypographyDemo } from './utilities/TypographyDemo';
+//import { TypographyDemo } from './utilities/TypographyDemo';
 import { TimelineDemo } from './utilities/TimelineDemo';
 
-import PrimeReact from 'primereact/api';
+//import PrimeReact from 'primereact/api';
 
 import 'primereact/resources/themes/saga-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
@@ -54,6 +54,8 @@ import '@fullcalendar/timegrid/main.css';
 import './layout/flags/flags.css';
 import './layout/layout.scss';
 import './App.scss';
+import 'react-date-range/dist/styles.css';
+import 'react-date-range/dist/theme/default.css'; 
 import UsuariosData from './components/Configuracion/UsuariosData';
 import Empresas from './components/Configuracion/Empresas';
 import EstablecimientosData from './components/Configuracion/EstablecimientosData';
@@ -74,6 +76,12 @@ import DiarioContablesData from './components/Banca/DiarioContableData';
 import HistorialFacturasData from './components/Documentos/HistorialFacturaData';
 import OperacionesData from './components/Banca/OperacionesData';
 import FacturasData from './components/Abonos/FacturasData';
+import PrefacturaData from './components/Abonos/PrefacturaData';
+import ProductosDetailData from './components/Inventario/ProductoDetailData';
+import GuiaRemisionData from './components/Documentos/GuiaRemisionData';
+import RetencionData from './components/Documentos/RetencionData';
+import NotaCreditoData from './components/Documentos/NotaCreditoData';
+import NotaDebitoData from './components/Documentos/NotaDebitoData';
 
 function setToken(userToken) {
     console.log("saving token on session storage",userToken)
@@ -97,14 +105,12 @@ const App = () => {
     const [mobileMenuActive, setMobileMenuActive] = useState(false);
     const [inputStyle, setInputStyle] = useState('outlined');
     const [ripple, setRipple] = useState(false);
-    const [dumi, setDumi] = useState(null);
     const sidebar = useRef();
 
     const token = getToken();
 
     const setCustomToken= (t) =>{
         setToken(t)
-        setDumi(t)  
         
     }
 
@@ -121,22 +127,22 @@ const App = () => {
         }
     }, [mobileMenuActive]);
 
-    const onInputStyleChange = (inputStyle) => {
-        setInputStyle(inputStyle);
-    }
+    // const onInputStyleChange = (inputStyle) => {
+    //     setInputStyle(inputStyle);
+    // }
 
-    const onRipple = (e) => {
-        PrimeReact.ripple = e.value;
-        setRipple(e.value)
-    }
+    // const onRipple = (e) => {
+    //     PrimeReact.ripple = e.value;
+    //     setRipple(e.value)
+    // }
 
-    const onLayoutModeChange = (mode) => {
-        setLayoutMode(mode)
-    }
+    // const onLayoutModeChange = (mode) => {
+    //     setLayoutMode(mode)
+    // }
 
-    const onColorModeChange = (mode) => {
-        setLayoutColorMode(mode)
-    }
+    // const onColorModeChange = (mode) => {
+    //     setLayoutColorMode(mode)
+    // }
 
     const onWrapperClick = (event) => {
         if (!menuClick) {
@@ -187,24 +193,27 @@ const App = () => {
                     {
                        label:'Factura',
                        icon:'pi pi-fw pi-file',
-                       url: '/facturas'
+                       to: '/facturas'
                     },
                     {
                      label:'Guia de Remisión',
                      icon:'pi pi-fw pi-file',
-                     url: '/remision'
+                     to: '/guiaRemision'
                   },
                   {
                      label:'Retención',
-                     icon:'pi pi-fw pi-file'
+                     icon:'pi pi-fw pi-file',
+                     to: '/retencion'
                   },
                   {
                      label:'Nota de crédito',
-                     icon:'pi pi-fw pi-file'
+                     icon:'pi pi-fw pi-file',
+                     to:'/notacredito'
                   },
                   {
                      label:'Nota de débito',
-                     icon:'pi pi-fw pi-file'
+                     icon:'pi pi-fw pi-file',
+                     to: '/notadebito'
                   },
                   {
                      label:'Retencion Recibida',
@@ -244,7 +253,8 @@ const App = () => {
                 },
                 {
                    label:'Retención',
-                   icon:'pi pi-fw pi-clock'
+                   icon:'pi pi-fw pi-clock',
+                   to:'/retencion'
                 },
                 {
                    label:'Nota de crédito',
@@ -285,7 +295,7 @@ const App = () => {
               {
                  label:'Factura',
                  icon:'pi pi-fw pi-file',
-                 to:'facturas'
+                 to:'/facturas'
               },
               {
                  label:'Nota de Crédito',
@@ -459,7 +469,7 @@ const App = () => {
         return true;
     }
 
-    const logo = layoutColorMode === 'dark' ? 'assets/layout/images/logo-white.svg' : 'assets/layout/images/logo.svg';
+    const logo = layoutColorMode === 'dark' ? 'assets/layout/images/logo-white.png' : 'assets/layout/images/perfect-logo.png';
 
     const wrapperClass = classNames('layout-wrapper', {
         'layout-overlay': layoutMode === 'overlay',
@@ -495,19 +505,14 @@ const App = () => {
                 </div>
             </CSSTransition>
 
-            <AppConfig rippleEffect={ripple} onRippleEffect={onRipple} inputStyle={inputStyle} onInputStyleChange={onInputStyleChange}
-                layoutMode={layoutMode} onLayoutModeChange={onLayoutModeChange} layoutColorMode={layoutColorMode} onColorModeChange={onColorModeChange} />
+            {/* <AppConfig rippleEffect={ripple} onRippleEffect={onRipple} inputStyle={inputStyle} onInputStyleChange={onInputStyleChange}
+                layoutMode={layoutMode} onLayoutModeChange={onLayoutModeChange} layoutColorMode={layoutColorMode} onColorModeChange={onColorModeChange} /> */}
 
             <div className="layout-main">
                 <Route path="/" exact>
-                    <Dashboard title="Inicio"></Dashboard>
+                    <Dashboard title="Inicio" />
                 </Route>
                 <Route path="/formlayout" component={FormLayoutDemo} />
-                <Route path="/input" component={InputDemo} />
-                <Route path="/floatlabel" component={FloatLabelDemo} />
-                <Route path="/invalidstate" component={InvalidStateDemo} />
-                <Route path="/button" component={ButtonDemo} />
-                <Route path="/table" component={TableDemo} />
                 <Route path="/list" component={ListDemo} />
                 <Route path="/tree" component={TreeDemo} />
                 <Route path="/panel" component={PanelDemo} />
@@ -523,7 +528,12 @@ const App = () => {
                 <Route path="/icons" component={IconsDemo} />
                 <Route path="/grid" component={GridDemo} />
                 <Route path="/spacing" component={SpacingDemo} />
-                <Route path="/typography" component={TypographyDemo} />
+                <Route path="/input" component={InputDemo} />
+                <Route path="/floatlabel" component={FloatLabelDemo} />
+                <Route path="/invalidstate" component={InvalidStateDemo} />
+                <Route path="/button" component={ButtonDemo} />
+                <Route path="/table" component={TableDemo} />
+                {/* path="/typography" component={TypographyDemo} /> */}
                 <Route path="/text" component={TextDemo} />
                 <Route path="/calendar" component={Calendar} />
                 <Route path="/timeline" component={TimelineDemo} />
@@ -533,6 +543,22 @@ const App = () => {
                 {/* DOCUMENTOS */}
                 <Route path="/historialFacturas">
                     <HistorialFacturasData title="Historial de Factura" sing="facturas" />
+                </Route>
+
+                <Route path="/guiaRemision">
+                    <GuiaRemisionData title="Guia de Remisión" sing="remision" />
+                </Route>
+
+                <Route path="/retencion">
+                    <RetencionData title="Retención" sing="retencion" />
+                </Route>
+
+                <Route path="/notacredito">
+                    <NotaCreditoData title="Nota de Crédito" sing="notacredito" />
+                </Route>
+
+                <Route path="/notadebito">
+                    <NotaDebitoData title="Nota de Débito" sing="notadebito" />
                 </Route>
                 {/* ABONO */}
                 <Route path="/facturas">
@@ -559,6 +585,9 @@ const App = () => {
                 <Route path="/productos">
                     <ProductosData header="Manejar Productos" title="Productos" sing="productos" />
                 </Route>
+                <Route path="/detalleprod/:id_producto">
+                    <ProductosDetailData header="Detalles Productos" title="Detalles Productos" sing="detalle_prod" />
+                </Route>
 
                 {/* CARTERA */}
                 <Route path="/clientes">
@@ -578,11 +607,13 @@ const App = () => {
                     <UsuariosData header="Manejar Usuarios" title="Usuarios" sing="Usuario" />
                 </Route>
                 <Route path="/empresa" component={Empresas} />
+                <Route path="/firma" component={FirmaDigital} />
+                <Route path="/secuenciales" component={Secuencialess} />
                 <Route path="/establecimientos">
                     <EstablecimientosData header="Manejar Establecimientos" title="Establecimientos" sing="Establecimiento" />
                 </Route>
-                <Route path="/facturas">
-                    <Dashboard title="Facturas"></Dashboard>
+                <Route path="/prefacturas/:id_factura" >
+                    <PrefacturaData title="Pre-Facturas" sing="prefacturas" ></PrefacturaData>
                 </Route>
             </div>
 

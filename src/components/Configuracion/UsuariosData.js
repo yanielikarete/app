@@ -19,16 +19,14 @@ const UsuariosData = (props) => {
 
   let emptyUser = {
     id: null,
-    name: '',
-    image: null,
-    description: '',
-    category: null,
-    price: 0,
-    quantity: 0,
-    rating: 0,
-    inventoryStatus: 'INSTOCK'
+    username: '',
+    firstname: '',
+    lastname: '',
+    empresa: null,
+    roles: null,
+    activo: 'true'
   };
-  console.log(props)
+  // console.log(props)
   const [users, setUsers] = useState(null);
   const [userDialog, setUserDialog] = useState(false);
   const [deleteUserDialog, setDeleteUserDialog] = useState(false);
@@ -37,12 +35,18 @@ const UsuariosData = (props) => {
   const [selectedUsers, setSelectedUsers] = useState(null);
   const [submitted, setSubmitted] = useState(false);
   const [globalFilter, setGlobalFilter] = useState(null);
+
+  const [isLoading, setIsLoading] = useState(true);
+
   const toast = useRef(null);
   const dt = useRef(null);
   let serviceApp = ServiceApp.getInstance();
 
   useEffect(() => {
-    serviceApp.getAllUsuarios().then(data => setUsers(data));
+    serviceApp.getAllUsuarios().then(data => { 
+      setUsers(data); 
+      setIsLoading(false) 
+    });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // const formatCurrency = (value) => {
@@ -249,10 +253,12 @@ const UsuariosData = (props) => {
           paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
           currentPageReportTemplate="Showing {first} to {last} of {totalRecords} users"
           globalFilter={globalFilter}
-          header={header}>
+          header={header}
+          loading={isLoading}>
 
           <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
           <Column field="firstname" header="Nombre" sortable></Column>
+          <Column field="lastName" header="Apellidos" sortable></Column>
           <Column field="username" header="Usuario" sortable></Column>
           <Column field="email" header="Correo" sortable></Column>
         
@@ -265,13 +271,13 @@ const UsuariosData = (props) => {
       <Dialog visible={userDialog} style={{ width: '450px' }} header="User Details" modal className="p-fluid" footer={userDialogFooter} onHide={hideDialog}>
         {user.image && <img src={`showcase/demo/images/user/${user.image}`} onError={(e) => e.target.src = 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'} alt={user.image} className="user-image" />}
         <div className="p-field">
-          <label htmlFor="name">Name</label>
-          <InputText id="name" value={user.name} onChange={(e) => onInputChange(e, 'name')} required autoFocus className={classNames({ 'p-invalid': submitted && !user.name })} />
-          {submitted && !user.name && <small className="p-error">Name is required.</small>}
+          <label htmlFor="name">Username</label>
+          <InputText id="name" value={user.username} onChange={(e) => onInputChange(e, 'name')} required autoFocus className={classNames({ 'p-invalid': submitted && !user.username })} />
+          {submitted && !user.username && <small className="p-error">Username is required.</small>}
         </div>
         <div className="p-field">
-          <label htmlFor="description">Description</label>
-          <InputTextarea id="description" value={user.description} onChange={(e) => onInputChange(e, 'description')} required rows={3} cols={20} />
+          <label htmlFor="description">First Name</label>
+          <InputTextarea id="description" value={user.firstname} onChange={(e) => onInputChange(e, 'description')} required rows={3} cols={20} />
         </div>
 
         <div className="p-field">
