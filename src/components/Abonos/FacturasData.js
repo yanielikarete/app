@@ -35,7 +35,7 @@ const FacturasData = (props) => {
   let emptyProducto = {
     cantidad:0,
     producto_id:"",
-    descuento:"",
+    // descuento:"",
     precio_unitario: 0,
     descuento: 0,
     tarifaiva_id:""
@@ -90,7 +90,7 @@ const FacturasData = (props) => {
     serviceApp.getUnidadTiempos().then(data => setDropdownUnidadPlazo(data));
     serviceApp.getTipoDocumento().then(d=>{
       for(const doc of d){
-          if(doc.nombre=="facturas"){
+          if(doc.nombre==="facturas"){
               setDocumentId(doc.id)
           }
       }

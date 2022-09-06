@@ -1,16 +1,16 @@
 import React, { useState,useRef } from 'react';
 import { ServiceApp } from '../service/ServiceApp';
-
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import './Login.css';
 import Loader from "react-loader-spinner";
 import { Toast } from 'primereact/toast';
 
 
-async function loginUser(credentials) {
-  // aqui iria la logica de la peteicion a la api por el login, supongo que llamando a algun service
-  return 'jsghdfuwebd785ss5545885253554454djsj';
-}
+// async function loginUser(credentials) {
+//   // aqui iria la logica de la peteicion a la api por el login, supongo que llamando a algun service
+//   return 'jsghdfuwebd785ss5545885253554454djsj';
+// }
 
 
 function Login({ setToken }) {
@@ -19,7 +19,8 @@ function Login({ setToken }) {
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
   const toast = useRef(null);
-  const [error, setError] = useState(null);
+  const history = useHistory();
+  // const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   let serviceApp = ServiceApp.getInstance();
 
@@ -37,6 +38,7 @@ function Login({ setToken }) {
 
       }else{
         setToken(t);
+        history.push("/");
       }
       setLoading(false);
     });
@@ -61,7 +63,7 @@ function Login({ setToken }) {
              
               <div className="row"> <div className="slogan-login">
                 
-                <img  className="imagen-slogan" src="assets/images/perfect-byn.png"/>
+                <img className="imagen-slogan" src="assets/images/perfect-byn.png" alt="imagen-slogan"/>
 
                 </div></div>
 
@@ -97,7 +99,7 @@ function Login({ setToken }) {
                   </span>
                 </div>
 
-                {error && <><small style={{ color: 'red' }}>{error}</small><br /></>}<br />
+                {/* {error && <><small style={{ color: 'red' }}>{error}</small><br /></>}<br /> */}
                 <div className="group-btn-auth">
                 <button className="p-button p-component button-login" value={loading ? 'Accediendo...' : 'Entrar'} onClick={submitLogin} disabled={loading}>
                 
@@ -126,16 +128,16 @@ function Login({ setToken }) {
 Login.propTypes = {
   setToken: PropTypes.func.isRequired
 }
-const useFormInput = initialValue => {
-  const [value, setValue] = useState(initialValue);
+// const useFormInput = initialValue => {
+//   const [value, setValue] = useState(initialValue);
 
-  const handleChange = e => {
-    setValue(e.target.value);
-  }
-  return {
-    value,
-    onChange: handleChange
-  }
-}
+//   const handleChange = e => {
+//     setValue(e.target.value);
+//   }
+//   return {
+//     value,
+//     onChange: handleChange
+//   }
+// }
 
 export default Login;

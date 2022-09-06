@@ -1,9 +1,9 @@
 import axios from 'axios';
 // import { instances } from 'chart.js';
 /*-------------------config-------------------*/
-// const BASE_URL = 'http://localhost/';
+const BASE_URL = 'https://localhost:8000/';
 // const BASE_URL = 'http://sgde.perfect-solutions.com.ec/';
-const BASE_URL = 'http://sgde.com/';
+// const BASE_URL = 'http://sgde.com/';
 const API = axios.create({
     baseURL: BASE_URL,
     validateStatus:(status)=>{
@@ -493,7 +493,7 @@ export class ServiceApp
           
           return res.success;
 
-        }else{
+        } else {
           console.log(res);
           return res.success;
         }
@@ -505,7 +505,7 @@ export class ServiceApp
       return API.get(CLIENTES.LISTA).then(
         res=>{
           if (res.status === 200){
-            console.log("respuesta de la api susseful bponstos de esmision",res)
+            console.log("respuesta de la api successfully all clients",res)
             return res.data;
           }else{
 
