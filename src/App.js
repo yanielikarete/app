@@ -7,7 +7,7 @@ import { AppTopbar } from './AppTopbar';
 import { AppFooter } from './AppFooter';
 import { AppMenu } from './AppMenu';
 import { AppProfile } from './AppProfile';
-import { AppConfig } from './AppConfig';
+//import { AppConfig } from './AppConfig';
 
 import { Dashboard } from './components/Dashboard';
 import { ButtonDemo } from './components/ButtonDemo';
@@ -38,10 +38,10 @@ import { GridDemo } from './utilities/GridDemo';
 import { IconsDemo } from './utilities/IconsDemo';
 import { SpacingDemo } from './utilities/SpacingDemo';
 import { TextDemo } from './utilities/TextDemo';
-import { TypographyDemo } from './utilities/TypographyDemo';
+//import { TypographyDemo } from './utilities/TypographyDemo';
 import { TimelineDemo } from './utilities/TimelineDemo';
 
-import PrimeReact from 'primereact/api';
+//import PrimeReact from 'primereact/api';
 
 import 'primereact/resources/themes/saga-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
@@ -105,14 +105,12 @@ const App = () => {
     const [mobileMenuActive, setMobileMenuActive] = useState(false);
     const [inputStyle, setInputStyle] = useState('outlined');
     const [ripple, setRipple] = useState(false);
-    //const [dumi, setDumi] = useState(null);
     const sidebar = useRef();
 
     const token = getToken();
 
     const setCustomToken= (t) =>{
         setToken(t)
-        //setDumi(t)  
         
     }
 
@@ -129,22 +127,22 @@ const App = () => {
         }
     }, [mobileMenuActive]);
 
-    const onInputStyleChange = (inputStyle) => {
-        setInputStyle(inputStyle);
-    }
+    // const onInputStyleChange = (inputStyle) => {
+    //     setInputStyle(inputStyle);
+    // }
 
-    const onRipple = (e) => {
-        PrimeReact.ripple = e.value;
-        setRipple(e.value)
-    }
+    // const onRipple = (e) => {
+    //     PrimeReact.ripple = e.value;
+    //     setRipple(e.value)
+    // }
 
-    const onLayoutModeChange = (mode) => {
-        setLayoutMode(mode)
-    }
+    // const onLayoutModeChange = (mode) => {
+    //     setLayoutMode(mode)
+    // }
 
-    const onColorModeChange = (mode) => {
-        setLayoutColorMode(mode)
-    }
+    // const onColorModeChange = (mode) => {
+    //     setLayoutColorMode(mode)
+    // }
 
     const onWrapperClick = (event) => {
         if (!menuClick) {
@@ -507,19 +505,14 @@ const App = () => {
                 </div>
             </CSSTransition>
 
-            <AppConfig rippleEffect={ripple} onRippleEffect={onRipple} inputStyle={inputStyle} onInputStyleChange={onInputStyleChange}
-                layoutMode={layoutMode} onLayoutModeChange={onLayoutModeChange} layoutColorMode={layoutColorMode} onColorModeChange={onColorModeChange} />
+            {/* <AppConfig rippleEffect={ripple} onRippleEffect={onRipple} inputStyle={inputStyle} onInputStyleChange={onInputStyleChange}
+                layoutMode={layoutMode} onLayoutModeChange={onLayoutModeChange} layoutColorMode={layoutColorMode} onColorModeChange={onColorModeChange} /> */}
 
             <div className="layout-main">
                 <Route path="/" exact>
-                    <Dashboard title="Inicio"></Dashboard>
+                    <Dashboard title="Inicio" />
                 </Route>
                 <Route path="/formlayout" component={FormLayoutDemo} />
-                <Route path="/input" component={InputDemo} />
-                <Route path="/floatlabel" component={FloatLabelDemo} />
-                <Route path="/invalidstate" component={InvalidStateDemo} />
-                <Route path="/button" component={ButtonDemo} />
-                <Route path="/table" component={TableDemo} />
                 <Route path="/list" component={ListDemo} />
                 <Route path="/tree" component={TreeDemo} />
                 <Route path="/panel" component={PanelDemo} />
@@ -535,7 +528,12 @@ const App = () => {
                 <Route path="/icons" component={IconsDemo} />
                 <Route path="/grid" component={GridDemo} />
                 <Route path="/spacing" component={SpacingDemo} />
-                <Route path="/typography" component={TypographyDemo} />
+                <Route path="/input" component={InputDemo} />
+                <Route path="/floatlabel" component={FloatLabelDemo} />
+                <Route path="/invalidstate" component={InvalidStateDemo} />
+                <Route path="/button" component={ButtonDemo} />
+                <Route path="/table" component={TableDemo} />
+                {/* path="/typography" component={TypographyDemo} /> */}
                 <Route path="/text" component={TextDemo} />
                 <Route path="/calendar" component={Calendar} />
                 <Route path="/timeline" component={TimelineDemo} />

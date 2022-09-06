@@ -95,7 +95,7 @@ const PrefacturaData = (props) => {
     'SUBTOTAL 12%' ,
     'SUBTOTAL 14%' ,
     'SUBTOTAL 0%' ,
-    ,'SUBTOTAL 12%',
+    'SUBTOTAL 12%',
     'SUBTOTAL 14%' ,
     'SUBTOTAL 0%'
 

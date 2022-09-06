@@ -312,7 +312,8 @@ const ClientesData = (props) => {
         </div>
         <div className="p-field w-100">
           <label htmlFor="direccion">DIRECCIÓN</label>
-          <InputTextarea id="direccion" value={cliente.direccion} onChange={(e) => onInputChange(e, 'direccion')} required rows={3} cols={20} />
+          <InputTextarea id="direccion" value={cliente.direccion} onChange={(e) => onInputChange(e, 'direccion')} required rows={3} cols={20} className={classNames({ 'p-invalid': submitted && !cliente.telefono })} />
+          {submitted && !cliente.direccion && <small className="p-error">Direccion es requerida</small>}
         </div>
         <div className="p-field w-100">
           <label htmlFor="observaciones">OBSERVACIONES</label>
